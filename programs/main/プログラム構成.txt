@@ -1,0 +1,21 @@
+App:
+ def _init_(self):←画面の大きさやその他諸々の初期設定をする
+ def botan(self):←対戦画面の入力を認識する
+ def start(self):←スタート画面の処理をする
+  def menu(self):←メニュー画面の処理をする　ここで難易度を調整
+　　def nomalmode(self):←ノーマルモードでの処理をする
+     def stage1(self):
+     def stage2(self):
+     def stage3(self):
+     def stage4(self):
+     def stage5(self):ステージごとの処理
+   def easiymode(self):←イージーモードでの処理をする
+     def stage1(self):
+     def stage2(self):
+     def stage3(self):
+     def stage4(self):
+     def stage5(self):ステージごとの処理(アイテムが使い放題、さいころの高い目が出やすい)
+　def gameover(self):
+　
+App()←Appを実行
+
