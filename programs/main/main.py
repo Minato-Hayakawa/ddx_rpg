@@ -12,6 +12,7 @@ class App:
         self.retirebotan=True
         self.sabilitybotan=False
         self.attackbotan=False
+        self.stagescreen=False
         #self.nabla=False
         #self.delta=False
         #self.round_x=False
@@ -26,6 +27,8 @@ class App:
         self.lim_x0=False
         #self.lim_y0=False
         self.z=random.randrange(1,6)
+        self.timer=0
+        self.timer2=0
         
         self.font=puf.Writer("misaki_gothic.ttf")  #フォントを指定
         
@@ -64,11 +67,14 @@ class App:
         elif self.phase=="menu":
             self.menu()
         elif self.phase=="nomalmode":
+            self.timer+=1
+            self.timer2+=1
             self.nomalmode()
         elif self.phase=="easiymode":
             self.easiymode()
         elif self.phase=="nomalstage1":
             self.nomalstage1()
+            self.botan()
         elif self.phase=="gameclear":
             self.gameclear()
         elif self.phase=="end":
@@ -285,7 +291,6 @@ class App:
             self.phase="menu"
             
     def menu(self):
-        pyxel.blt(0,0,0,0,0,160,120)
         if pyxel.btnp(pyxel.KEY_UP):
             self.updown=False
         elif pyxel.btnp(pyxel.KEY_DOWN):
@@ -299,126 +304,13 @@ class App:
                 self.phase="easiymode"
                 
     def nomalmode(self):
-        
-        #self.startsec=time.time
-        time.sleep(4.5)
-        self.phase="nomalstage1"
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ2を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ0を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ2を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ0を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ2を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ2を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #真っ黒を表示
-        # self.nomalstage2()
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ3を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ0を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ3を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ0を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ3を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #真っ黒を表示
-        # time.sleep(0.5)
-        # self.nomalstage3()
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ4を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ0を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ4を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ0を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ4を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #真っ黒を表示
-        # time.sleep(0.5)
-        # self.nomalstage4()
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ5を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ0を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ5を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ0を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ5を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #真っ黒を表示
-        # time.sleep(0.5)
-        # self.nomalstage5()
-        # self.end()
-    # def easiymode(self):
-    #     self.items=[True]*1000000
-    #     pyxel.blt(0,0,0,0,0,160,120) #ステージ1を表示
-    #     time.sleep(0.5)
-    #     pyxel.blt(0,0,0,0,0,160,120) #ステージ0を表示
-    #     time.sleep(0.5)
-    #     pyxel.blt(0,0,0,0,0,160,120) #ステージ1を表示
-    #     time.sleep(0.5)
-    #     pyxel.blt(0,0,0,0,0,160,120) #ステージ0を表示
-    #     time.sleep(0.5)
-    #     pyxel.blt(0,0,0,0,0,160,120) #ステージ1を表示
-    #     time.sleep(0.5)
-    #     pyxel.blt(0,0,0,0,0,160,120) #真っ黒を表示
-    #     time.sleep(2)
-    #     self.easiystage1()
-        
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ3を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ0を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ3を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ0を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ3を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #真っ黒を表示
-        # time.sleep(0.5)
-        # self.easiystage3()
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ4を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ0を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ4を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ0を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ4を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #真っ黒を表示
-        # time.sleep(0.5)
-        # self.easiystage4()
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ5を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ0を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ5を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ0を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #ステージ5を表示
-        # time.sleep(0.5)
-        # pyxel.blt(0,0,0,0,0,160,120) #真っ黒を表示
-        # time.sleep(0.5)
-        # self.easiystage5()
-        # self.end()
+        self.stagescreen=True
+        if self.timer2==145:
+            self.phase="nomalstage1"
     
     def nomalstage1(self):
-        pyxel.blt(0,0,0,0,0,160,120)#敵を表示
-        pyxel.blt(0,0,0,0,0,160,120)#対戦画面を表示
-        while self.hp>0 and self.myhp>0:
-            self.botan()
+        
+        if self.hp>=0 and self.myhp>=0:
             if self.ddx==True:
                 self.func1=sym.Derivative(self.func1).doit()
                 self.hp=self.hp*2
@@ -430,16 +322,16 @@ class App:
                 else:
                     self.hp=0
             if self.item1:#自分のHPを50回復
-                self.items-=1
+                item1-=1
                 self.myhp+=50
             if self.item2:#自分のHPを100回復
-                self.items-=1
+                self.item2-=1
                 self.myhp+=100
             if self.item3:#相手のターンを一回無視
-                self.items-=1
+                self.item3-=1
                 #相手のターンを無視する処理
             if self.item4:#"アイデアがほしいです"
-                self.items-=1
+                self.item4-=1
                 
             #自分の攻撃
             self.z=random.randrange(10) #←ここの確率を調整してください。出やすさ:2>3>4>1>5>6
@@ -450,7 +342,7 @@ class App:
             self.z=random.randrange(6)
             self.func1=math.e**self.z*2
             self.myhp-=self.func1
-        if self.myhp<=0:
+        elif self.myhp<=0:
             self.phase="end"
         elif self.hp<=0 or (self.hp<=0 and self.myhp<=0):
             self.phase="gameclear"
@@ -496,6 +388,7 @@ class App:
     def draw(self):
         if self.phase=="start":
             pyxel.blt(0,0,0,96,0,140,80,pyxel.COLOR_BLACK) #スタート画面を表示
+            pyxel.blt(32,64,1,16,0,65,16,pyxel.COLOR_BLACK)
             self.font.draw(12, 28, "∫積分伝説〜勇者とdxの旅〜",8, 13)
             self.font.draw(35,68,"Enterでスタート",8,13)
         elif self.phase=="menu":
@@ -508,16 +401,21 @@ class App:
                 pyxel.blt(32,64,1,16,0,65,16,pyxel.COLOR_BLACK)
             elif self.updown==True:
                 pyxel.blt(32,96,1,16,0,65,16,pyxel.COLOR_BLACK)
-            elif self.phase=="nomalmode":
+        elif self.phase=="nomalmode":
+            if self.stagescreen==True:
                 pyxel.cls(0)
                 for i in range(3):
-                    pyxel.blt(0,72,0,0,0,80,16) #ステージを表示(矢印なし)
-                    time.sleep(0.5)
-                    pyxel.blt(0,72,0,0,0,80,16) #ステージ1を表示
-                    pyxel.blt(24,18,1,0,0,16,16)#矢印
-                    time.sleep(0.5)
-                pyxel.blt(0,0,0,0,16,160,120) #真っ黒を表示
-                time.sleep(2)
+                    pyxel.blt(25,52,0,0,0,80,16) #ステージを表示(矢印なし)
+                    if 45>=self.timer>=30: #1秒後
+                        pyxel.blt(25,52,0,0,0,80,16) #ステージを表示(矢印なし)
+                        pyxel.blt(25,70,1,0,14,16,16)#矢印
+                    elif self.timer>=45: #1秒後
+                        pyxel.cls(0)
+                        pyxel.blt(25,52,0,0,0,16,80) #ステージを表示(矢印なし)
+                        self.timer=0
+        # elif self.phase=="nomalstage1":
+        #     pyxel.blt(0,0,0,0,0,160,120)#敵を表示
+        #     pyxel.blt(0,0,0,0,0,160,120)#対戦画面を表示
                 
                 
             
