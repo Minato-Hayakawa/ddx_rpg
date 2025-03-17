@@ -51,7 +51,7 @@ class App:
         self.func1=math.e**2*self.z  #ステージ1の敵
         self.attackpower1=self.func1
         
-        pyxel.init(160, 120, title="The Integral War")
+        pyxel.init(130, 120, title="The Integral War")
         pyxel.load("my_resource.pyxres")
         pyxel.run(self.update, self.draw)
         
@@ -281,8 +281,7 @@ class App:
             
     
     def start(self):
-        pyxel.blt(0,0,0,0,0,160,120,pyxel.COLOR_BLACK) #スタート画面を表示
-        if pyxel.btnp(pyxel.KEY_KP_ENTER):
+        if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
             self.phase="menu"
             
     def menu(self):
@@ -293,29 +292,16 @@ class App:
             self.updown=True
         
         if self.updown==False:
-            if pyxel.btnp(pyxel.KEY_KP_ENTER):
+            if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                 self.phase="nomalmode"
         elif self.updown==True:
-            if pyxel.btnp(pyxel.KEY_KP_ENTER):
+            if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                 self.phase="easiymode"
                 
     def nomalmode(self):
         
         #self.startsec=time.time
-        pyxel.blt(0,72,0,0,0,80,16) #ステージを表示(矢印なし)
-        time.sleep(0.5)
-        pyxel.blt(0,72,0,0,0,80,16) #ステージ1を表示
-        pyxel.blt(24,18,1,0,0,16,16)#矢印
-        time.sleep(0.5)
-        pyxel.blt(0,72,0,0,0,80,16) #ステージを表示(矢印なし)
-        time.sleep(0.5)
-        pyxel.blt(0,72,0,0,0,80,16) #ステージ1を表示
-        pyxel.blt(24,18,1,0,0,16,16)#矢印
-        time.sleep(0.5)
-        pyxel.blt(0,72,0,0,0,80,16) #ステージを表示(矢印なし)
-        time.sleep(0.5)
-        pyxel.blt(0,0,0,0,16,160,120) #真っ黒を表示
-        time.sleep(2)
+        time.sleep(4.5)
         self.phase="nomalstage1"
         # pyxel.blt(0,0,0,0,0,160,120) #ステージ2を表示
         # time.sleep(0.5)
@@ -504,8 +490,37 @@ class App:
         self.end()
             
     def end(self):
-        pyxel.blt(0,0,0,0,16,160,120) #真っ黒を表示
+        pyxel.blt(30,0,0,0,16,50,120) #真っ黒を表示
         self.start()
+        
+    def draw(self):
+        if self.phase=="start":
+            pyxel.blt(0,0,0,96,0,140,80,pyxel.COLOR_BLACK) #スタート画面を表示
+            self.font.draw(12, 28, "∫積分伝説〜勇者とdxの旅〜",8, 13)
+            self.font.draw(35,68,"Enterでスタート",8,13)
+        elif self.phase=="menu":
+            pyxel.cls(0)
+            pyxel.blt(0,0,0,96,0,140,120,pyxel.COLOR_BLACK) #スタート画面を表示
+            self.font.draw(12, 28, "∫積分伝説〜勇者とdxの旅〜",8, 13)
+            self.font.draw(48,68,"ノーマル",8,13)
+            self.font.draw(49,100,"イージー",8,13)
+            if self.updown==False:
+                pyxel.blt(32,64,1,16,0,65,16,pyxel.COLOR_BLACK)
+            elif self.updown==True:
+                pyxel.blt(32,96,1,16,0,65,16,pyxel.COLOR_BLACK)
+            elif self.phase=="nomalmode":
+                pyxel.cls(0)
+                for i in range(3):
+                    pyxel.blt(0,72,0,0,0,80,16) #ステージを表示(矢印なし)
+                    time.sleep(0.5)
+                    pyxel.blt(0,72,0,0,0,80,16) #ステージ1を表示
+                    pyxel.blt(24,18,1,0,0,16,16)#矢印
+                    time.sleep(0.5)
+                pyxel.blt(0,0,0,0,16,160,120) #真っ黒を表示
+                time.sleep(2)
+                
+                
+            
         
 
 App()
