@@ -22,19 +22,19 @@ class KeyCtrl:
     def __init__(self):
         pass
 
-    def Is_Decide(self):
+    def is_Decide(self):
         return pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN)
 
-    def Is_Up(self):
+    def is_Up(self):
         return pyxel.btnp(pyxel.KEY_UP)
 
-    def Is_Down(self):
+    def is_Down(self):
         return pyxel.btnp(pyxel.KEY_DOWN)
 
-    def Is_Left(self):
+    def is_Left(self):
         return pyxel.btnp(pyxel.KEY_LEFT)
 
-    def Is_Right(self):
+    def is_Right(self):
         return pyxel.btnp(pyxel.KEY_RIGHT)
 
 
@@ -84,7 +84,7 @@ class App:
 
         self.phase = Phase.START
 
-        self.myKey = KeyCtrl()
+        self.keyCtrl = KeyCtrl()
 
         pyxel.init(150, 150, title="The Integral War")
         pyxel.load("my_resource.pyxres")
@@ -116,226 +116,225 @@ class App:
 
     def botan(self):
         if self.retirebotan == True:
-            if self.myKey.Is_Down():
-                print("down")
+            if self.keyCtrl.is_Down():
                 self.itembotan = True
                 self.retirebotan = False
-            elif self.myKey.Is_Decide():
+            elif self.keyCtrl.is_Decide():
                 self.end()
 
         elif self.itembotan == True:
-            if self.myKey.Is_Up():
+            if self.keyCtrl.is_Up():
                 self.itembotan = False
                 self.retirebotan = True
-            elif self.myKey.Is_Down():
+            elif self.keyCtrl.is_Down():
                 self.itembotan = False
                 self.sabilitybotan = True
-            elif self.myKey.Is_Decide():
+            elif self.keyCtrl.is_Decide():
                 self.x0 = True
                 self.y0 = True
                 if self.x0 == True and self.y0 == True:
-                    if self.myKey.Is_Decide():
+                    if self.keyCtrl.is_Decide():
                         self.item1 -= 1
-                    elif self.myKey.Is_Right():
+                    elif self.keyCtrl.is_Right():
                         self.x0 = False
                         self.x1 = True
-                    elif self.myKey.Is_Left():
+                    elif self.keyCtrl.is_Left():
                         self.y0 = False
                         self.y1 = True
                 elif self.x1 == True and self.y0 == True:
-                    if(self.myKey.Is_Decide()):
+                    if(self.keyCtrl.is_Decide()):
                         self.item2 -= 1
-                    elif self.myKey.Is_Down():
+                    elif self.keyCtrl.is_Down():
                         self.y0 = False
                         self.y1 = True
-                    elif self.myKey.Is_Left():
+                    elif self.keyCtrl.is_Left():
                         self.x0 = True
                         self.x1 = False
                 elif self.x1 == True and self.y1 == True:
-                    if self.myKey.Is_Decide():
+                    if self.keyCtrl.is_Decide():
                         self.item3 -= 1
-                    elif self.myKey.Is_Up():
+                    elif self.keyCtrl.is_Up():
                         self.y0 = True
                         self.y1 = False
-                    elif self.myKey.Is_Left():
+                    elif self.keyCtrl.is_Left():
                         self.x0 = True
                         self.x1 = False
                 elif self.x1 == True and self.y1 == True:
-                    if self.myKey.Is_Decide():
+                    if self.keyCtrl.is_Decide():
                         self.item4 -= 1
-                    elif self.myKey.Is_Up():
+                    elif self.keyCtrl.is_Up():
                         self.y0 = True
                         self.y1 = False
-                    elif self.myKey.Is_Right():
+                    elif self.keyCtrl.is_Right():
                         self.x0 = False
                         self.x1 = True
 
         if self.sabilitybotan == True:
-            if self.myKey.Is_Up():
+            if self.keyCtrl.is_Up():
                 self.sabilitybotan = False
                 self.itembotan = True
-            elif self.myKey.Is_Down():
+            elif self.keyCtrl.is_Down():
                 self.sabilitybotan = False
                 self.attackbotan = True
-            elif self.myKey.Is_Decide():
+            elif self.keyCtrl.is_Decide():
                 self.x0 = True
                 self.y0 = True
                 if self.x0 == True and self.y0 == True:
-                    if self.myKey.Is_Decide():
+                    if self.keyCtrl.is_Decide():
                         self.nabla = True
-                    elif self.myKey.Is_Right():
+                    elif self.keyCtrl.is_Right():
                         self.x0 = False
                         self.x1 = True
-                    elif self.myKey.Is_Down():
+                    elif self.keyCtrl.is_Down():
                         self.y0 = False
                         self.y1 = True
                 elif self.x1 == True and self.y0 == 0:
-                    if self.myKey.Is_Decide():
+                    if self.keyCtrl.is_Decide():
                         self.delta = True
-                    elif self.myKey.Is_Left():
+                    elif self.keyCtrl.is_Left():
                         self.x1 = False
                         self.x0 = True
-                    elif self.myKey.Is_Down():
+                    elif self.keyCtrl.is_Down():
                         self.y0 = False
                         self.y1 = True
                 elif self.x0 == True and self.y1 == True:
-                    if self.myKey.Is_Decide():
+                    if self.keyCtrl.is_Decide():
                         self.round_x = True
-                    elif self.myKey.Is_Up():
+                    elif self.keyCtrl.is_Up():
                         self.y1 = False
                         self.y0 = True
-                    elif self.myKey.Is_Right():
+                    elif self.keyCtrl.is_Right():
                         self.x0 = False
                         self.x1 = True
-                    elif self.myKey.Is_Down():
+                    elif self.keyCtrl.is_Down():
                         self.y1 = False
                         self.y2 = True
                 elif self.x1 == True and self.y1 == True:
-                    if self.myKey.Is_Decide():
+                    if self.keyCtrl.is_Decide():
                         self.round_y = True
-                    elif self.myKey.Is_Up():
+                    elif self.keyCtrl.is_Up():
                         self.y1 = False
                         self.y0 = True
-                    elif self.myKey.Is_Left():
+                    elif self.keyCtrl.is_Left():
                         self.x1 = False
                         self.x0 = True
-                    elif self.myKey.Is_Down():
+                    elif self.keyCtrl.is_Down():
                         self.y1 = False
                         self.y2 = True
                 elif self.x0 == True and self.y2 == True:
-                    if self.myKey.Is_Decide():
+                    if self.keyCtrl.is_Decide():
                         self.lim_00 = True
-                    elif self.myKey.Is_Up():
+                    elif self.keyCtrl.is_Up():
                         self.y2 = False
                         self.y1 = True
-                    elif self.myKey.Is_Right():
+                    elif self.keyCtrl.is_Right():
                         self.x0 = False
                         self.x1 = True
                 elif self.x1 == True and self.y2 == True:
-                    if self.myKey.Is_Decide():
+                    if self.keyCtrl.is_Decide():
                         self.lim_mm = True
-                    elif self.myKey.Is_Up():
+                    elif self.keyCtrl.is_Up():
                         self.y2 = False
                         self.y1 = True
-                    elif self.myKey.Is_Left():
+                    elif self.keyCtrl.is_Left():
                         self.x0 = True
                         self.x1 = False
 
         if self.attackbotan == True:
-            if self.myKey.Is_Up():
+            if self.keyCtrl.is_Up():
                 self.attackbotan = False
                 self.sabilitybotan = True
-            elif self.myKey.Is_Decide():
+            elif self.keyCtrl.is_Decide():
                 self.x0 = True
                 self.y0 = True
             elif self.x0 == True and self.y0 == True:
-                if self.myKey.Is_Right():
+                if self.keyCtrl.is_Right():
                     self.x0 = False
                     self.x1 = True
-                elif self.myKey.Is_Down():
+                elif self.keyCtrl.is_Down():
                     self.y0 = False
                     self.y1 = True
-                elif self.myKey.Is_Decide():
+                elif self.keyCtrl.is_Decide():
                     self.ddx = True
             elif self.x1 == True and self.y0 == True:
-                if self.myKey.Is_Left():
+                if self.keyCtrl.is_Left():
                     self.x0 = True
                     self.x1 = False
-                elif self.myKey.Is_Down():
+                elif self.keyCtrl.is_Down():
                     self.y0 = False
                     self.y1 = True
-                elif self.myKey.Is_Decide():
+                elif self.keyCtrl.is_Decide():
                     self.ddy = True
             elif self.x0 == True and self.y1 == True:
-                if self.myKey.Is_Up():
+                if self.keyCtrl.is_Up():
                     self.y0 = True
                     self.y1 = False
-                elif self.myKey.Is_Right():
+                elif self.keyCtrl.is_Right():
                     self.x1 = True
                     self.x0 = False
-                elif self.myKey.Is_Down():
+                elif self.keyCtrl.is_Down():
                     self.y0 = False
                     self.y1 = False
                     self.y2 = True
-                elif self.myKey.Is_Decide():
+                elif self.keyCtrl.is_Decide():
                     self.integral_dx = True
             elif self.x1 == True and self.y1 == True:
-                if self.myKey.Is_Left():
+                if self.keyCtrl.is_Left():
                     self.x0 = True
                     self.x1 = False
-                elif self.myKey.Is_Up():
+                elif self.keyCtrl.is_Up():
                     self.y0 = True
                     self.y1 = False
-                elif self.myKey.Is_Down():
+                elif self.keyCtrl.is_Down():
                     self.y0 = False
                     self.y1 = False
                     self.y2 = True
-                elif self.myKey.Is_Decide():
+                elif self.keyCtrl.is_Decide():
                     self.integral_dy = True
             elif self.x0 == True and self.y2 == True:
-                if self.myKey.Is_Up():
+                if self.keyCtrl.is_Up():
                     self.y0 = False
                     self.y1 = True
                     self.y2 = False
-                elif self.myKey.Is_Right():
+                elif self.keyCtrl.is_Right():
                     self.x0 = False
                     self.x1 = True
-                elif self.myKey.Is_Decide():
+                elif self.keyCtrl.is_Decide():
                     self.lim_x0 = True
             elif self.x1 == True and self.y2 == True:
-                if self.myKey.Is_Up():
+                if self.keyCtrl.is_Up():
                     self.y1 = True
                     self.y0 = False
                     self.y2 = False
-                elif self.myKey.Is_Left():
+                elif self.keyCtrl.is_Left():
                     self.x0 = True
                     self.x1 = False
-                elif self.myKey.Is_Decide():
+                elif self.keyCtrl.is_Decide():
                     self.lim_y0 = True
 
     def start(self):
-        if self.myKey.Is_Decide():
+        if self.keyCtrl.is_Decide():
             self.phase = Phase.MENU
 
     def menu(self):
-        if pyxel.btnp(pyxel.KEY_UP):
+        if self.keyCtrl.is_Up():
             self.updown = False
-        elif pyxel.btnp(pyxel.KEY_DOWN):
+        elif self.keyCtrl.is_Down():
             self.updown = True
 
         if self.updown == False:
-            if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
+            if self.keyCtrl.is_Decide():
                 self.phase = Phase.NORMAL_MODE
                 self.stagescreen = True
         elif self.updown == True:
-            if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
+            if self.keyCtrl.is_Decide():
                 self.phase = Phase.EASY_MODE
                 self.stagescreen = True
 
     def nomalmode(self):
         if self.timer2 >= 145:
             self.stagescreen = False
-            if pyxel.btnp(pyxel.KEY_RETURN):
+            if self.keyCtrl.is_Decide():
                 self.phase = Phase.NORMAL_STAGE_1
 
     def nomalstage1(self):
