@@ -18,26 +18,6 @@ class Phase(Enum):
     END = "end"
 
 
-class KeyCtrl:
-    def __init__(self):
-        pass
-
-    def is_Decide(self):
-        return pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN)
-
-    def is_Up(self):
-        return pyxel.btnp(pyxel.KEY_UP)
-
-    def is_Down(self):
-        return pyxel.btnp(pyxel.KEY_DOWN)
-
-    def is_Left(self):
-        return pyxel.btnp(pyxel.KEY_LEFT)
-
-    def is_Right(self):
-        return pyxel.btnp(pyxel.KEY_RIGHT)
-
-
 class App:
     def __init__(self):
 
@@ -48,6 +28,9 @@ class App:
         self.attackbotan = False
         self.stagescreen = False
         self.gamestgart = False
+        self.botanstart=False
+        self.func1attack=False
+        self.func2attack=False
         self.ddx = False
         # self.ddy=False
         self.integral_dx = False
@@ -79,12 +62,11 @@ class App:
         self.myhp = 100  # 自分のhp
         self.hp = 100  # 敵のhp
         self.myfunc1 = math.factorial(self.z)  # x!
+        self.myfunc2=self.z
         self.func1 = math.e**2 * self.z  # ステージ1の敵
         self.attackpower1 = self.func1
 
         self.phase = Phase.START
-
-        self.keyCtrl = KeyCtrl()
 
         pyxel.init(150, 150, title="The Integral War")
         pyxel.load("my_resource.pyxres")
@@ -116,225 +98,210 @@ class App:
 
     def botan(self):
         if self.retirebotan == True:
-            if self.keyCtrl.is_Down():
+            if pyxel.btnp(pyxel.KEY_DOWN):
                 self.itembotan = True
                 self.retirebotan = False
-            elif self.keyCtrl.is_Decide():
+            elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                 self.end()
 
         elif self.itembotan == True:
-            if self.keyCtrl.is_Up():
+            if pyxel.btnp(pyxel.KEY_UP):
                 self.itembotan = False
                 self.retirebotan = True
-            elif self.keyCtrl.is_Down():
+            elif pyxel.btnp(pyxel.KEY_DOWN):
                 self.itembotan = False
                 self.sabilitybotan = True
-            elif self.keyCtrl.is_Decide():
+            elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                 self.x0 = True
                 self.y0 = True
                 if self.x0 == True and self.y0 == True:
-                    if self.keyCtrl.is_Decide():
+                    if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                         self.item1 -= 1
-                    elif self.keyCtrl.is_Right():
+                    elif pyxel.btnp(pyxel.KEY_RIGHT):
                         self.x0 = False
                         self.x1 = True
-                    elif self.keyCtrl.is_Left():
+                    elif pyxel.btnp(pyxel.KEY_DOWN):
                         self.y0 = False
                         self.y1 = True
                 elif self.x1 == True and self.y0 == True:
-                    if(self.keyCtrl.is_Decide()):
+                    if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                         self.item2 -= 1
-                    elif self.keyCtrl.is_Down():
+                    elif pyxel.btnp(pyxel.KEY_DOWN):
                         self.y0 = False
                         self.y1 = True
-                    elif self.keyCtrl.is_Left():
+                    elif pyxel.btnp(pyxel.KEY_LEFT):
                         self.x0 = True
                         self.x1 = False
                 elif self.x1 == True and self.y1 == True:
-                    if self.keyCtrl.is_Decide():
+                    if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                         self.item3 -= 1
-                    elif self.keyCtrl.is_Up():
+                    elif pyxel.btnp(pyxel.KEY_UP):
                         self.y0 = True
                         self.y1 = False
-                    elif self.keyCtrl.is_Left():
+                    elif pyxel.btnp(pyxel.KEY_LEFT):
                         self.x0 = True
                         self.x1 = False
                 elif self.x1 == True and self.y1 == True:
-                    if self.keyCtrl.is_Decide():
+                    if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                         self.item4 -= 1
-                    elif self.keyCtrl.is_Up():
+                    elif pyxel.btnp(pyxel.KEY_UP):
                         self.y0 = True
                         self.y1 = False
-                    elif self.keyCtrl.is_Right():
+                    elif pyxel.btnp(pyxel.KEY_RIGHT):
                         self.x0 = False
                         self.x1 = True
 
         if self.sabilitybotan == True:
-            if self.keyCtrl.is_Up():
+            if pyxel.btnp(pyxel.KEY_UP):
                 self.sabilitybotan = False
                 self.itembotan = True
-            elif self.keyCtrl.is_Down():
+            elif pyxel.btnp(pyxel.KEY_DOWN):
                 self.sabilitybotan = False
                 self.attackbotan = True
-            elif self.keyCtrl.is_Decide():
+            elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                 self.x0 = True
                 self.y0 = True
                 if self.x0 == True and self.y0 == True:
-                    if self.keyCtrl.is_Decide():
+                    if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                         self.nabla = True
-                    elif self.keyCtrl.is_Right():
+                    elif pyxel.btnp(pyxel.KEY_RIGHT):
                         self.x0 = False
                         self.x1 = True
-                    elif self.keyCtrl.is_Down():
+                    elif pyxel.btnp(pyxel.KEY_DOWN):
                         self.y0 = False
                         self.y1 = True
                 elif self.x1 == True and self.y0 == 0:
-                    if self.keyCtrl.is_Decide():
+                    if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                         self.delta = True
-                    elif self.keyCtrl.is_Left():
+                    elif pyxel.btnp(pyxel.KEY_LEFT):
                         self.x1 = False
                         self.x0 = True
-                    elif self.keyCtrl.is_Down():
+                    elif pyxel.btnp(pyxel.KEY_DOWN):
                         self.y0 = False
                         self.y1 = True
                 elif self.x0 == True and self.y1 == True:
-                    if self.keyCtrl.is_Decide():
+                    if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                         self.round_x = True
-                    elif self.keyCtrl.is_Up():
+                    elif pyxel.btnp(pyxel.KEY_UP):
                         self.y1 = False
                         self.y0 = True
-                    elif self.keyCtrl.is_Right():
+                    elif pyxel.btnp(pyxel.KEY_RIGHT):
                         self.x0 = False
                         self.x1 = True
-                    elif self.keyCtrl.is_Down():
+                    elif pyxel.btnp(pyxel.KEY_DOWN):
                         self.y1 = False
                         self.y2 = True
                 elif self.x1 == True and self.y1 == True:
-                    if self.keyCtrl.is_Decide():
+                    if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                         self.round_y = True
-                    elif self.keyCtrl.is_Up():
+                    elif pyxel.btnp(pyxel.KEY_UP):
                         self.y1 = False
                         self.y0 = True
-                    elif self.keyCtrl.is_Left():
+                    elif pyxel.btnp(pyxel.KEY_LEFT):
                         self.x1 = False
                         self.x0 = True
-                    elif self.keyCtrl.is_Down():
+                    elif pyxel.btnp(pyxel.KEY_DOWN):
                         self.y1 = False
                         self.y2 = True
                 elif self.x0 == True and self.y2 == True:
-                    if self.keyCtrl.is_Decide():
+                    if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                         self.lim_00 = True
-                    elif self.keyCtrl.is_Up():
+                    elif pyxel.btnp(pyxel.KEY_UP):
                         self.y2 = False
                         self.y1 = True
-                    elif self.keyCtrl.is_Right():
+                    elif pyxel.btnp(pyxel.KEY_RIGHT):
                         self.x0 = False
                         self.x1 = True
                 elif self.x1 == True and self.y2 == True:
-                    if self.keyCtrl.is_Decide():
+                    if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                         self.lim_mm = True
-                    elif self.keyCtrl.is_Up():
+                    elif pyxel.btnp(pyxel.KEY_UP):
                         self.y2 = False
                         self.y1 = True
-                    elif self.keyCtrl.is_Left():
+                    elif pyxel.btnp(pyxel.KEY_LEFT):
                         self.x0 = True
                         self.x1 = False
 
         if self.attackbotan == True:
-            if self.keyCtrl.is_Up():
+            if pyxel.btnp(pyxel.KEY_UP):
                 self.attackbotan = False
                 self.sabilitybotan = True
-            elif self.keyCtrl.is_Decide():
+            elif (pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN)) and self.botanstart==False:
                 self.x0 = True
                 self.y0 = True
+                self.botanstart=True
+                
             elif self.x0 == True and self.y0 == True:
-                if self.keyCtrl.is_Right():
+                if pyxel.btnp(pyxel.KEY_RIGHT):
                     self.x0 = False
                     self.x1 = True
-                elif self.keyCtrl.is_Down():
+                elif pyxel.btnp(pyxel.KEY_DOWN):
                     self.y0 = False
                     self.y1 = True
-                elif self.keyCtrl.is_Decide():
-                    self.ddx = True
+                elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
+                    self.func1attack=True
+                    self.botanstart=False
+                    print("a")
             elif self.x1 == True and self.y0 == True:
-                if self.keyCtrl.is_Left():
+                if pyxel.btnp(pyxel.KEY_LEFT):
                     self.x0 = True
                     self.x1 = False
-                elif self.keyCtrl.is_Down():
+                elif pyxel.btnp(pyxel.KEY_DOWN):
                     self.y0 = False
                     self.y1 = True
-                elif self.keyCtrl.is_Decide():
-                    self.ddy = True
+                elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
+                    self.ddx = True
             elif self.x0 == True and self.y1 == True:
-                if self.keyCtrl.is_Up():
+                if pyxel.btnp(pyxel.KEY_UP):
                     self.y0 = True
                     self.y1 = False
-                elif self.keyCtrl.is_Right():
+                elif pyxel.btnp(pyxel.KEY_RIGHT):
                     self.x1 = True
                     self.x0 = False
-                elif self.keyCtrl.is_Down():
+                elif pyxel.btnp(pyxel.KEY_DOWN):
                     self.y0 = False
                     self.y1 = False
                     self.y2 = True
-                elif self.keyCtrl.is_Decide():
-                    self.integral_dx = True
+                elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
+                    self.func2attack=True
             elif self.x1 == True and self.y1 == True:
-                if self.keyCtrl.is_Left():
+                if pyxel.btnp(pyxel.KEY_LEFT):
                     self.x0 = True
                     self.x1 = False
-                elif self.keyCtrl.is_Up():
+                elif pyxel.btnp(pyxel.KEY_UP):
                     self.y0 = True
                     self.y1 = False
-                elif self.keyCtrl.is_Down():
+                elif pyxel.btnp(pyxel.KEY_DOWN):
                     self.y0 = False
                     self.y1 = False
                     self.y2 = True
-                elif self.keyCtrl.is_Decide():
-                    self.integral_dy = True
-            elif self.x0 == True and self.y2 == True:
-                if self.keyCtrl.is_Up():
-                    self.y0 = False
-                    self.y1 = True
-                    self.y2 = False
-                elif self.keyCtrl.is_Right():
-                    self.x0 = False
-                    self.x1 = True
-                elif self.keyCtrl.is_Decide():
-                    self.lim_x0 = True
-            elif self.x1 == True and self.y2 == True:
-                if self.keyCtrl.is_Up():
-                    self.y1 = True
-                    self.y0 = False
-                    self.y2 = False
-                elif self.keyCtrl.is_Left():
-                    self.x0 = True
-                    self.x1 = False
-                elif self.keyCtrl.is_Decide():
-                    self.lim_y0 = True
+                elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
+                    self.integral_dx = True
+            
 
     def start(self):
-        if self.keyCtrl.is_Decide():
+        if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
             self.phase = Phase.MENU
 
     def menu(self):
-        if self.keyCtrl.is_Up():
+        if pyxel.btnp(pyxel.KEY_UP):
             self.updown = False
-        elif self.keyCtrl.is_Down():
+        elif pyxel.btnp(pyxel.KEY_DOWN):
             self.updown = True
 
         if self.updown == False:
-            if self.keyCtrl.is_Decide():
+            if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                 self.phase = Phase.NORMAL_MODE
                 self.stagescreen = True
         elif self.updown == True:
-            if self.keyCtrl.is_Decide():
+            if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                 self.phase = Phase.EASY_MODE
                 self.stagescreen = True
 
     def nomalmode(self):
         if self.timer2 >= 145:
             self.stagescreen = False
-            if self.keyCtrl.is_Decide():
+            if pyxel.btnp(pyxel.KEY_RETURN):
                 self.phase = Phase.NORMAL_STAGE_1
 
     def nomalstage1(self):
@@ -457,15 +424,47 @@ class App:
             elif self.sabilitybotan == True:
                 pyxel.blt(0, 16, 2, 0, 75, 38, 12, pyxel.COLOR_BLACK)
             elif self.attackbotan == True:
-                pyxel.blt(0, 27, 2, 0, 93, 38, 11, pyxel.COLOR_BLACK)
-                if self.x0 == True and self.y0 == True:
-                    pyxel.blt(1, 41, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
-                elif self.x1 == True and self.y0 == True:
-                    pyxel.blt(24, 41, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
-                elif self.x0 == True and self.y1 == True:
-                    pyxel.blt(1, 72, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
-                elif self.x1 == True and self.y1 == True:
-                    pyxel.blt(24, 72, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
+                if self.func1attack==False or self.func2attack==False or self.ddx==False or self.integral_dx==False:
+                    pyxel.blt(0, 27, 2, 0, 93, 38, 11, pyxel.COLOR_BLACK)
+                    if self.x0 == True and self.y0 == True:
+                        pyxel.blt(1, 41, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
+                    elif self.x1 == True and self.y0 == True:
+                        pyxel.blt(24, 41, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
+                    elif self.x0 == True and self.y1 == True:
+                        pyxel.blt(1, 72, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
+                    elif self.x1 == True and self.y1 == True:
+                        pyxel.blt(24, 72, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
+                elif self.func1attack==True and self.botanstart==False:
+                    print("b")
+                    pyxel.cls(0)
+                    pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
+                    pyxel.blt(1, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+                    pyxel.blt(17, 41, 2, 0, 36, 3, 16, pyxel.COLOR_BLACK)  #!を表示
+                    pyxel.blt(1, 72, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+                    pyxel.blt(24, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+                    pyxel.blt(40, 41, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
+                    # ↑微分に変える
+                    pyxel.blt(22, 72, 0, 0, 32, 16, 16, pyxel.COLOR_BLACK)  # ∫d
+                    pyxel.blt(33, 72, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+                    pyxel.blt(75, 40, 2, 32, 0, 16, 16, pyxel.COLOR_BLACK)  # e
+                    pyxel.blt(88, 37, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
+                    pyxel.blt(92, 37, 2, 31, 44, 5, 5, pyxel.COLOR_BLACK)  # ^xを表示
+
+                    self.font.draw(0, 0, "リタイア", 8, 7)
+                    self.font.draw(0, 10, "アイテム", 8, 7)
+                    self.font.draw(0, 18, "特殊能力", 8, 7)
+                    self.font.draw(0, 28, "こうげき", 8, 7)
+                    self.font.draw(73, 5, "あいて", 8, 7)
+                    self.font.draw(33, 120, "x!で攻撃！", 8, 7)
+                    pyxel.blt(75,28,2,144,0,8,8,pyxel.COLOR_BLACK)#HPを表示
+                    pyxel.blt(83,28,2,161,0,8,8,pyxel.COLOR_BLACK)
+                    pyxel.blt(90,28,2,161,0,8,8,pyxel.COLOR_BLACK)
+                    pyxel.blt(97,28,2,161,0,8,8,pyxel.COLOR_BLACK)
+                    pyxel.blt(104,28,2,184,8,16,8,pyxel.COLOR_BLACK)#HPを表示
+                    pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
+                    pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+                    pyxel.blt(92,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+                    pyxel.blt(96,28,2,176,0,8,8,pyxel.COLOR_BLACK)
 
                 # self.font.draw()#文字を表示
         # elif self.phase==Phase.NOMALSTAGE2:
@@ -531,6 +530,5 @@ class App:
 
     def end(self):
         pyxel.quit()
-
 
 App()
