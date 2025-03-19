@@ -442,6 +442,15 @@ class App:
             self.font.draw(0, 28, "こうげき", 8, 7)
             self.font.draw(73, 5, "あいて", 8, 7)
             self.font.draw(33, 120, "e^2*xが現れた！", 8, 7)
+            pyxel.blt(75,28,2,144,0,8,8,pyxel.COLOR_BLACK)#HPを表示
+            pyxel.blt(83,28,2,161,0,8,8,pyxel.COLOR_BLACK)
+            pyxel.blt(90,28,2,161,0,8,8,pyxel.COLOR_BLACK)
+            pyxel.blt(97,28,2,161,0,8,8,pyxel.COLOR_BLACK)
+            pyxel.blt(104,28,2,184,8,16,8,pyxel.COLOR_BLACK)#HPを表示
+            pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
+            pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+            pyxel.blt(92,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+            pyxel.blt(96,28,2,176,0,8,8,pyxel.COLOR_BLACK)
             if self.retirebotan == True:
                 pyxel.blt(0, 0, 2, 0, 60, 38, 9, pyxel.COLOR_BLACK)
             elif self.itembotan == True:
