@@ -88,6 +88,7 @@ class App:
             if self.gamestgart == True:
                 self.botan()
                 self.itemfunc()
+                #self.battlemode()
         elif self.phase == Phase.NORMAL_STAGE_2:
             self.nomalstage2()
             self.botan()
@@ -151,7 +152,7 @@ class App:
                         self.x0 = False
                         self.x1 = True
 
-        if self.sabilitybotan == True:
+        elif self.sabilitybotan == True:
             if pyxel.btnp(pyxel.KEY_UP):
                 self.sabilitybotan = False
                 self.itembotan = True
@@ -222,8 +223,8 @@ class App:
                         self.x0 = True
                         self.x1 = False
 
-        if self.attackbotan == True:
-            if pyxel.btnp(pyxel.KEY_UP):
+        elif self.attackbotan == True:
+            if pyxel.btnp(pyxel.KEY_UP) and self.x0==False and self.y0==False and self.x1==False and self.y1==False:
                 self.attackbotan = False
                 self.sabilitybotan = True
             elif (pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN)) and self.botanstart==False:
@@ -241,7 +242,6 @@ class App:
                 elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.func1attack=True
                     self.botanstart=False
-                    print("a")
             elif self.x1 == True and self.y0 == True:
                 if pyxel.btnp(pyxel.KEY_LEFT):
                     self.x0 = True
@@ -393,11 +393,12 @@ class App:
             pyxel.blt(1, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
             pyxel.blt(17, 41, 2, 0, 36, 3, 16, pyxel.COLOR_BLACK)  #!を表示
             pyxel.blt(1, 72, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-            pyxel.blt(24, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-            pyxel.blt(40, 41, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
+            pyxel.blt(30, 40, 2, 112, 40, 4, 8, pyxel.COLOR_BLACK)  # dを表示
+            pyxel.blt(24, 41, 2, 96, 32, 16, 16, pyxel.COLOR_BLACK)  # /dxを表示
             # ↑微分に変える
-            pyxel.blt(22, 72, 0, 0, 32, 16, 16, pyxel.COLOR_BLACK)  # ∫d
-            pyxel.blt(33, 72, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+            pyxel.blt(20, 72, 2, 16, 16, 8, 16, pyxel.COLOR_BLACK)  # ∫
+            pyxel.blt(26, 71, 2, 0, 16, 16, 16, pyxel.COLOR_BLACK)  # d
+            pyxel.blt(31, 73, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
             pyxel.blt(75, 40, 2, 32, 0, 16, 16, pyxel.COLOR_BLACK)  # e
             pyxel.blt(88, 37, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
             pyxel.blt(92, 37, 2, 31, 44, 5, 5, pyxel.COLOR_BLACK)  # ^xを表示
@@ -407,7 +408,7 @@ class App:
             self.font.draw(0, 18, "特殊能力", 8, 7)
             self.font.draw(0, 28, "こうげき", 8, 7)
             self.font.draw(73, 5, "あいて", 8, 7)
-            self.font.draw(33, 120, "e^2*xが現れた！", 8, 7)
+            self.font.draw(33, 120, "e^2xが現れた！", 8, 7)
             pyxel.blt(75,28,2,144,0,8,8,pyxel.COLOR_BLACK)#HPを表示
             pyxel.blt(83,28,2,161,0,8,8,pyxel.COLOR_BLACK)
             pyxel.blt(90,28,2,161,0,8,8,pyxel.COLOR_BLACK)
@@ -424,7 +425,7 @@ class App:
             elif self.sabilitybotan == True:
                 pyxel.blt(0, 16, 2, 0, 75, 38, 12, pyxel.COLOR_BLACK)
             elif self.attackbotan == True:
-                if self.func1attack==False or self.func2attack==False or self.ddx==False or self.integral_dx==False:
+                if self.func1attack==False and self.func2attack==False and self.ddx==False and self.integral_dx==False:
                     pyxel.blt(0, 27, 2, 0, 93, 38, 11, pyxel.COLOR_BLACK)
                     if self.x0 == True and self.y0 == True:
                         pyxel.blt(1, 41, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
@@ -434,8 +435,8 @@ class App:
                         pyxel.blt(1, 72, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
                     elif self.x1 == True and self.y1 == True:
                         pyxel.blt(24, 72, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
-                elif self.func1attack==True and self.botanstart==False:
-                    print("b")
+                elif self.func1attack==True:
+                    
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
                     pyxel.blt(1, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
@@ -456,6 +457,96 @@ class App:
                     self.font.draw(0, 28, "こうげき", 8, 7)
                     self.font.draw(73, 5, "あいて", 8, 7)
                     self.font.draw(33, 120, "x!で攻撃！", 8, 7)
+                    pyxel.blt(75,28,2,144,0,8,8,pyxel.COLOR_BLACK)#HPを表示
+                    pyxel.blt(83,28,2,161,0,8,8,pyxel.COLOR_BLACK)
+                    pyxel.blt(90,28,2,161,0,8,8,pyxel.COLOR_BLACK)
+                    pyxel.blt(97,28,2,161,0,8,8,pyxel.COLOR_BLACK)
+                    pyxel.blt(104,28,2,184,8,16,8,pyxel.COLOR_BLACK)#HPを表示
+                    pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
+                    pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+                    pyxel.blt(92,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+                    pyxel.blt(96,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+                elif self.func2attack==True:
+                    pyxel.cls(0)
+                    pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
+                    pyxel.blt(1, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+                    pyxel.blt(17, 41, 2, 0, 36, 3, 16, pyxel.COLOR_BLACK)  #!を表示
+                    pyxel.blt(1, 72, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+                    pyxel.blt(24, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+                    pyxel.blt(40, 41, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
+                    # ↑微分に変える
+                    pyxel.blt(22, 72, 0, 0, 32, 16, 16, pyxel.COLOR_BLACK)  # ∫d
+                    pyxel.blt(33, 72, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+                    pyxel.blt(75, 40, 2, 32, 0, 16, 16, pyxel.COLOR_BLACK)  # e
+                    pyxel.blt(88, 37, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
+                    pyxel.blt(92, 37, 2, 31, 44, 5, 5, pyxel.COLOR_BLACK)  # ^xを表示
+
+                    self.font.draw(0, 0, "リタイア", 8, 7)
+                    self.font.draw(0, 10, "アイテム", 8, 7)
+                    self.font.draw(0, 18, "特殊能力", 8, 7)
+                    self.font.draw(0, 28, "こうげき", 8, 7)
+                    self.font.draw(73, 5, "あいて", 8, 7)
+                    self.font.draw(33, 120, "xで攻撃！", 8, 7)
+                    pyxel.blt(75,28,2,144,0,8,8,pyxel.COLOR_BLACK)#HPを表示
+                    pyxel.blt(83,28,2,161,0,8,8,pyxel.COLOR_BLACK)
+                    pyxel.blt(90,28,2,161,0,8,8,pyxel.COLOR_BLACK)
+                    pyxel.blt(97,28,2,161,0,8,8,pyxel.COLOR_BLACK)
+                    pyxel.blt(104,28,2,184,8,16,8,pyxel.COLOR_BLACK)#HPを表示
+                    pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
+                    pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+                    pyxel.blt(92,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+                    pyxel.blt(96,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+                elif self.ddx==True:
+                    pyxel.cls(0)
+                    pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
+                    pyxel.blt(1, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+                    pyxel.blt(17, 41, 2, 0, 36, 3, 16, pyxel.COLOR_BLACK)  #!を表示
+                    pyxel.blt(1, 72, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+                    pyxel.blt(24, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+                    pyxel.blt(40, 41, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
+                    # ↑微分に変える
+                    pyxel.blt(22, 72, 0, 0, 32, 16, 16, pyxel.COLOR_BLACK)  # ∫d
+                    pyxel.blt(33, 72, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+                    pyxel.blt(75, 40, 2, 32, 0, 16, 16, pyxel.COLOR_BLACK)  # e
+                    pyxel.blt(88, 37, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
+                    pyxel.blt(92, 37, 2, 31, 44, 5, 5, pyxel.COLOR_BLACK)  # ^xを表示
+
+                    self.font.draw(0, 0, "リタイア", 8, 7)
+                    self.font.draw(0, 10, "アイテム", 8, 7)
+                    self.font.draw(0, 18, "特殊能力", 8, 7)
+                    self.font.draw(0, 28, "こうげき", 8, 7)
+                    self.font.draw(73, 5, "あいて", 8, 7)
+                    self.font.draw(33, 120, "d/dxで攻撃！", 8, 7)
+                    pyxel.blt(75,28,2,144,0,8,8,pyxel.COLOR_BLACK)#HPを表示
+                    pyxel.blt(83,28,2,161,0,8,8,pyxel.COLOR_BLACK)
+                    pyxel.blt(90,28,2,161,0,8,8,pyxel.COLOR_BLACK)
+                    pyxel.blt(97,28,2,161,0,8,8,pyxel.COLOR_BLACK)
+                    pyxel.blt(104,28,2,184,8,16,8,pyxel.COLOR_BLACK)#HPを表示
+                    pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
+                    pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+                    pyxel.blt(92,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+                    pyxel.blt(96,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+                elif self.integral_dx==True:
+                    pyxel.cls(0)
+                    pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
+                    pyxel.blt(1, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+                    pyxel.blt(17, 41, 2, 0, 36, 3, 16, pyxel.COLOR_BLACK)  #!を表示
+                    pyxel.blt(1, 72, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+                    pyxel.blt(24, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+                    pyxel.blt(40, 41, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
+                    # ↑微分に変える
+                    pyxel.blt(22, 72, 0, 0, 32, 16, 16, pyxel.COLOR_BLACK)  # ∫d
+                    pyxel.blt(33, 72, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+                    pyxel.blt(75, 40, 2, 32, 0, 16, 16, pyxel.COLOR_BLACK)  # e
+                    pyxel.blt(88, 37, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
+                    pyxel.blt(92, 37, 2, 31, 44, 5, 5, pyxel.COLOR_BLACK)  # ^xを表示
+
+                    self.font.draw(0, 0, "リタイア", 8, 7)
+                    self.font.draw(0, 10, "アイテム", 8, 7)
+                    self.font.draw(0, 18, "特殊能力", 8, 7)
+                    self.font.draw(0, 28, "こうげき", 8, 7)
+                    self.font.draw(73, 5, "あいて", 8, 7)
+                    self.font.draw(33, 120, "∫dxで攻撃！", 8, 7)
                     pyxel.blt(75,28,2,144,0,8,8,pyxel.COLOR_BLACK)#HPを表示
                     pyxel.blt(83,28,2,161,0,8,8,pyxel.COLOR_BLACK)
                     pyxel.blt(90,28,2,161,0,8,8,pyxel.COLOR_BLACK)
@@ -511,6 +602,12 @@ class App:
                     self.hp += self.C[random.randrange(10)]  # 積分定数Cの値だけhpが増加
                 else:
                     self.hp = 0
+            if self.func1attack==True:
+                self.z=random.randrange(10)
+                self.hp-=self.myfunc1
+            elif self.func2attack==True:
+                self.z=random.randrange(10)
+                self.hp-=self.myfunc2
 
             # 自分の攻撃
             self.z = random.randrange(
