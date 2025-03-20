@@ -688,6 +688,8 @@ class App:
                     # ↑微分に変える
                     pyxel.blt(22, 72, 0, 0, 32, 16, 16, pyxel.COLOR_BLACK)  # ∫d
                     pyxel.blt(33, 72, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+                    
+                    #↓ここの近くに微分した時の係数を描画するプログラムを描いてほしいです
                     pyxel.blt(75, 40, 2, 32, 0, 16, 16, pyxel.COLOR_BLACK)  # e
                     pyxel.blt(88, 37, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
                     pyxel.blt(92, 37, 2, 31, 44, 5, 5, pyxel.COLOR_BLACK)  # ^xを表示
@@ -777,6 +779,9 @@ class App:
                     # ↑微分に変える
                     pyxel.blt(22, 72, 0, 0, 32, 16, 16, pyxel.COLOR_BLACK)  # ∫d
                     pyxel.blt(33, 72, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+                    
+                    #↓ここの近くに積分したときの係数を描画するプログラムを書いてほしいです
+                    pyxel.blt()
                     pyxel.blt(75, 40, 2, 32, 0, 16, 16, pyxel.COLOR_BLACK)  # e
                     pyxel.blt(88, 37, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
                     pyxel.blt(92, 37, 2, 31, 44, 5, 5, pyxel.COLOR_BLACK)  # ^xを表示
