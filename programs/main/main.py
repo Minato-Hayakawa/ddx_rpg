@@ -442,15 +442,15 @@ class App:
                     pyxel.blt(1, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
                     pyxel.blt(17, 41, 2, 0, 36, 3, 16, pyxel.COLOR_BLACK)  #!を表示
                     pyxel.blt(1, 72, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-                    pyxel.blt(24, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-                    pyxel.blt(40, 41, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
+                    pyxel.blt(30, 40, 2, 112, 40, 4, 8, pyxel.COLOR_BLACK)  # dを表示
+                    pyxel.blt(24, 41, 2, 96, 32, 16, 16, pyxel.COLOR_BLACK)  # /dxを表示
                     # ↑微分に変える
-                    pyxel.blt(22, 72, 0, 0, 32, 16, 16, pyxel.COLOR_BLACK)  # ∫d
-                    pyxel.blt(33, 72, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+                    pyxel.blt(20, 72, 2, 16, 16, 8, 16, pyxel.COLOR_BLACK)  # ∫
+                    pyxel.blt(26, 71, 2, 0, 16, 16, 16, pyxel.COLOR_BLACK)  # d
+                    pyxel.blt(31, 73, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
                     pyxel.blt(75, 40, 2, 32, 0, 16, 16, pyxel.COLOR_BLACK)  # e
                     pyxel.blt(88, 37, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
                     pyxel.blt(92, 37, 2, 31, 44, 5, 5, pyxel.COLOR_BLACK)  # ^xを表示
-
                     self.font.draw(0, 0, "リタイア", 8, 7)
                     self.font.draw(0, 10, "アイテム", 8, 7)
                     self.font.draw(0, 18, "特殊能力", 8, 7)
@@ -472,15 +472,15 @@ class App:
                     pyxel.blt(1, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
                     pyxel.blt(17, 41, 2, 0, 36, 3, 16, pyxel.COLOR_BLACK)  #!を表示
                     pyxel.blt(1, 72, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-                    pyxel.blt(24, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-                    pyxel.blt(40, 41, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
+                    pyxel.blt(30, 40, 2, 112, 40, 4, 8, pyxel.COLOR_BLACK)  # dを表示
+                    pyxel.blt(24, 41, 2, 96, 32, 16, 16, pyxel.COLOR_BLACK)  # /dxを表示
                     # ↑微分に変える
-                    pyxel.blt(22, 72, 0, 0, 32, 16, 16, pyxel.COLOR_BLACK)  # ∫d
-                    pyxel.blt(33, 72, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+                    pyxel.blt(20, 72, 2, 16, 16, 8, 16, pyxel.COLOR_BLACK)  # ∫
+                    pyxel.blt(26, 71, 2, 0, 16, 16, 16, pyxel.COLOR_BLACK)  # d
+                    pyxel.blt(31, 73, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
                     pyxel.blt(75, 40, 2, 32, 0, 16, 16, pyxel.COLOR_BLACK)  # e
                     pyxel.blt(88, 37, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
                     pyxel.blt(92, 37, 2, 31, 44, 5, 5, pyxel.COLOR_BLACK)  # ^xを表示
-
                     self.font.draw(0, 0, "リタイア", 8, 7)
                     self.font.draw(0, 10, "アイテム", 8, 7)
                     self.font.draw(0, 18, "特殊能力", 8, 7)
