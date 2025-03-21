@@ -18,6 +18,24 @@ class Phase(Enum):
     GAME_CLEAR = "gameclear"
     END = "end"
 
+class InputHandler():
+    def __init__(self):
+        pass
+
+    def isDecide(self):
+        pass
+
+    def isUp(self):
+        pass
+
+    def isDown(self):
+        pass
+
+    def isLeft(self):
+        pass
+
+    def isRight(self):
+        pass
 
 class App:
     def __init__(self):
@@ -40,7 +58,7 @@ class App:
         # self.integral_dy=False
         self.lim_x0 = False
         # self.lim_y0=False
-        
+
         self.timer = 0
         self.timer2 = 0
 
@@ -62,7 +80,7 @@ class App:
 
         self.rulet = {16: {}}
         self.myhp = 100  # 自分のhp
-        self.hp = 100  # 敵のhp  
+        self.hp = 100  # 敵のhp
         self.myfunc1=sym.factorial(x) # x!
         self.myfunc2=x
         self.func1 = math.e**2 * x  # ステージ1の敵
@@ -122,7 +140,7 @@ class App:
             elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                 self.x0 = True
                 self.y0 = True
-                
+
                 if self.x0 == True and self.y0 == True:
                     if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                         self.item1 -= 1
@@ -239,7 +257,7 @@ class App:
                 self.x0 = True
                 self.y0 = True
                 self.botanstart=True
-                
+
             elif self.x0 == True and self.y0 == True:
                 if pyxel.btnp(pyxel.KEY_RIGHT):
                     self.x0 = False
@@ -251,7 +269,7 @@ class App:
                     self.func1attack=True
                     self.botanstart=False
                     self.attackmode=True
-                  
+
             elif self.x1 == True and self.y0 == True:
                 if pyxel.btnp(pyxel.KEY_LEFT):
                     self.x0 = True
@@ -276,7 +294,7 @@ class App:
                 elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.func2attack=True
                     self.attackmode=True
-               
+
             elif self.x1 == True and self.y1 == True:
                 if pyxel.btnp(pyxel.KEY_LEFT):
                     self.x0 = True
@@ -291,8 +309,8 @@ class App:
                 elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.integral_dx = True
                     self.attackmode=True
-                   
-            
+
+
 
     def start(self):
         if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
@@ -453,7 +471,7 @@ class App:
                 pyxel.blt(75,100,2,144,8,8,8,pyxel.COLOR_BLACK)
             elif self.myhp<=self.mydamage:
                 pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
-                
+
             #敵のHP
             pyxel.blt(104,28,2,184,8,16,8,pyxel.COLOR_BLACK)#HPを表示
             pyxel.blt(75,28,2,144,0,8,8,pyxel.COLOR_BLACK)#[
@@ -502,7 +520,7 @@ class App:
                     elif self.x1 == True and self.y1 == True:
                         pyxel.blt(24, 72, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
                 elif self.func1attack==True:
-                    
+
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
                     pyxel.blt(1, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
@@ -562,7 +580,7 @@ class App:
                         pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
                         pyxel.blt(92,28,2,176,0,8,8,pyxel.COLOR_BLACK)
                         pyxel.blt(96,28,2,176,0,8,8,pyxel.COLOR_BLACK)
-                        
+
                     elif self.damage<=self.hp/5:
                         pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
                         pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
@@ -592,8 +610,8 @@ class App:
                         self.sabilitybotan=False
                         self.retirebotan=True
                         self.timer=0
-                    
-                   
+
+
                 elif self.func2attack==True:
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -649,7 +667,7 @@ class App:
                     pyxel.blt(90,28,2,161,0,8,8,pyxel.COLOR_BLACK)
                     pyxel.blt(97,28,2,161,0,8,8,pyxel.COLOR_BLACK)
                     pyxel.blt(104,28,2,184,8,16,8,pyxel.COLOR_BLACK)#HPを表示
-                  
+
                     if self.damage==0:
                         pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
                         pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
@@ -745,29 +763,29 @@ class App:
                         pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
                         pyxel.blt(92,28,2,176,0,8,8,pyxel.COLOR_BLACK)
                         pyxel.blt(96,28,2,176,0,8,8,pyxel.COLOR_BLACK)
-                      
+
                     elif self.damage<=self.hp/5:
                         pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
                         pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
                         pyxel.blt(92,28,2,176,0,8,8,pyxel.COLOR_BLACK)
                         pyxel.blt(92,28,2,176,0,8,8,pyxel.COLOR_BLACK)
-                     
+
                     elif self.hp/5<=self.damage<=self.hp*2/5:
                         pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
                         pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
                         pyxel.blt(92,28,2,176,0,8,8,pyxel.COLOR_BLACK)
                         pyxel.blt(88,28,2,176,0,8,8,pyxel.COLOR_BLACK)
-                     
+
                     elif self.hp*2/5<=self.damage<=self.hp*3/5:
                         pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
                         pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
-                    
+
                     elif self.hp*3/5<=self.damage<=self.hp*4/5:
                         pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
                         pyxel.blt(80,28,2,176,0,8,8,pyxel.COLOR_BLACK)
-                 
+
                     elif self.hp*4/5<=self.damage<self.hp:
-                        pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)  
+                        pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
                     self.timer+=1
                     if self.timer>=60:
                         self.func1attack=False
@@ -779,7 +797,7 @@ class App:
                         self.sabilitybotan=False
                         self.retirebotan=True
                         self.timer=0
-                    
+
                 elif self.integral_dx==True:
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -870,7 +888,7 @@ class App:
                         self.sabilitybotan=False
                         self.retirebotan=True
                         self.timer=0
-                   
+
 
                 # self.font.draw()#文字を表示
         # elif self.phase==Phase.NOMALSTAGE2:
@@ -910,31 +928,31 @@ class App:
             if self.ddx == True:
                 self.func1 = sym.Derivative(self.func1).doit()
                 self.hp = self.hp * 2
-                
+
             elif self.integral_dx == True:
                 self.func1 = sym.integrate(self.func1)
                 self.hp = self.hp / 2
-                
+
                 if self.C[random.randrange(10)] != 10:
                     self.hp += self.C[random.randrange(10)]  # 積分定数Cの値だけhpが増加
                 else:
                     self.hp = 0
             elif self.func1attack==True:
-                
+
                 self.damage=self.myfunc1.subs(x,random.randrange(6))
                 self.hp-=self.damage
-                
+
             elif self.func2attack==True:
-                
+
                 self.damage=self.myfunc2.subs(x,random.randrange(6))
                 self.hp-=self.damage
 
             # 敵の攻撃
-            
-            
+
+
             self.mydamage=self.func1.subs(x,random.randrange(6))
             self.myhp -= self.mydamage
-            
+
         elif self.myhp <= 0:
             self.phase = Phase.END
         elif self.hp <= 0 or (self.hp <= 0 and self.myhp <= 0):
