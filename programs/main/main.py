@@ -102,8 +102,6 @@ class App:
 
         self.phase = Phase.START
 
-        self.inputHandler = InputHandler()
-
         pyxel.init(150, 150, title="The Integral War")
         pyxel.load("my_resource.pyxres")
         pyxel.run(self.update, self.draw)
@@ -324,33 +322,34 @@ class App:
                     self.integral_dx = True
                     self.attackmode=True
 
-
-
     def start(self):
         if InputHandler.isDecide():
             self.phase = Phase.MENU
 
     def menu(self):
-        if pyxel.btnp(pyxel.KEY_UP):
+        if InputHandler.isUp():
             self.updown = False
-        elif pyxel.btnp(pyxel.KEY_DOWN):
+        elif InputHandler.isDown():
             self.updown = True
 
-        if self.updown == False:
-            if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
-                self.phase = Phase.NORMAL_MODE
-                self.stagescreen = True
-        elif self.updown == True:
-            if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
-                self.phase = Phase.EASY_MODE
-                self.stagescreen = True
+        if not InputHandler.isDecide():
+            return
+
+        if self.updown is True:
+            self.phase = Phase.EASY_MODE
+            print("easy")
+        else:
+            self.phase = Phase.NORMAL_MODE
+            print("normal")
+
+        self.stagescreen = True
 
     def nomalmode(self):
         if self.timer2 >= 145:
             self.stagescreen = False
-            if pyxel.btnp(pyxel.KEY_RETURN):
+            if InputHandler.isDecide():
                 self.phase = Phase.NORMAL_STAGE_1
-                self.timer=0
+                self.timer = 0
 
     def nomalstage1(self):
         self.gamestgart = True
