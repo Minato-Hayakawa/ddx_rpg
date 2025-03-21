@@ -23,19 +23,34 @@ class InputHandler():
         pass
 
     def isDecide(self):
-        pass
+        if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
+            return True
+        else:
+            return False
 
     def isUp(self):
-        pass
+        if pyxel.btnp(pyxel.KEY_UP):
+            return True
+        else:
+            return False
 
     def isDown(self):
-        pass
+        if pyxel.btnp(pyxel.KEY_DOWN):
+            return True
+        else:
+            return False
 
     def isLeft(self):
-        pass
+        if pyxel.btnp(pyxel.KEY_LEFT):
+            return True
+        else:
+            return False
 
     def isRight(self):
-        pass
+        if pyxel.btnp(pyxel.KEY_RIGHT):
+            return True
+        else:
+            return False
 
 class App:
     def __init__(self):
