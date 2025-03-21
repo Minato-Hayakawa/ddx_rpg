@@ -19,34 +19,31 @@ class Phase(Enum):
     END = "end"
 
 class InputHandler():
-    def __init__(self):
-        pass
-
-    def isDecide(self):
+    def isDecide():
         if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
             return True
         else:
             return False
 
-    def isUp(self):
+    def isUp():
         if pyxel.btnp(pyxel.KEY_UP):
             return True
         else:
             return False
 
-    def isDown(self):
+    def isDown():
         if pyxel.btnp(pyxel.KEY_DOWN):
             return True
         else:
             return False
 
-    def isLeft(self):
+    def isLeft():
         if pyxel.btnp(pyxel.KEY_LEFT):
             return True
         else:
             return False
 
-    def isRight(self):
+    def isRight():
         if pyxel.btnp(pyxel.KEY_RIGHT):
             return True
         else:
@@ -104,6 +101,8 @@ class App:
         self.mydamage=0
 
         self.phase = Phase.START
+
+        self.inputHandler = InputHandler()
 
         pyxel.init(150, 150, title="The Integral War")
         pyxel.load("my_resource.pyxres")
@@ -328,7 +327,7 @@ class App:
 
 
     def start(self):
-        if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
+        if InputHandler.isDecide():
             self.phase = Phase.MENU
 
     def menu(self):
