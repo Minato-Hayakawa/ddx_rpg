@@ -68,7 +68,6 @@ class App:
         self.botanstart = False
         self.func1attack = False
         self.func2attack = False
-        self.attackmode = False  #　現在バトルモードかどうかを判断するフラグ。。。？
         self.gameover_flag = False
         self.ddx = False
         self.ddx_count=0
@@ -130,10 +129,6 @@ class App:
         elif self.phase == Phase.NORMAL_STAGE_1:
             self.nomalstage1()
             self.botan()
-            
-            if self.attackmode==True:
-                self.battlemode()
-                    
         elif self.phase==Phase.GAME_OVER:
             self.gameover()
             self.timer+=1
@@ -144,23 +139,11 @@ class App:
             self.timer2+=1
             if self.gamestgart==True:
                 self.botan()
-                if self.attackmode==True:
-                    self.battlemode()
         elif self.phase == Phase.GAME_CLEAR:
             self.gameclear()
             self.timer+=1
         elif self.phase == Phase.END:
             self.end()
-
-    def setAttackMenuStats(self):
-        if self.x0 == True and self.y0 == True:
-            self.attackMenu = AttackMenu.左上
-        elif self.x1 == True and self.y0 == True:
-            self.attackMenu = AttackMenu.右上
-        elif self.x0 == True and self.y1 == True:
-            self.attackMenu = AttackMenu.左下
-        elif self.x1 == True and self.y1 == True:
-            self.attackMenu = AttackMenu.右下
 
     def setAttackMenuStats(self, name: AttackMenu):        
         self.attackMenu = name
@@ -194,7 +177,6 @@ class App:
             self.y1 = False
 
     def botan(self):
-        self.attackmode=False
         if self.retirebotan == True:#最初の状態ではreturebotanはTrueです
             if InputHandler.isDown():#下を押したらretirebotanにカーソルを動かす
                 self.itembotan = True
@@ -322,7 +304,7 @@ class App:
                         self.x1 = False
 
         elif self.attackbotan == True:#カーソルがこうげきにあるとき
-            if InputHandler.isUp() and self.x0==False and self.y0==False and self.x1==False and self.y1==False:#上を押した時にとある条件に重なるとsablitybotanに移動します
+            if InputHandler.isUp() and self.attackMenu == AttackMenu.左上:#上を押した時に、左上にいたらsablitybotanに移動します
                 self.attackbotan = False
                 self.sabilitybotan = True
             elif InputHandler.isDecide() and self.botanstart==False:#決定ボタンを押したときにとある条件に重なるとbotanstartという用途不明なフラグが立ちます
@@ -337,7 +319,7 @@ class App:
                 elif InputHandler.isDecide():#決定を押すと攻撃が発動します。攻撃が発動するといってもfunc1attackというフラグが立つだけです。botanstartという謎のフラグが立ちます。また、attackmodeという謎のフラグも立ちます
                     self.func1attack=True
                     self.botanstart=False
-                    self.attackmode=True
+                    self.battlemode()
             elif self.attackMenu == AttackMenu.右上:#攻撃メニューの右上にカーソルがあるとき
                 if InputHandler.isLeft():
                     self.setAttackMenuStats(AttackMenu.左上)
@@ -346,7 +328,7 @@ class App:
                 elif InputHandler.isDecide():
                     self.ddx = True
                     self.ddx_count+=1
-                    self.attackmode=True
+                    self.battlemode()
             elif self.attackMenu == AttackMenu.左下:#攻撃メニューの左下にカーソルがあるとき
                 if InputHandler.isUp():
                     self.setAttackMenuStats(AttackMenu.左上)
@@ -354,7 +336,7 @@ class App:
                     self.setAttackMenuStats(AttackMenu.右下)
                 elif InputHandler.isDecide():
                     self.func2attack=True
-                    self.attackmode=True
+                    self.battlemode()
             elif self.attackMenu == AttackMenu.右下:#攻撃メニューの右下にカーソルがあるとき
                 if InputHandler.isLeft():
                     self.setAttackMenuStats(AttackMenu.左下)
@@ -363,7 +345,7 @@ class App:
                 elif InputHandler.isDecide():
                     self.integral_dx = True
                     self.ddx_count-=1
-                    self.attackmode=True
+                    self.battlemode()
 
     def start(self):
         if InputHandler.isDecide():
@@ -402,7 +384,8 @@ class App:
         elif self.myhp<=0:
             self.phase=Phase.GAME_OVER
 
-    # def nomalstage2(self):
+    '''
+        # def nomalstage2(self):
     #     self.stagescreen=True
     #     if pyxel.blt(pyxel.KEY_RETURN) and self.timer2>=145:
     #         self.gamestart=True
@@ -441,6 +424,38 @@ class App:
     # def end(self):
     #     pyxel.blt(30,0,0,0,16,50,120) #真っ黒を表示
     #     self.start()
+    '''
+
+    def showGreen(self, x, y):
+        pyxel.blt(x, y, 2, 176, 0, 8, 8, pyxel.COLOR_BLACK)  # 緑を表示
+
+    def showKEISUU(self):
+        if self.ddx_count==1:
+            pyxel.blt(59, 40, 2, 40, 56, 16, 16, pyxel.COLOR_BLACK)#2
+        elif self.ddx_count==2:
+            pyxel.blt(59, 40, 2, 56, 56, 16, 16, pyxel.COLOR_BLACK)#4
+        elif self.ddx_count==3:
+            pyxel.blt(59, 40, 2, 40, 72, 16, 16, pyxel.COLOR_BLACK)#8
+        elif self.ddx_count==4:
+            pyxel.blt(59, 40, 2, 56, 72, 16, 16, pyxel.COLOR_BLACK)#16
+        elif self.ddx_count==-1:
+            pyxel.blt(62, 48, 0, 0, 16, 5, 8, pyxel.COLOR_BLACK)#2
+            pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+        elif self.ddx_count==-2:
+            pyxel.blt(62, 48, 0, 5, 16, 5, 8, pyxel.COLOR_BLACK)#4
+            pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+        elif self.ddx_count==-3:
+            pyxel.blt(62, 48, 0, 10, 16, 5, 8, pyxel.COLOR_BLACK)#8
+            pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+        elif self.ddx_count==-4:
+            pyxel.blt(62, 48, 0, 0, 24, 8, 8, pyxel.COLOR_BLACK)#16
+            pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+
+    def showAttackMenuRedCursor(self, x, y):
+        pyxel.blt(x, y, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
+
+    def showPlayerHPFrame(self):
+        pass
 
     def draw(self):
         if self.phase == Phase.START:
@@ -510,79 +525,62 @@ class App:
             pyxel.blt(90,100,2,161,0,8,8,pyxel.COLOR_BLACK)#=
             pyxel.blt(97,100,2,161,0,8,8,pyxel.COLOR_BLACK)#=
             if self.mydamage==0:
-                pyxel.blt(76,100,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
-                pyxel.blt(84,100,2,176,0,8,8,pyxel.COLOR_BLACK)
-                pyxel.blt(92,100,2,176,0,8,8,pyxel.COLOR_BLACK)
-                pyxel.blt(96,100,2,176,0,8,8,pyxel.COLOR_BLACK)
+                self.showGreen(76,100)
+                self.showGreen(84,100)
+                self.showGreen(92,100)
+                self.showGreen(96,100)
             elif self.mydamage<=self.myhp/5:
-                pyxel.blt(76,100,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
-                pyxel.blt(84,100,2,176,0,8,8,pyxel.COLOR_BLACK)
-                pyxel.blt(92,100,2,176,0,8,8,pyxel.COLOR_BLACK)
+                self.showGreen(76,100)
+                self.showGreen(84,100)
+                self.showGreen(92,100)
             elif self.myhp/5<=self.mydamage<=self.myhp*2/5:
-                pyxel.blt(76,100,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
-                pyxel.blt(84,100,2,176,0,8,8,pyxel.COLOR_BLACK)
-                pyxel.blt(88,100,2,176,0,8,8,pyxel.COLOR_BLACK)
+                self.showGreen(76,100)
+                self.showGreen(84,100)
+                self.showGreen(88,100)
             elif self.myhp*2/5<=self.mydamage<=self.myhp*3/5:
-                pyxel.blt(76,100,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
-                pyxel.blt(84,100,2,176,0,8,8,pyxel.COLOR_BLACK)
+                self.showGreen(84,100)
+                self.showGreen(76,100)
             elif self.myhp*3/5<=self.mydamage<=self.myhp*4/5:
-                pyxel.blt(76,100,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
-                pyxel.blt(80,100,2,176,0,8,8,pyxel.COLOR_BLACK)
+                self.showGreen(76,100)
+                self.showGreen(80,100)
             elif self.myhp*4/5<=self.mydamage<self.myhp:
                 pyxel.blt(75,100,2,144,8,8,8,pyxel.COLOR_BLACK)
             elif self.myhp<=self.mydamage:
                 pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
 
             #敵のHP
-            pyxel.blt(104,28,2,184,8,16,8,pyxel.COLOR_BLACK)#HPを表示
             pyxel.blt(75,28,2,144,0,8,8,pyxel.COLOR_BLACK)#[
             pyxel.blt(83,28,2,161,0,8,8,pyxel.COLOR_BLACK)#=
             pyxel.blt(90,28,2,161,0,8,8,pyxel.COLOR_BLACK)#=
             pyxel.blt(97,28,2,161,0,8,8,pyxel.COLOR_BLACK)#=
             pyxel.blt(104,28,2,184,8,16,8,pyxel.COLOR_BLACK)#HPを表示
-            if self.ddx_count==1:
-                pyxel.blt(59, 40, 2, 40, 56, 16, 16, pyxel.COLOR_BLACK)#2
-            elif self.ddx_count==2:
-                pyxel.blt(59, 40, 2, 56, 56, 16, 16, pyxel.COLOR_BLACK)#4
-            elif self.ddx_count==3:
-                pyxel.blt(59, 40, 2, 40, 72, 16, 16, pyxel.COLOR_BLACK)#8
-            elif self.ddx_count==4:
-                pyxel.blt(59, 40, 2, 56, 72, 16, 16, pyxel.COLOR_BLACK)#16
-            elif self.ddx_count==-1:
-                pyxel.blt(62, 48, 0, 0, 16, 5, 8, pyxel.COLOR_BLACK)#2
-                pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-            elif self.ddx_count==-2:
-                pyxel.blt(62, 48, 0, 5, 16, 5, 8, pyxel.COLOR_BLACK)#4
-                pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-            elif self.ddx_count==-3:
-                pyxel.blt(62, 48, 0, 10, 16, 5, 8, pyxel.COLOR_BLACK)#8
-                pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-            elif self.ddx_count==-4:
-                pyxel.blt(62, 48, 0, 0, 24, 8, 8, pyxel.COLOR_BLACK)#16
-                pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+            
+            self.showKEISUU()
+
             if self.damage==0:
-                pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
-                pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
-                pyxel.blt(92,28,2,176,0,8,8,pyxel.COLOR_BLACK)
-                pyxel.blt(96,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+                self.showGreen(76,28)
+                self.showGreen(84,28)
+                self.showGreen(92,28)
+                self.showGreen(96,28)
             elif self.damage<=self.hp/5:
-                pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
-                pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
-                pyxel.blt(92,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+                self.showGreen(76,28)
+                self.showGreen(84,28)
+                self.showGreen(92,28)
             elif self.hp/5<=self.damage<=self.hp*2/5:
-                pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
-                pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
-                pyxel.blt(88,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+                self.showGreen(76,28)
+                self.showGreen(84,28)
+                self.showGreen(88,28)
             elif self.hp*2/5<=self.damage<=self.hp*3/5:
-                pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
-                pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+                self.showGreen(76,28)
+                self.showGreen(84,28)
             elif self.hp*3/5<=self.damage<=self.hp*4/5:
-                pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
-                pyxel.blt(80,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+                self.showGreen(76,28)
+                self.showGreen(80,28)
             elif self.hp*4/5<=self.damage<self.hp:
                 pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
             elif self.hp<=self.damage:
                 pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
+
             if self.retirebotan == True:#カーソルがリタイアにあるときにリタイアの周りを赤く表示する
                 pyxel.blt(0, 0, 2, 0, 60, 38, 9, pyxel.COLOR_BLACK)
             elif self.itembotan == True:#アイテムの周りを赤く表示する
@@ -592,14 +590,14 @@ class App:
             elif self.attackbotan == True:#カーソルがこうげきにあるとき....
                 if self.func1attack==False and self.func2attack==False and self.ddx==False and self.integral_dx==False:
                     pyxel.blt(0, 27, 2, 0, 93, 38, 11, pyxel.COLOR_BLACK)
-                    if self.x0 == True and self.y0 == True:
-                        pyxel.blt(1, 41, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
-                    elif self.x1 == True and self.y0 == True:
-                        pyxel.blt(24, 41, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
-                    elif self.x0 == True and self.y1 == True:
-                        pyxel.blt(1, 72, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
-                    elif self.x1 == True and self.y1 == True:
-                        pyxel.blt(24, 72, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
+                    if self.attackMenu == AttackMenu.左上:
+                        self.showAttackMenuRedCursor(1, 41)
+                    elif self.attackMenu == AttackMenu.右上:
+                        self.showAttackMenuRedCursor(24, 41)
+                    elif self.attackMenu == AttackMenu.左下:
+                        self.showAttackMenuRedCursor(1, 72)
+                    elif self.attackMenu == AttackMenu.右下:
+                        self.showAttackMenuRedCursor(24, 72)
                 elif self.func1attack==True:
 
                     pyxel.cls(0)
@@ -4644,7 +4642,7 @@ class App:
             self.func1 = math.e**2 * x
 
     def battlemode(self):
-        if self.hp >= 0 and self.myhp >= 0:
+        if self.hp >= 0 and self.myhp >= 0:#　お互いに生きているなら
             if self.ddx == True:
                 self.func1 = sym.Derivative(self.func1).doit()
                 self.hp = self.hp * 2
@@ -4657,6 +4655,7 @@ class App:
                     self.hp += self.C[random.randint(0,9)]  # 積分定数Cの値だけhpが増加
                 else:
                     self.hp = 0
+            
             elif self.func1attack==True:
 
                 self.damage=self.myfunc1.subs(x,random.randint(1,6))
@@ -4676,15 +4675,16 @@ class App:
                 self.mydamage=abs(self.func2.subs(x,math.radians(self.rulet[self.num%16])))
                 self.num+=1
                 self.myhp-=self.mydamage
-        # elif self.myhp <= 0:
+        '''
+    # elif self.myhp <= 0:
         #     self.phase = Phase.GAME_OVER
         # elif self.hp <= 0 or (self.hp <= 0 and self.myhp <= 0):
         #     self.phase = Phase.GAMECLEAR
         #     self.gamestgart=False
-        #     self.attackmode=False
+        '''
+
             
     def nomalstage_2(self):
-
         if self.timer2 >= 145:
             self.stagescreen = False
             if InputHandler.isDecide():
