@@ -2567,7 +2567,7 @@ class App:
                         self.sabilitybotan=False
                         self.retirebotan=True
                         self.timer=0
-                        
+
         elif self.phase==Phase.GAME_OVER:
             pyxel.cls(0)
             pyxel.blt(50,50,0,0,48,30,8,pyxel.COLOR_BLACK) #gameoverを表示
