@@ -55,6 +55,40 @@ class AttackMenu(Enum):
     左下 = auto(),
     右下 = auto(),
 
+class KIGOUViwer:
+    def showHPFrame(self, x, y):
+        pyxel.blt(x,y,2,161,0,8,8,pyxel.COLOR_BLACK)#=
+
+    def showHPLid(self, x, y):
+        pyxel.blt(x, y, 2, 144, 0, 8, 8, pyxel.COLOR_BLACK)#[
+
+    def showHPCharacter(self, x, y):
+        pyxel.blt(x,y,2,184,8,16,8,pyxel.COLOR_BLACK)#HPを表示
+
+    def showX(self, x, y):
+        pyxel.blt(x, y, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+
+    def show_d(self, x, y):
+        pyxel.blt(x, y, 2, 112, 40, 4, 8, pyxel.COLOR_BLACK)  # dを表示
+
+    def show_dx(self, x, y):
+        pyxel.blt(x, y, 2, 96, 32, 16, 16, pyxel.COLOR_BLACK)  # /dxを表示
+
+    def show_exclamationMark(self,x,y):
+        pyxel.blt(x, y, 2, 0, 36, 3, 16, pyxel.COLOR_BLACK)  #!を表示
+
+    def show_XJOU(self,x,y):
+        pyxel.blt(x, y, 2, 31, 44, 5, 5, pyxel.COLOR_BLACK)  # ^xを表示
+    
+    def show_2JOU(self,x,y):
+        pyxel.blt(x, y, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
+
+    def show_e(self,x,y):
+        pyxel.blt(x, y, 2, 32, 0, 16, 16, pyxel.COLOR_BLACK)  # e
+    
+    def show_Integral(self,x,y):
+        pyxel.blt(x, y, 2, 16, 16, 8, 16, pyxel.COLOR_BLACK)  # ∫
+
 class App:
     def __init__(self):
 
@@ -110,6 +144,8 @@ class App:
 
         self.attackMenu = AttackMenu.左上 # 攻撃メニューの初期値
         self.phase = Phase.START
+
+        self.kigouViwer = KIGOUViwer()  # KIGOUViwerのインスタンスを作成
 
         pyxel.init(150, 150, title="The Integral War")
         pyxel.load("my_resource.pyxres")
@@ -454,9 +490,6 @@ class App:
     def showAttackMenuRedCursor(self, x, y):
         pyxel.blt(x, y, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
 
-    def showPlayerHPFrame(self):
-        pass
-
     def draw(self):
         if self.phase == Phase.START:
             pyxel.blt(
@@ -500,18 +533,18 @@ class App:
         elif self.phase == Phase.NORMAL_STAGE_1 and self.gamestgart == True:
             pyxel.cls(0)
             pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
-            pyxel.blt(1, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-            pyxel.blt(17, 41, 2, 0, 36, 3, 16, pyxel.COLOR_BLACK)  #!を表示
-            pyxel.blt(1, 72, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-            pyxel.blt(30, 40, 2, 112, 40, 4, 8, pyxel.COLOR_BLACK)  # dを表示
-            pyxel.blt(24, 41, 2, 96, 32, 16, 16, pyxel.COLOR_BLACK)  # /dxを表示
+            self.kigouViwer.showX(1, 41)  # xを表示
+            self.kigouViwer.show_exclamationMark(17, 41)  # !を表示
+            self.kigouViwer.showX(1, 72)  # xを表示
+            self.kigouViwer.show_d(30, 40)  # dを表示
+            self.kigouViwer.show_dx(24, 41)  # /dxを表示
             # ↑微分に変える
-            pyxel.blt(20, 72, 2, 16, 16, 8, 16, pyxel.COLOR_BLACK)  # ∫
-            pyxel.blt(26, 71, 2, 0, 16, 16, 16, pyxel.COLOR_BLACK)  # d
-            pyxel.blt(31, 73, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-            pyxel.blt(75, 40, 2, 32, 0, 16, 16, pyxel.COLOR_BLACK)  # e
-            pyxel.blt(88, 37, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
-            pyxel.blt(92, 37, 2, 31, 44, 5, 5, pyxel.COLOR_BLACK)  # ^xを表示
+            self.kigouViwer.show_Integral(20, 72)  # ∫を表示
+            self.kigouViwer.show_d(26, 71)  # dを表示
+            self.kigouViwer.showX(31, 73)  # xを表示
+            self.kigouViwer.show_e(75, 40)  # eを表示
+            self.kigouViwer.show_2JOU(88, 37)  # ^2を表示
+            self.kigouViwer.show_XJOU(92, 37)  # ^xを表示
 
             self.font.draw(0, 0, "リタイア", 8, 7)
             self.font.draw(0, 10, "アイテム", 8, 7)
@@ -520,10 +553,10 @@ class App:
             self.font.draw(73, 5, "あいて", 8, 7)
             self.font.draw(33, 120, "e^2xが現れた！", 8, 7)
             #自分のHP
-            pyxel.blt(75,100,2,144,0,8,8,pyxel.COLOR_BLACK)#[
-            pyxel.blt(83,100,2,161,0,8,8,pyxel.COLOR_BLACK)#=
-            pyxel.blt(90,100,2,161,0,8,8,pyxel.COLOR_BLACK)#=
-            pyxel.blt(97,100,2,161,0,8,8,pyxel.COLOR_BLACK)#=
+            self.kigouViwer.showHPLid(75, 100)
+            self.kigouViwer.showHPFrame(83, 100)
+            self.kigouViwer.showHPFrame(90, 100)
+            self.kigouViwer.showHPFrame(97, 100)
             if self.mydamage==0:
                 self.showGreen(76,100)
                 self.showGreen(84,100)
@@ -549,11 +582,11 @@ class App:
                 pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
 
             #敵のHP
-            pyxel.blt(75,28,2,144,0,8,8,pyxel.COLOR_BLACK)#[
-            pyxel.blt(83,28,2,161,0,8,8,pyxel.COLOR_BLACK)#=
-            pyxel.blt(90,28,2,161,0,8,8,pyxel.COLOR_BLACK)#=
-            pyxel.blt(97,28,2,161,0,8,8,pyxel.COLOR_BLACK)#=
-            pyxel.blt(104,28,2,184,8,16,8,pyxel.COLOR_BLACK)#HPを表示
+            self.kigouViwer.showHPLid(75, 28)
+            self.kigouViwer.showHPFrame(83, 28)
+            self.kigouViwer.showHPFrame(90, 28)
+            self.kigouViwer.showHPFrame(97, 28)
+            self.kigouViwer.showHPCharacter(104, 28)#HPを表示
             
             self.showKEISUU()
 
