@@ -373,17 +373,14 @@ class App:
         if self.timer2 >= 145:
             self.stagescreen = False
             if InputHandler.isDecide():
-                self.phase = Phase.NORMAL_STAGE_1
+                if self.stagecount==1:
+                    self.phase = Phase.NORMAL_STAGE_1
+                elif self.stagecount==2:
+                    self.phase=Phase.NORMAL_STAGE_2
+                elif self.stagecount==3:
+                    self.phase=Phase.NORMAL_STAGE_3
                 self.timer = 0
                 self.timer2=0
-
-    def nomalstage1(self):
-        self.gamestgart = True
-        if self.hp<=self.damage:
-            self.phase=Phase.GAME_CLEAR
-            self.stagecount+=1
-        elif self.myhp<=self.mydamage:
-            self.phase=Phase.GAME_OVER
 
     def draw(self):
         if self.phase == Phase.START:
@@ -413,10 +410,12 @@ class App:
                         35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK
                     )  # ステージを表示(矢印なし)
                     if 45 >= self.timer >= 30:  # 1秒後
-                        pyxel.blt(
-                            35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK
-                        )  # ステージを表示(矢印なし)
-                        pyxel.blt(35, 85, 1, 0, 14, 16, 16, pyxel.COLOR_BLACK)  # 矢印
+                        if self.stagecount==1:
+                            pyxel.blt(35, 85, 1, 0, 14, 16, 16, pyxel.COLOR_BLACK)  # 矢印
+                        elif self.stagecount==2:
+                            pyxel.blt(51,85,1,0,14,16,16,pyxel.COLOR_BLACK)
+                        elif self.stagecount==3:
+                            pyxel.blt(67,85,1,0,14,16,16,pyxel.COLOR_BLACK)
                     elif self.timer >= 45:  # 1秒後
                         pyxel.cls(0)
                         pyxel.blt(
@@ -451,26 +450,26 @@ class App:
             pyxel.blt(50,50,0,0,48,24,8,pyxel.COLOR_BLACK) #gameclearを表示
             pyxel.blt(74,50,0,0,64,64,8,pyxel.COLOR_BLACK)
             
-        elif self.phase==Phase.NORMAL_STAGE_2:
-            if self.stagescreen==True:
-                self.timer+=1
-                self.timer2+=1
-                pyxel.cls(0)
-                for i in range(3):
-                    pyxel.blt(35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK)  # ステージを表示(矢印なし)
-                    if 45 >= self.timer >= 30:  # 1秒後
-                        pyxel.blt(35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK)  # ステージを表示(矢印なし)
-                        pyxel.blt(51, 85, 1, 0, 14, 16, 16, pyxel.COLOR_BLACK)  # 矢印
-                    elif self.timer >= 45:  # 1秒後
-                        pyxel.cls(0)
-                        pyxel.blt(35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK)  # ステージを表示(矢印なし)
-                        self.timer = 0
+        elif self.phase==Phase.NORMAL_STAGE_2 and self.gamestgart == True:
+            # if self.stagescreen==True:
+            #     self.timer+=1
+            #     self.timer2+=1
+            #     pyxel.cls(0)
+            #     for i in range(3):
+            #         pyxel.blt(35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK)  # ステージを表示(矢印なし)
+            #         if 45 >= self.timer >= 30:  # 1秒後
+            #             pyxel.blt(35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK)  # ステージを表示(矢印なし)
+            #             pyxel.blt(51, 85, 1, 0, 14, 16, 16, pyxel.COLOR_BLACK)  # 矢印
+            #         elif self.timer >= 45:  # 1秒後
+            #             pyxel.cls(0)
+            #             pyxel.blt(35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK)  # ステージを表示(矢印なし)
+            #             self.timer = 0
                 
-            elif self.stagescreen==False and self.gamestgart==False:
-                self.timer=0
-                self.font.draw(100, 140, "Push return", 8, 7)
+            # elif self.stagescreen==False and self.gamestgart==False:
+            #     self.timer=0
+            #     self.font.draw(100, 140, "Push return", 8, 7)
             
-            elif self.stagescreen==False and self.gamestgart == True:
+            
                 self.nomalscreenfunc()
                 self.stage2screenfunc()
                 #自分のHP
@@ -505,24 +504,23 @@ class App:
                 elif self.attackbotan == True:
                    self.attackbotanfunc()
                             
-        elif self.phase==Phase.NORMAL_STAGE_3:
-            if self.stagescreen==True:
-                self.timer+=1
-                self.timer2+=1
-                pyxel.cls(0)
-                for i in range(3):
-                    pyxel.blt(35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK)  # ステージを表示(矢印なし)
-                    if 45 >= self.timer >= 30:  # 1秒後
-                        pyxel.blt(35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK)  # ステージを表示(矢印なし)
-                        pyxel.blt(67, 85, 1, 0, 14, 16, 16, pyxel.COLOR_BLACK)  # 矢印
-                    elif self.timer >= 45:  # 1秒後
-                        pyxel.cls(0)
-                        pyxel.blt(35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK)  # ステージを表示(矢印なし)
-                        self.timer = 0
-            elif self.stagescreen==False and self.gamestgart==False:
-                self.timer=0
-                self.font.draw(100, 140, "Push return", 8, 7)
-            elif self.stagescreen==False and self.gamestgart == True:
+        elif self.phase==Phase.NORMAL_STAGE_3 and self.gamestgart == True:
+            # if self.stagescreen==True:
+            #     self.timer+=1
+            #     self.timer2+=1
+            #     pyxel.cls(0)
+            #     for i in range(3):
+            #         pyxel.blt(35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK)  # ステージを表示(矢印なし)
+            #         if 45 >= self.timer >= 30:  # 1秒後
+            #             pyxel.blt(35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK)  # ステージを表示(矢印なし)
+            #             pyxel.blt(67, 85, 1, 0, 14, 16, 16, pyxel.COLOR_BLACK)  # 矢印
+            #         elif self.timer >= 45:  # 1秒後
+            #             pyxel.cls(0)
+            #             pyxel.blt(35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK)  # ステージを表示(矢印なし)
+            #             self.timer = 0
+            # elif self.stagescreen==False and self.gamestgart==False:
+            #     self.timer=0
+            #     self.font.draw(100, 140, "Push return", 8, 7)
                 self.stage3screenfunc()
                 self.nomalscreenfunc()
                 self.stage3ddx_count()
@@ -607,29 +605,36 @@ class App:
         #     self.gamestgart=False
         #     self.attackmode=False
             
+    def nomalstage1(self):
+        self.gamestgart = True
+        if self.hp<=self.damage:
+            self.phase=Phase.GAME_CLEAR
+            self.stagecount+=1
+        elif self.myhp<=self.mydamage:
+            self.phase=Phase.GAME_OVER
     def nomalstage_2(self):
-        if self.timer2 >= 145:
-            self.stagescreen = False
-            if InputHandler.isDecide():
-                self.stagescreen=False
-                self.gamestgart=True
-                if self.hp<=self.damage:
-                    self.phase=Phase.GAME_CLEAR  
-                    self.stagecount+=1
-                elif self.myhp<=self.mydamage:
-                    self.phase=Phase.GAME_OVER
+        # if self.timer2 >= 145:
+        #     self.stagescreen = False
+        #     if InputHandler.isDecide():
+        #         self.stagescreen=False
+        self.gamestgart=True
+        if self.hp<=self.damage:
+            self.phase=Phase.GAME_CLEAR  
+            self.stagecount+=1
+        elif self.myhp<=self.mydamage:
+            self.phase=Phase.GAME_OVER
                     
     def nomalstage_3(self):
-        if self.timer2>=145:
-            self.stagescreen=False
-            if InputHandler.isDecide():
-                self.stagescreen=False
-                self.gamestgart=True
-                if self.hp<self.damage:
-                    self.phase=Phase.GAME_CLEAR
-                    self.stagecount+=1
-                elif self.myhp<=self.mydamage:
-                    self.phase=Phase.GAME_OVER
+        # if self.timer2>=145:
+        #     self.stagescreen=False
+        #     if InputHandler.isDecide():
+        #         self.stagescreen=False
+        self.gamestgart=True
+        if self.hp<self.damage:
+            self.phase=Phase.GAME_CLEAR
+            self.stagecount+=1
+        elif self.myhp<=self.mydamage:
+            self.phase=Phase.GAME_OVER
 
     def end(self):
         pyxel.quit()
@@ -653,16 +658,13 @@ class App:
         self.attackbotan=False
         self.sabilitybotan=False
         self.itembotan=False
-        self.retirebotan=False
+        self.retirebotan=True
        
         if self.timer>=120:
             self.stagescreen=True
             self.timer=0
             self.timer2=0
-            if self.stagecount==2:
-                self.phase=Phase.NORMAL_STAGE_2
-            elif self.stagecount==3:
-                self.phase=Phase.NORMAL_STAGE_3
+            self.phase=Phase.NORMAL_MODE
                 
                 
     def stagefunc1attack(self):
