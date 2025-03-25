@@ -438,6 +438,10 @@ class App:
                 self.sabilitybotanfunc()
             elif self.attackbotan == True:
                 self.attackbotanfunc()
+            if self.eattack==True:
+                pyxel.blt(33,120,1,22,146,80,16)
+                self.font.draw(33, 120, "e^2xが攻撃!", 8, 7)
+                self.wait2()
                         
         elif self.phase==Phase.GAME_OVER:
             pyxel.cls(0)
@@ -462,6 +466,10 @@ class App:
                     self.sabilitybotanfunc()
                 elif self.attackbotan == True:
                    self.attackbotanfunc()
+                if self.eattack==True:
+                    pyxel.blt(33,120,1,22,146,80,16)
+                    self.font.draw(33, 120, "tan(x)が攻撃!", 8, 7)
+                    self.wait2()
                             
         elif self.phase==Phase.NORMAL_STAGE_3 and self.gamestgart == True:
                 self.nomalscreenfunc()
@@ -477,6 +485,10 @@ class App:
                     self.sabilitybotanfunc()
                 elif self.attackbotan == True:
                    self.attackbotanfunc()
+                if self.eattack==True:
+                    pyxel.blt(33,120,1,22,146,80,16)
+                    self.font.draw(33, 120, "ln(x)が攻撃!", 8, 7)
+                    self.wait2()
 
     def itemfunc(self):
         if self.item1:  # 自分のHPを50回復
@@ -523,10 +535,9 @@ class App:
             elif self.func2attack==True:
                 self.damage+=self.myfunc2.subs(x,random.randint(1,6))
             # 敵の攻撃
-    
+            
             if self.phase==Phase.NORMAL_STAGE_1:
                 self.mydamage+=self.func1.subs(x,random.randint(1,6))
-        
                 print(self.damage)
             elif self.phase==Phase.NORMAL_STAGE_2:
                 self.mydamage+=abs(self.func2.subs(x,math.radians(self.rulet[self.num%16])))
@@ -818,8 +829,19 @@ class App:
             self.attackbotan=False
             self.itembotan=False
             self.sabilitybotan=False
-            self.retirebotan=True
+            self.retirebotan=False
+            self.eattack=True
             self.timer=0
+            
+    def wait2(self):
+        self.timer2+=1
+        if self.timer2>=60:
+            self.attackbotan=False
+            self.itembotan=False
+            self.sabilitybotan=False
+            self.retirebotan=True
+            self.eattack=False
+            self.timer2=0
             
         
 
