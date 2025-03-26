@@ -101,7 +101,7 @@ class App:
         self.myfunc2=x
         self.func1 = math.e**2 * x  # ステージ1の敵
         self.func2=sym.tan(x)
-        self.func3=sym.ln(x)
+        self.func3=1/x**2
         self.attackpower1 = self.func1
         self.damage=0
         self.mydamage=0
@@ -314,7 +314,10 @@ class App:
                     self.y1 = True
                 elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.ddx = True
-                    self.ddx_count+=1
+                    if -4<=self.ddx_count<4 and self.phase==Phase.NORMAL_STAGE_1:
+                        self.ddx_count+=1
+                    elif -2<=self.ddx_count<4 and self.phase==Phase.NORMAL_STAGE_3:
+                        self.ddx_count+=1
                     self.attackmode=True
             elif self.x0 == True and self.y1 == True:
                 if pyxel.btnp(pyxel.KEY_UP):
@@ -344,7 +347,10 @@ class App:
                     self.y2 = True
                 elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.integral_dx = True
-                    self.ddx_count-=1
+                    if -4<self.ddx_count<=4 and self.phase==Phase.NORMAL_STAGE_1:
+                        self.ddx_count-=1
+                    elif -2<self.ddx_count<=2 and self.phase==Phase.NORMAL_STAGE_3:
+                        self.ddx_count-=1
                     self.attackmode=True
 
     def start(self):
@@ -510,7 +516,7 @@ class App:
             if self.ddx == True:
                 if self.phase==Phase.NORMAL_STAGE_1:
                     self.func1 = sym.Derivative(self.func1).doit()
-                    self.hp = self.hp * 2
+                    #self.hp = self.hp * 2
                 elif self.phase==Phase.NORMAL_STAGE_2:
                     self.func2 = sym.Derivative(self.func2).doit()
                 elif self.phase==Phase.NORMAL_STAGE_3:
@@ -535,17 +541,22 @@ class App:
             elif self.func2attack==True:
                 self.damage+=self.myfunc2.subs(x,random.randint(1,6))
             # 敵の攻撃
-            
+            print(self.ddx_count)
             if self.phase==Phase.NORMAL_STAGE_1:
                 self.mydamage+=self.func1.subs(x,random.randint(1,6))
                 print(self.damage)
             elif self.phase==Phase.NORMAL_STAGE_2:
-                self.mydamage+=abs(self.func2.subs(x,math.radians(self.rulet[self.num%16])))
-                self.num+=1
+                if self.num!=5 or self.num!=13: 
+                    self.mydamage+=abs(self.func2.subs(x,math.radians(self.rulet[self.num%16])))
+                    self.num+=1
+                else:
+                    print("aa")
+                    self.mydamage=self.myhp
+                
                 print(self.hp)
                 print(self.damage)
             elif self.phase==Phase.NORMAL_STAGE_3:
-                self.mydamage=abs(self.func3.subs(x,random.randint(1,9)))
+                self.mydamage=abs(self.func3.subs(x,random.randint(1,9))) 
                 print(self.hp)
                 print(self.damage)
             
@@ -615,12 +626,34 @@ class App:
             
     def ddxfunc(self):
         pyxel.blt(33,120,1,22,146,80,16)
-        self.font.draw(33, 120, "d/dxで攻撃！", 8, 7)
+        if self.phase==Phase.NORMAL_STAGE_1:
+            if self.ddx_count!=4:
+                self.font.draw(33, 120, "d/dxで攻撃！", 8, 7)
+            else:
+                self.font.draw(33, 120, "※これ以上微分できません!", 8, 7)
+        elif self.phase==Phase.NORMAL_STAGE_2:
+            self.font.draw(33,120,"d/dxで攻撃!",8,7)
+        elif self.phase==Phase.NORMAL_STAGE_3:
+            if self.ddx_count!=2:
+                self.font.draw(33,120,"d/dxで攻撃!",8,7)
+            else:
+                self.font.draw(33,120,"※これ以上微分できません!",8,7)
         self.wait()
         
     def integral_dxfunc(self):
         pyxel.blt(33,120,1,22,146,80,16)
-        self.font.draw(33, 120, "∫dxで攻撃！", 8, 7)
+        if self.phase==Phase.NORMAL_STAGE_1:
+            if self.ddx_count!=-4:
+                self.font.draw(33, 120, "∫dxで攻撃！", 8, 7)
+            else:
+                self.font.draw(33,120,"※これ以上積分できません!",8,7)
+        elif self.phase==Phase.NORMAL_STAGE_2:
+            self.font.draw(33,120,"∫dxで攻撃!",8,7)
+        elif self.phase==Phase.NORMAL_STAGE_3:
+            if self.ddx_count!=-2:
+                self.font.draw(33,120,"※これ以上積分できません!",8,7)
+            else:
+                self.font.draw(33,120,"※これ以上積分できません!",8,7)
         self.wait()
         
     def attackbotanfunc(self):
@@ -719,68 +752,76 @@ class App:
             pyxel.blt(59, 40, 2, 56, 56, 16, 16, pyxel.COLOR_BLACK)#4
         elif self.ddx_count==3:
             pyxel.blt(59, 40, 2, 40, 72, 16, 16, pyxel.COLOR_BLACK)#8
-        elif self.ddx_count==4:
+        elif self.ddx_count>=4:
             pyxel.blt(59, 40, 2, 56, 72, 16, 16, pyxel.COLOR_BLACK)#16
         elif self.ddx_count==-1:
-            pyxel.blt(62, 48, 0, 0, 16, 5, 8, pyxel.COLOR_BLACK)#2
+            pyxel.blt(64, 48, 0, 0, 16, 5, 8, pyxel.COLOR_BLACK)#2
             pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
         elif self.ddx_count==-2:
-            pyxel.blt(62, 48, 0, 5, 16, 5, 8, pyxel.COLOR_BLACK)#4
+            pyxel.blt(64, 48, 0, 5, 16, 5, 8, pyxel.COLOR_BLACK)#4
             pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
         elif self.ddx_count==-3:
-            pyxel.blt(62, 48, 0, 10, 16, 5, 8, pyxel.COLOR_BLACK)#8
+            pyxel.blt(64, 48, 0, 10, 16, 5, 8, pyxel.COLOR_BLACK)#8
             pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-        elif self.ddx_count==-4:
+        elif self.ddx_count<=-4:
             pyxel.blt(62, 48, 0, 0, 24, 8, 8, pyxel.COLOR_BLACK)#16
             pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+        # elif self.ddx_count>4:
+        #     pyxel.blt(33,120,1,22,146,80,16)
+        #     self.font.draw(33, 120, "※これ以上微分できません!", 8, 7)
+        #     self.wait()
+        # elif self.ddx_count<-4:
+        #     pyxel.blt(33,120,1,22,146,80,16)
+        #     self.font.draw(33, 120, "※これ以上積分できません!", 8, 7)
+        #     self.wait()
     def stage3ddx_count(self):
-        if self.ddx_count==1:
+        if self.ddx_count==-1:
             pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
             pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-        elif self.ddx_count==0:
+        elif self.ddx_count<=-2:
             pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
             pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
             pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
             pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
             
-        elif self.ddx_count==2:
+        elif self.ddx_count==0:
             pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
             pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
             pyxel.blt(89, 45, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)#2
             pyxel.blt(68, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
             pyxel.blt(65, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
             pyxel.blt(93, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
-        elif self.ddx_count==3:
+        elif self.ddx_count==1:
             pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
             pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
             pyxel.blt(89, 45, 0, 5, 75, 3, 5, pyxel.COLOR_BLACK)#3
-        elif self.ddx_count==4:
+        elif self.ddx_count>=2:
             pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
             pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
             pyxel.blt(89, 45, 0, 6, 19, 4, 5, pyxel.COLOR_BLACK)#4
             pyxel.blt(68, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
             pyxel.blt(65, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
             pyxel.blt(93, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
-        elif self.ddx_count==-1:
-            pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
-            pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
-            pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
-            pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
-        elif self.ddx_count==-2:
-            pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
-            pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
-            pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
-            pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
-        elif self.ddx_count==-3:
-            pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
-            pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
-            pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
-            pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
-        elif self.ddx_count==-4:
-            pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
-            pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
-            pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
-            pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
+        # elif self.ddx_count==3:
+        #     pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
+        #     pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
+        #     pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
+        #     pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
+        # elif self.ddx_count==4:
+        #     pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
+        #     pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
+        #     pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
+        #     pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
+        # elif self.ddx_count==-3:
+        #     pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
+        #     pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
+        #     pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
+        #     pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
+        # elif self.ddx_count==-4:
+        #     pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
+        #     pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
+        #     pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
+        #     pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
             
     def nomalscreenfunc(self):
         pyxel.cls(0)
@@ -813,11 +854,13 @@ class App:
         self.font.draw(33, 120, "tan(x)が現れた！", 8, 7)
         
     def stage3screenfunc(self):
-        pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
-        pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
-        pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
-        pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
-        self.font.draw(33, 120, "ln(x)が現れた！", 8, 7)
+        pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+        pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+        pyxel.blt(89, 45, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)#2
+        pyxel.blt(68, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
+        pyxel.blt(65, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+        pyxel.blt(93, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+        self.font.draw(33, 120, "1/x^2が現れた！", 8, 7)
         
     def wait(self):
         self.timer+=1
