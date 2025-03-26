@@ -543,7 +543,7 @@ class App:
             # 敵の攻撃
             print(self.ddx_count)
             if self.phase==Phase.NORMAL_STAGE_1:
-                self.mydamage+=self.func1.subs(x,random.randint(1,6))
+                self.mydamage+=self.func1.subs(x,random.uniform(0.1,3))
                 print(self.damage)
             elif self.phase==Phase.NORMAL_STAGE_2:
                 if self.num!=5 or self.num!=13: 
