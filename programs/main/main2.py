@@ -15,6 +15,8 @@ class Phase(Enum):
     NORMAL_STAGE_1 = "nomalstage1"
     NORMAL_STAGE_2 = "nomalstage2"
     NORMAL_STAGE_3="nomalstage3"
+    NORMAL_STAGE_4="nomalstage4"
+    NORMAL_STAGE_5="nomalstage5"
     GAME_OVER="gameover"
     GAME_CLEAR = "gameclear"
     END = "end"
@@ -124,8 +126,8 @@ class App:
             self.nomalmode()
         elif self.phase == Phase.EASY_MODE:
             self.easiymode()
-        elif self.phase == Phase.NORMAL_STAGE_1:
-            self.nomalstage1()
+        elif self.phase == Phase.NORMAL_STAGE_1 or self.phase==Phase.NORMAL_STAGE_2 or self.phase==Phase.NORMAL_STAGE_3 or self.phase==Phase.NORMAL_STAGE_4 or self.phase==Phase.NORMAL_STAGE_5:
+            self.nomalstage()
             if self.gamestgart == True:
                 self.botan()
                 #self.itemfunc()
@@ -136,20 +138,23 @@ class App:
             self.gameover()
             self.timer+=1
 
-        elif self.phase == Phase.NORMAL_STAGE_2:
-            self.nomalstage_2()
-            if self.gamestgart==True:
-                self.botan()
-                if self.attackmode==True:
-                    self.battlemode()
+        # elif self.phase == Phase.NORMAL_STAGE_2:
+        #     self.nomalstage()
+        #     if self.gamestgart==True:
+        #         self.botan()
+        #         if self.attackmode==True:
+        #             self.battlemode()
 
         
-        elif self.phase == Phase.NORMAL_STAGE_3:
-            self.nomalstage_3()
-            if self.gamestgart==True:
-                self.botan()
-                if self.attackmode==True:
-                    self.battlemode()
+        # elif self.phase == Phase.NORMAL_STAGE_3:
+        #     self.nomalstage()
+        #     if self.gamestgart==True:
+        #         self.botan()
+        #         if self.attackmode==True:
+        #             self.battlemode()
+                    
+        # elif self.phase==Phase.NORMAL_STAGE_4:
+        #     self.nomalstage
         elif self.phase == Phase.GAME_CLEAR:
             self.gameclear()
             self.timer+=1
@@ -422,6 +427,10 @@ class App:
                             pyxel.blt(51,85,1,0,14,16,16,pyxel.COLOR_BLACK)
                         elif self.stagecount==3:
                             pyxel.blt(67,85,1,0,14,16,16,pyxel.COLOR_BLACK)
+                        elif self.stagecount==4:
+                            pyxel.blt(83,85,1,0,14,16,16,pyxel.COLOR_BLACK)
+                        elif self.stagecount==5:
+                            pyxel.blt(99,85,1,0,14,16,16,pyxel.COLOR_BLACK)
                     elif self.timer >= 45:  # 1秒後
                         pyxel.cls(0)
                         pyxel.blt(
@@ -562,28 +571,28 @@ class App:
                 self.mydamage=abs(self.func3.subs(x,random.randint(1,9))) 
                 print(self.ddx_count)
             
-    def nomalstage1(self):
+    def nomalstage(self):
         self.gamestgart = True
-        if self.hp<=self.damage:
+        if self.hp<=self.damage or pyxel.btn(pyxel.KEY_1):
             self.phase=Phase.GAME_CLEAR
             self.stagecount+=1
         elif self.myhp<=self.mydamage:
             self.phase=Phase.GAME_OVER
-    def nomalstage_2(self):
-        self.gamestgart=True
-        if self.hp<=self.damage:
-            self.phase=Phase.GAME_CLEAR  
-            self.stagecount+=1
-        elif self.myhp<=self.mydamage:
-            self.phase=Phase.GAME_OVER
+    # def nomalstage_2(self):
+    #     self.gamestgart=True
+    #     if self.hp<=self.damage:
+    #         self.phase=Phase.GAME_CLEAR  
+    #         self.stagecount+=1
+    #     elif self.myhp<=self.mydamage:
+    #         self.phase=Phase.GAME_OVER
                     
-    def nomalstage_3(self):
-        self.gamestgart=True
-        if self.hp<=self.damage:
-            self.phase=Phase.GAME_CLEAR
-            self.stagecount+=1
-        elif self.myhp<=self.mydamage:
-            self.phase=Phase.GAME_OVER
+    # def nomalstage_3(self):
+    #     self.gamestgart=True
+    #     if self.hp<=self.damage:
+    #         self.phase=Phase.GAME_CLEAR
+    #         self.stagecount+=1
+    #     elif self.myhp<=self.mydamage:
+    #         self.phase=Phase.GAME_OVER
 
     def end(self):
         pyxel.quit()
