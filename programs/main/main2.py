@@ -137,27 +137,11 @@ class App:
         elif self.phase==Phase.GAME_OVER:
             self.gameover()
             self.timer+=1
-
-        # elif self.phase == Phase.NORMAL_STAGE_2:
-        #     self.nomalstage()
-        #     if self.gamestgart==True:
-        #         self.botan()
-        #         if self.attackmode==True:
-        #             self.battlemode()
-
-        
-        # elif self.phase == Phase.NORMAL_STAGE_3:
-        #     self.nomalstage()
-        #     if self.gamestgart==True:
-        #         self.botan()
-        #         if self.attackmode==True:
-        #             self.battlemode()
-                    
-        # elif self.phase==Phase.NORMAL_STAGE_4:
-        #     self.nomalstage
+            
         elif self.phase == Phase.GAME_CLEAR:
             self.gameclear()
             self.timer+=1
+            
         elif self.phase == Phase.END:
             self.end()
 
@@ -390,6 +374,8 @@ class App:
                     self.phase=Phase.NORMAL_STAGE_2
                 elif self.stagecount==3:
                     self.phase=Phase.NORMAL_STAGE_3
+                elif self.stagecount==4:
+                    self.phase=Phase.NORMAL_STAGE_4
                 self.timer = 0
                 self.timer2=0
 
@@ -504,6 +490,24 @@ class App:
                 if self.eattack==True:
                     pyxel.blt(33,120,1,22,146,80,16)
                     self.font.draw(33, 120, "ln(x)が攻撃!", 8, 7)
+                    self.wait2()
+                    
+        elif self.phase==Phase.NORMAL_STAGE_4 and self.gamestgart == True:
+                self.nomalscreenfunc()
+                self.stage4screenfunc()
+                self.myhpfunc()
+                self.hpfunc()
+                if self.retirebotan == True:
+                    self.retirebotanfunc()
+                elif self.itembotan == True:
+                    self.itembotanfunc()
+                elif self.sabilitybotan == True:
+                    self.sabilitybotanfunc()
+                elif self.attackbotan == True:
+                   self.attackbotanfunc()
+                if self.eattack==True:
+                    pyxel.blt(33,120,1,22,146,80,16)
+                    self.font.draw(33, 120, "ln(cot(x))が攻撃!", 8, 7)
                     self.wait2()
 
     def itemfunc(self):
@@ -865,6 +869,11 @@ class App:
         # pyxel.blt(65, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
         # pyxel.blt(93, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
         self.font.draw(33, 120, "1/x^2が現れた！", 8, 7)
+        
+    def stage4screenfunc(self):
+        pyxel.blt(75,40,0,0,108,116,12) #ln( x)
+        pyxel.blt(85,47,0,10,122,12,5) #cot
+        self.font.draw(33,120,"ln(cot(x))が現れた!",8,7)
         
     def wait(self):
         self.timer+=1
