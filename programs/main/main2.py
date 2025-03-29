@@ -92,9 +92,11 @@ class App:
 
         # アイテム
         self.item1 = 5
-        self.item2 = 5
-        self.item3 = 5
-        self.item4 = 5
+        self.item2 = 2
+        self.item3 = 1
+        self.item1flag=False
+        self.item2flag=False
+        self.item3flag=False
         self.num=0
         self.rulet = [0,sym.pi/6,sym.pi/4,sym.pi/3,sym.pi/2,sym.pi*2/3,sym.pi*3/4,sym.pi*5/6,sym.pi,sym.pi*7/6,sym.pi*5/4,sym.pi*4/3,sym.pi*3/2,sym.pi*5/3,sym.pi*7/4,sym.pi*11/6]
         self.myhp = 1000  # 自分のhp
@@ -130,7 +132,7 @@ class App:
             self.nomalstage()
             if self.gamestgart == True:
                 self.botan()
-                #self.itemfunc()
+                self.itemfunc()
                 if self.attackmode==True:
                     self.battlemode()
                     
@@ -161,13 +163,14 @@ class App:
             elif pyxel.btnp(pyxel.KEY_DOWN):
                 self.itembotan = False
                 self.sabilitybotan = True
-            elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
+            elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN) and self.botanstart==False:
                 self.x0 = True
                 self.y0 = True
-
+                self.botanstart=True
                 if self.x0 == True and self.y0 == True:
                     if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
-                        self.item1 -= 1
+                        self.item1flag=True
+                        self.botanstart=False
                     elif pyxel.btnp(pyxel.KEY_RIGHT):
                         self.x0 = False
                         self.x1 = True
@@ -176,7 +179,7 @@ class App:
                         self.y1 = True
                 elif self.x1 == True and self.y0 == True:
                     if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
-                        self.item2 -= 1
+                        self.item2flag=True
                     elif pyxel.btnp(pyxel.KEY_DOWN):
                         self.y0 = False
                         self.y1 = True
@@ -185,22 +188,22 @@ class App:
                         self.x1 = False
                 elif self.x1 == True and self.y1 == True:
                     if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
-                        self.item3 -= 1
+                        self.item3flag=True
                     elif pyxel.btnp(pyxel.KEY_UP):
                         self.y0 = True
                         self.y1 = False
                     elif pyxel.btnp(pyxel.KEY_LEFT):
                         self.x0 = True
                         self.x1 = False
-                elif self.x1 == True and self.y1 == True:
-                    if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
-                        self.item4 -= 1
-                    elif pyxel.btnp(pyxel.KEY_UP):
-                        self.y0 = True
-                        self.y1 = False
-                    elif pyxel.btnp(pyxel.KEY_RIGHT):
-                        self.x0 = False
-                        self.x1 = True
+                # elif self.x1 == True and self.y1 == True:
+                #     if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
+                #         self.item4 -= 1
+                #     elif pyxel.btnp(pyxel.KEY_UP):
+                #         self.y0 = True
+                #         self.y1 = False
+                #     elif pyxel.btnp(pyxel.KEY_RIGHT):
+                #         self.x0 = False
+                #         self.x1 = True
 
         elif self.sabilitybotan == True:
             if pyxel.btnp(pyxel.KEY_UP):
@@ -511,19 +514,19 @@ class App:
                     self.wait2()
 
     def itemfunc(self):
-        if self.item1:  # 自分のHPを50回復
+        if self.item1!=0 and self.item1flag==True:  # 自分のHPを100回復
             self.item1 -= 1
-            self.myhp += 50
-        if self.item2:  # 自分のHPを100回復
-            self.item2 -= 1
             self.myhp += 100
-        if self.item3:  # 相手のターンを一回無視
-            self.item3 -= 1
-            # 相手のターンを無視する処理
-        if self.item4:  # "相手の関数の位相を+π/4ずらす"
-            self.item4 -= 1
-            x += math.pi / 4
-            self.func1 = math.e**2 * x
+        elif self.item2!=0 and self.item2flag==True:  # 自分のHPを200回復
+            self.item2 -= 1
+            self.myhp += 200
+        elif self.item3!=0 and self.item3flag==True:  #自分のHPを500回復
+            self.item3-=1
+            self.myhp=500
+            
+        self.item1flag=False
+        self.item2flag=False
+        self.item3flag=False
 
     def battlemode(self):
         if self.hp >= 0 and self.myhp >= 0:
@@ -559,7 +562,7 @@ class App:
                 self.damage+=self.myfunc2.subs(x,random.randint(1,6))
             # 敵の攻撃
             if self.phase==Phase.NORMAL_STAGE_1:
-                self.mydamage+=self.func1.subs(x,random.uniform(0.1,3))
+                self.mydamage+=self.func1.subs(x,random.uniform(1,6))
                 print(self.damage)
             elif self.phase==Phase.NORMAL_STAGE_2:
                 if self.num!=5 or self.num!=13: 
@@ -572,7 +575,7 @@ class App:
                 print(self.hp)
                 print(self.damage)
             elif self.phase==Phase.NORMAL_STAGE_3:
-                self.mydamage=abs(self.func3.subs(x,random.randint(1,9))) 
+                self.mydamage=abs(self.func3.subs(x,random.randint(0.1,3))) 
                 print(self.ddx_count)
             
     def nomalstage(self):
@@ -692,7 +695,15 @@ class App:
             self.integral_dxfunc()
             
     def itembotanfunc(self):
-        pyxel.blt(0, 8, 2, 0, 67, 38, 11, pyxel.COLOR_BLACK)
+        if self.item1flag==False and self.item2flag==False and self.item3flag==False:
+            pyxel.blt(0, 8, 2, 0, 67, 38, 11, pyxel.COLOR_BLACK)
+            if self.y0==True:
+                pyxel.blt(1,41,1,0,184,48,8,pyxel.COLOR_BLACK)
+            elif self.y1==True:
+                pyxel.blt(1,57,1,0,184,48,8,pyxel.COLOR_BLACK)
+            elif self.y2==True:
+                pyxel.blt(1,73,1,0,184,48,8,pyxel.COLOR_BLACK)
+                
         
     def retirebotanfunc(self):
         pyxel.blt(0, 0, 2, 0, 60, 38, 9, pyxel.COLOR_BLACK)
@@ -706,7 +717,7 @@ class App:
         pyxel.blt(83,28,2,161,0,8,8,pyxel.COLOR_BLACK)#=
         pyxel.blt(90,28,2,161,0,8,8,pyxel.COLOR_BLACK)#=
         pyxel.blt(97,28,2,161,0,8,8,pyxel.COLOR_BLACK)#=
-        pyxel.blt(104,28,2,184,8,16,8,pyxel.COLOR_BLACK)#HPを表示
+        self.font.draw(76,20,f"{self.hp-self.damage:.0f}/{self.hp}",8,7)
         if self.damage==0:
             pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
             pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
@@ -732,10 +743,12 @@ class App:
             pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
             
     def myhpfunc(self):
+        pyxel.blt(104,100,2,184,8,16,8,pyxel.COLOR_BLACK)#HPを表示
         pyxel.blt(75,100,2,144,0,8,8,pyxel.COLOR_BLACK)#[
         pyxel.blt(83,100,2,161,0,8,8,pyxel.COLOR_BLACK)#=
         pyxel.blt(90,100,2,161,0,8,8,pyxel.COLOR_BLACK)#=
         pyxel.blt(97,100,2,161,0,8,8,pyxel.COLOR_BLACK)#=
+        self.font.draw(76,92,f"{self.myhp-self.mydamage:.0f}/{self.myhp}",8,7)
         if self.mydamage==0:
             pyxel.blt(76,100,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
             pyxel.blt(84,100,2,176,0,8,8,pyxel.COLOR_BLACK)
@@ -831,22 +844,43 @@ class App:
             pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
             
     def nomalscreenfunc(self):
-        pyxel.cls(0)
-        pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
-        pyxel.blt(1, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-        pyxel.blt(17, 41, 2, 0, 36, 3, 16, pyxel.COLOR_BLACK)  #!を表示
-        pyxel.blt(1, 72, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-        pyxel.blt(30, 40, 2, 112, 40, 4, 8, pyxel.COLOR_BLACK)  # dを表示
-        pyxel.blt(24, 41, 2, 96, 32, 16, 16, pyxel.COLOR_BLACK)  # /dxを表示
-        # ↑微分に変える
-        pyxel.blt(20, 72, 2, 16, 16, 8, 16, pyxel.COLOR_BLACK)  # ∫
-        pyxel.blt(26, 71, 2, 0, 16, 16, 16, pyxel.COLOR_BLACK)  # d
-        pyxel.blt(31, 73, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-        self.font.draw(0, 0, "リタイア", 8, 7)
-        self.font.draw(0, 10, "アイテム", 8, 7)
-        self.font.draw(0, 18, "特殊能力", 8, 7)
-        self.font.draw(0, 28, "こうげき", 8, 7)
-        self.font.draw(73, 5, "あいて", 8, 7)
+        if self.itembotan==True:
+            pyxel.cls(0)
+            pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
+            self.font.draw(1,41,f"HP+100 {self.item1}/5",8,7)
+            self.font.draw(1,57,f"HP+200 {self.item2}/2",8,7)
+            self.font.draw(1,73,f"HP+500 {self.item3}/1",8,7)
+            # pyxel.blt(1, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+            # pyxel.blt(17, 41, 2, 0, 36, 3, 16, pyxel.COLOR_BLACK)  #!を表示
+            # pyxel.blt(1, 72, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+            # pyxel.blt(30, 40, 2, 112, 40, 4, 8, pyxel.COLOR_BLACK)  # dを表示
+            # pyxel.blt(24, 41, 2, 96, 32, 16, 16, pyxel.COLOR_BLACK)  # /dxを表示
+            # # ↑微分に変える
+            # pyxel.blt(20, 72, 2, 16, 16, 8, 16, pyxel.COLOR_BLACK)  # ∫
+            # pyxel.blt(26, 71, 2, 0, 16, 16, 16, pyxel.COLOR_BLACK)  # d
+            # pyxel.blt(31, 73, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+            self.font.draw(0, 0, "リタイア", 8, 7)
+            self.font.draw(0, 10, "アイテム", 8, 7)
+            self.font.draw(0, 18, "特殊能力", 8, 7)
+            self.font.draw(0, 28, "こうげき", 8, 7)
+            self.font.draw(73, 5, "あいて", 8, 7)
+        else:
+            pyxel.cls(0)
+            pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
+            pyxel.blt(1, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+            pyxel.blt(17, 41, 2, 0, 36, 3, 16, pyxel.COLOR_BLACK)  #!を表示
+            pyxel.blt(1, 72, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+            pyxel.blt(30, 40, 2, 112, 40, 4, 8, pyxel.COLOR_BLACK)  # dを表示
+            pyxel.blt(24, 41, 2, 96, 32, 16, 16, pyxel.COLOR_BLACK)  # /dxを表示
+            # ↑微分に変える
+            pyxel.blt(20, 72, 2, 16, 16, 8, 16, pyxel.COLOR_BLACK)  # ∫
+            pyxel.blt(26, 71, 2, 0, 16, 16, 16, pyxel.COLOR_BLACK)  # d
+            pyxel.blt(31, 73, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+            self.font.draw(0, 0, "リタイア", 8, 7)
+            self.font.draw(0, 10, "アイテム", 8, 7)
+            self.font.draw(0, 18, "特殊能力", 8, 7)
+            self.font.draw(0, 28, "こうげき", 8, 7)
+            self.font.draw(73, 5, "あいて", 8, 7)
         
     def stage1screenfunc(self):
         pyxel.blt(75, 40, 2, 32, 0, 16, 16, pyxel.COLOR_BLACK)  # e
