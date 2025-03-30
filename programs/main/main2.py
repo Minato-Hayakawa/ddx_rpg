@@ -2692,26 +2692,26 @@ class App:
                         pyxel.blt(83,100,2,161,0,8,8,pyxel.COLOR_BLACK)#=
                         pyxel.blt(90,100,2,161,0,8,8,pyxel.COLOR_BLACK)#=
                         pyxel.blt(97,100,2,161,0,8,8,pyxel.COLOR_BLACK)#=
-                        if self.ddx_count==1:
-                            pyxel.blt(59, 40, 2, 40, 56, 16, 16, pyxel.COLOR_BLACK)#2
-                        elif self.ddx_count==2:
-                            pyxel.blt(59, 40, 2, 56, 56, 16, 16, pyxel.COLOR_BLACK)#4
-                        elif self.ddx_count==3:
-                            pyxel.blt(59, 40, 2, 40, 72, 16, 16, pyxel.COLOR_BLACK)#8
-                        elif self.ddx_count==4:
-                            pyxel.blt(59, 40, 2, 56, 72, 16, 16, pyxel.COLOR_BLACK)#16
-                        elif self.ddx_count==-1:
-                            pyxel.blt(62, 48, 0, 0, 16, 5, 8, pyxel.COLOR_BLACK)#2
-                            pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                        elif self.ddx_count==-2:
-                            pyxel.blt(62, 48, 0, 5, 16, 5, 8, pyxel.COLOR_BLACK)#4
-                            pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                        elif self.ddx_count==-3:
-                            pyxel.blt(62, 48, 0, 10, 16, 5, 8, pyxel.COLOR_BLACK)#8
-                            pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                        elif self.ddx_count==-4:
-                            pyxel.blt(62, 48, 0, 0, 24, 8, 8, pyxel.COLOR_BLACK)#16
-                            pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                        # if self.ddx_count==1:
+                        #     pyxel.blt(59, 40, 2, 40, 56, 16, 16, pyxel.COLOR_BLACK)#2
+                        # elif self.ddx_count==2:
+                        #     pyxel.blt(59, 40, 2, 56, 56, 16, 16, pyxel.COLOR_BLACK)#4
+                        # elif self.ddx_count==3:
+                        #     pyxel.blt(59, 40, 2, 40, 72, 16, 16, pyxel.COLOR_BLACK)#8
+                        # elif self.ddx_count==4:
+                        #     pyxel.blt(59, 40, 2, 56, 72, 16, 16, pyxel.COLOR_BLACK)#16
+                        # elif self.ddx_count==-1:
+                        #     pyxel.blt(62, 48, 0, 0, 16, 5, 8, pyxel.COLOR_BLACK)#2
+                        #     pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                        # elif self.ddx_count==-2:
+                        #     pyxel.blt(62, 48, 0, 5, 16, 5, 8, pyxel.COLOR_BLACK)#4
+                        #     pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                        # elif self.ddx_count==-3:
+                        #     pyxel.blt(62, 48, 0, 10, 16, 5, 8, pyxel.COLOR_BLACK)#8
+                        #     pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                        # elif self.ddx_count==-4:
+                        #     pyxel.blt(62, 48, 0, 0, 24, 8, 8, pyxel.COLOR_BLACK)#16
+                        #     pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
                         if self.mydamage==0:
                             pyxel.blt(76,100,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
                             pyxel.blt(84,100,2,176,0,8,8,pyxel.COLOR_BLACK)
@@ -4677,8 +4677,8 @@ class App:
                 pyxel.blt(97,28,2,161,0,8,8,pyxel.COLOR_BLACK)#=
                 pyxel.blt(104,28,2,184,8,16,8,pyxel.COLOR_BLACK)#HPを表示
                 if self.ddx_count==1:
-                    pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                    pyxel.blt(59, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                    pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                    pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
                 elif self.ddx_count==0:
                     pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
                     pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
@@ -4686,23 +4686,23 @@ class App:
                     pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
                     
                 elif self.ddx_count==2:
-                    pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                    pyxel.blt(59, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-                    pyxel.blt(73, 45, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)#2
-                    pyxel.blt(52, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
-                    pyxel.blt(49, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
-                    pyxel.blt(77, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                    pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                    pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                    pyxel.blt(89, 45, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)#2
+                    pyxel.blt(68, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
+                    pyxel.blt(65, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                    pyxel.blt(93, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
                 elif self.ddx_count==3:
-                    pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                    pyxel.blt(59, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-                    pyxel.blt(73, 45, 0, 5, 75, 3, 5, pyxel.COLOR_BLACK)#3
+                    pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                    pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                    pyxel.blt(89, 45, 0, 5, 75, 3, 5, pyxel.COLOR_BLACK)#3
                 elif self.ddx_count==4:
-                    pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                    pyxel.blt(59, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-                    pyxel.blt(73, 45, 0, 6, 19, 4, 5, pyxel.COLOR_BLACK)#4
-                    pyxel.blt(52, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
-                    pyxel.blt(49, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
-                    pyxel.blt(77, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                    pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                    pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                    pyxel.blt(89, 45, 0, 6, 19, 4, 5, pyxel.COLOR_BLACK)#4
+                    pyxel.blt(68, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
+                    pyxel.blt(65, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                    pyxel.blt(93, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
                 elif self.ddx_count==-1:
                     pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
                     pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
@@ -4792,8 +4792,8 @@ class App:
                         pyxel.blt(90,100,2,161,0,8,8,pyxel.COLOR_BLACK)#=
                         pyxel.blt(97,100,2,161,0,8,8,pyxel.COLOR_BLACK)#=
                         if self.ddx_count==1:
-                            pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                            pyxel.blt(59, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                            pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                            pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
                         elif self.ddx_count==0:
                             pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
                             pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
@@ -4801,23 +4801,25 @@ class App:
                             pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
                             
                         elif self.ddx_count==2:
-                            pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                            pyxel.blt(59, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-                            pyxel.blt(75, 45, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)#2
-                            pyxel.blt(52, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
-                            pyxel.blt(49, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
-                            pyxel.blt(77, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                            pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                            pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                            pyxel.blt(89, 45, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)#2
+                            pyxel.blt(68, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
+                            pyxel.blt(65, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                            pyxel.blt(93, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+
                         elif self.ddx_count==3:
-                            pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                            pyxel.blt(59, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-                            pyxel.blt(75, 45, 0, 5, 75, 3, 5, pyxel.COLOR_BLACK)#3
+                            pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                            pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                            pyxel.blt(89, 45, 0, 5, 75, 3, 5, pyxel.COLOR_BLACK)#3
                         elif self.ddx_count==4:
-                            pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                            pyxel.blt(59, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-                            pyxel.blt(75, 45, 0, 6, 19, 4, 5, pyxel.COLOR_BLACK)#4
-                            pyxel.blt(52, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
-                            pyxel.blt(49, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
-                            pyxel.blt(77, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                            pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                            pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                            pyxel.blt(89, 45, 0, 6, 19, 4, 5, pyxel.COLOR_BLACK)#4
+                            pyxel.blt(68, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
+                            pyxel.blt(65, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                            pyxel.blt(93, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+
                         elif self.ddx_count==-1:
                             pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
                             pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
@@ -4932,8 +4934,8 @@ class App:
                         pyxel.blt(90,100,2,161,0,8,8,pyxel.COLOR_BLACK)#=
                         pyxel.blt(97,100,2,161,0,8,8,pyxel.COLOR_BLACK)#=
                         if self.ddx_count==1:
-                            pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                            pyxel.blt(59, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                            pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                            pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
                         elif self.ddx_count==0:
                             pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
                             pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
@@ -4941,23 +4943,25 @@ class App:
                             pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
                             
                         elif self.ddx_count==2:
-                            pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                            pyxel.blt(59, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-                            pyxel.blt(75, 45, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)#2
-                            pyxel.blt(52, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
-                            pyxel.blt(49, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
-                            pyxel.blt(77, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                            pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                            pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                            pyxel.blt(89, 45, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)#2
+                            pyxel.blt(68, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
+                            pyxel.blt(65, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                            pyxel.blt(93, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+
                         elif self.ddx_count==3:
-                            pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                            pyxel.blt(59, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-                            pyxel.blt(75, 45, 0, 5, 75, 3, 5, pyxel.COLOR_BLACK)#3
+                            pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                            pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                            pyxel.blt(89, 45, 0, 5, 75, 3, 5, pyxel.COLOR_BLACK)#3
                         elif self.ddx_count==4:
-                            pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                            pyxel.blt(59, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-                            pyxel.blt(75, 45, 0, 6, 19, 4, 5, pyxel.COLOR_BLACK)#4
-                            pyxel.blt(52, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
-                            pyxel.blt(49, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
-                            pyxel.blt(77, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                            pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                            pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                            pyxel.blt(89, 45, 0, 6, 19, 4, 5, pyxel.COLOR_BLACK)#4
+                            pyxel.blt(68, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
+                            pyxel.blt(65, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                            pyxel.blt(93, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+
                         elif self.ddx_count==-1:
                             pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
                             pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
@@ -5054,8 +5058,8 @@ class App:
                         pyxel.blt(20, 72, 2, 16, 16, 8, 16, pyxel.COLOR_BLACK)  # ∫
                         pyxel.blt(26, 71, 2, 0, 16, 16, 16, pyxel.COLOR_BLACK)  # d
                         pyxel.blt(31, 73, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-                        pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                        pyxel.blt(59, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                        pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                        pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
 
                         self.font.draw(0, 0, "リタイア", 8, 7)
                         self.font.draw(0, 10, "アイテム", 8, 7)
@@ -5149,12 +5153,12 @@ class App:
                         pyxel.blt(20, 72, 2, 16, 16, 8, 16, pyxel.COLOR_BLACK)  # ∫
                         pyxel.blt(26, 71, 2, 0, 16, 16, 16, pyxel.COLOR_BLACK)  # d
                         pyxel.blt(31, 73, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-                        pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                        pyxel.blt(59, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-                        pyxel.blt(73, 45, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)#2
-                        pyxel.blt(52, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
-                        pyxel.blt(49, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
-                        pyxel.blt(77, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                        pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                        pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                        pyxel.blt(89, 45, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)#2
+                        pyxel.blt(68, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
+                        pyxel.blt(65, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                        pyxel.blt(93, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
 
 
                         self.font.draw(0, 0, "リタイア", 8, 7)
@@ -5249,9 +5253,9 @@ class App:
                         pyxel.blt(20, 72, 2, 16, 16, 8, 16, pyxel.COLOR_BLACK)  # ∫
                         pyxel.blt(26, 71, 2, 0, 16, 16, 16, pyxel.COLOR_BLACK)  # d
                         pyxel.blt(31, 73, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-                        pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                        pyxel.blt(59, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-                        pyxel.blt(73, 45, 0, 5, 75, 3, 5, pyxel.COLOR_BLACK)#3
+                        pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                        pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                        pyxel.blt(89, 45, 0, 5, 75, 3, 5, pyxel.COLOR_BLACK)#3
 
                         self.font.draw(0, 0, "リタイア", 8, 7)
                         self.font.draw(0, 10, "アイテム", 8, 7)
@@ -5345,12 +5349,12 @@ class App:
                         pyxel.blt(20, 72, 2, 16, 16, 8, 16, pyxel.COLOR_BLACK)  # ∫
                         pyxel.blt(26, 71, 2, 0, 16, 16, 16, pyxel.COLOR_BLACK)  # d
                         pyxel.blt(31, 73, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-                        pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                        pyxel.blt(59, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-                        pyxel.blt(73, 45, 0, 6, 19, 4, 5, pyxel.COLOR_BLACK)#4
-                        pyxel.blt(52, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
-                        pyxel.blt(49, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
-                        pyxel.blt(77, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                        pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                        pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                        pyxel.blt(89, 45, 0, 6, 19, 4, 5, pyxel.COLOR_BLACK)#4
+                        pyxel.blt(68, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
+                        pyxel.blt(65, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                        pyxel.blt(93, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
 
                         self.font.draw(0, 0, "リタイア", 8, 7)
                         self.font.draw(0, 10, "アイテム", 8, 7)
@@ -6393,8 +6397,8 @@ class App:
                         pyxel.blt(20, 72, 2, 16, 16, 8, 16, pyxel.COLOR_BLACK)  # ∫
                         pyxel.blt(26, 71, 2, 0, 16, 16, 16, pyxel.COLOR_BLACK)  # d
                         pyxel.blt(31, 73, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-                        pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                        pyxel.blt(59, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                        pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                        pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
 
                         self.font.draw(0, 0, "リタイア", 8, 7)
                         self.font.draw(0, 10, "アイテム", 8, 7)
@@ -6483,12 +6487,12 @@ class App:
                         pyxel.blt(20, 72, 2, 16, 16, 8, 16, pyxel.COLOR_BLACK)  # ∫
                         pyxel.blt(26, 71, 2, 0, 16, 16, 16, pyxel.COLOR_BLACK)  # d
                         pyxel.blt(31, 73, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-                        pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                        pyxel.blt(59, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-                        pyxel.blt(73, 45, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)#2
-                        pyxel.blt(52, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
-                        pyxel.blt(49, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
-                        pyxel.blt(77, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                        pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                        pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                        pyxel.blt(89, 45, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)#2
+                        pyxel.blt(68, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
+                        pyxel.blt(65, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                        pyxel.blt(93, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
 
                         self.font.draw(0, 0, "リタイア", 8, 7)
                         self.font.draw(0, 10, "アイテム", 8, 7)
@@ -6577,9 +6581,9 @@ class App:
                         pyxel.blt(20, 72, 2, 16, 16, 8, 16, pyxel.COLOR_BLACK)  # ∫
                         pyxel.blt(26, 71, 2, 0, 16, 16, 16, pyxel.COLOR_BLACK)  # d
                         pyxel.blt(31, 73, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-                        pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                        pyxel.blt(59, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-                        pyxel.blt(73, 45, 0, 5, 75, 3, 5, pyxel.COLOR_BLACK)#3
+                        pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                        pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                        pyxel.blt(89, 45, 0, 5, 75, 3, 5, pyxel.COLOR_BLACK)#3
 
                         self.font.draw(0, 0, "リタイア", 8, 7)
                         self.font.draw(0, 10, "アイテム", 8, 7)
@@ -6668,12 +6672,12 @@ class App:
                         pyxel.blt(20, 72, 2, 16, 16, 8, 16, pyxel.COLOR_BLACK)  # ∫
                         pyxel.blt(26, 71, 2, 0, 16, 16, 16, pyxel.COLOR_BLACK)  # d
                         pyxel.blt(31, 73, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-                        pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-                        pyxel.blt(59, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-                        pyxel.blt(73, 45, 0, 6, 19, 4, 5, pyxel.COLOR_BLACK)#4
-                        pyxel.blt(52, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
-                        pyxel.blt(49, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
-                        pyxel.blt(77, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                        pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                        pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                        pyxel.blt(89, 45, 0, 6, 19, 4, 5, pyxel.COLOR_BLACK)#4
+                        pyxel.blt(68, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
+                        pyxel.blt(65, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                        pyxel.blt(93, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
 
                         self.font.draw(0, 0, "リタイア", 8, 7)
                         self.font.draw(0, 10, "アイテム", 8, 7)
@@ -6872,6 +6876,7 @@ class App:
         self.func2attack=False
         self.ddx=False
         self.integral_dx=False
+        self.ddx_count=0
        
         if self.timer>=120:
             self.stagescreen=True
