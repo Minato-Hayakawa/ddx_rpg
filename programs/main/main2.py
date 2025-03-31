@@ -280,13 +280,13 @@ class App:
                         self.x1 = False
 
         elif self.attackbotan == True:
-            if pyxel.btnp(pyxel.KEY_UP) and self.x0==False and self.y0==False and self.x1==False and self.y1==False:
+            if pyxel.btnp(pyxel.KEY_UP) and self.botanstart==False:
                 self.attackbotan = False
                 self.sabilitybotan = True
-            elif (pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN)):
+            elif (pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN)) and self.botanstart==False:
                 self.x0 = True
                 self.y0 = True
-                # self.botanstart=True
+                self.botanstart=True
 
             elif self.x0 == True and self.y0 == True:
                 if pyxel.btnp(pyxel.KEY_RIGHT):
@@ -297,7 +297,7 @@ class App:
                     self.y1 = True
                 elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.func1attack=True
-                    #self.botanstart=False
+                    self.botanstart=False
                     self.attackmode=True
 
             elif self.x1 == True and self.y0 == True:
@@ -309,6 +309,7 @@ class App:
                     self.y1 = True
                 elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.ddx = True
+                    self.botanstart=False
                     if self.ddx_count!=4 and self.phase==Phase.NORMAL_STAGE_1:
                         self.ddx_count+=1
                     elif self.ddx_count!=2 and self.phase==Phase.NORMAL_STAGE_3:
@@ -327,6 +328,7 @@ class App:
                     self.y2 = True
                 elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.func2attack=True
+                    self.botanstart=False
                     self.attackmode=True
 
             elif self.x1 == True and self.y1 == True:
@@ -342,6 +344,7 @@ class App:
                     self.y2 = True
                 elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.integral_dx = True
+                    self.botanstart=False
                     if self.ddx_count!=-4 and self.phase==Phase.NORMAL_STAGE_1:
                         self.ddx_count-=1
                     elif self.ddx_count!=-2 and self.phase==Phase.NORMAL_STAGE_3:
