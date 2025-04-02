@@ -511,7 +511,7 @@ class App:
                    self.attackbotanfunc()
                 if self.eattack==True:
                     pyxel.blt(33,120,1,22,146,80,16)
-                    self.font.draw(33, 120, "ln(x)が攻撃!", 8, 7)
+                    self.font.draw(33, 120, "1/x^2が攻撃!", 8, 7)
                     self.wait2()
                     
         elif self.phase==Phase.NORMAL_STAGE_4 and self.gamestgart == True:
@@ -594,7 +594,7 @@ class App:
                 print(self.hp)
                 print(self.damage)
             elif self.phase==Phase.NORMAL_STAGE_3:
-                self.mydamage=abs(self.func3.subs(x,random.randint(0.1,3))) 
+                self.mydamage=abs(self.func3.subs(x,random.uniform(0.1,3))) 
                 print(self.ddx_count)
         self.attackmode=False
             
@@ -820,7 +820,7 @@ class App:
             pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
             pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
         elif self.ddx_count==-2:
-            pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
+            pyxel.blt(75,40,2,147,16,18,14,pyxel.COLOR_BLACK) #ln
             pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
             pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
             pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
