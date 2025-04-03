@@ -926,8 +926,13 @@ class App:
         self.font.draw(33, 120, "1/x^2が現れた！", 8, 7)
         
     def stage4screenfunc(self):
-        pyxel.blt(75,40,0,0,108,116,12) #ln( x)
-        pyxel.blt(85,47,0,10,122,12,5) #cot
+        # pyxel.blt(75,40,0,0,108,116,12) #ln( x)
+        # pyxel.blt(85,47,0,10,122,12,5) #cot
+        pyxel.blt(59,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
+        pyxel.blt(79,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
+        pyxel.blt(116,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
+        pyxel.blt(127,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
+        pyxel.blt(84,38,2,120,32,31,16,pyxel.COLOR_BLACK) #cot
         self.font.draw(33,120,"ln(cot(x))が現れた!",8,7)
         
     def wait(self):
