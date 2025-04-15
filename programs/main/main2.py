@@ -71,7 +71,6 @@ class App:
         self.eattack=False
         self.ddx = False
         self.ddx_count=0
-        # self.ddy=False
         self.integral_dx = False
         self.C = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]  # 10は無限大扱い
         self.lim_x0 = False
@@ -515,16 +514,18 @@ class App:
         if self.item1!=0 and self.item1flag==True:  # 自分のHPを100回復
             self.item1 -= 1
             self.myhp += 100
+            self.item1flag=False
+            self.y0=False
         elif self.item2!=0 and self.item2flag==True:  # 自分のHPを200回復
             self.item2 -= 1
             self.myhp += 200
+            self.item2flag=False
+            self.y1=False
         elif self.item3!=0 and self.item3flag==True:  #自分のHPを500回復
             self.item3-=1
-            self.myhp=500
-            
-        self.item1flag=False
-        self.item2flag=False
-        self.item3flag=False
+            self.myhp+=500
+            self.item3flag=False
+            self.y2=False
 
     def battlemode(self):
         if self.hp >= 0 and self.myhp >= 0:
@@ -608,6 +609,7 @@ class App:
         self.sabilitybotan=False
         self.itembotan=False
         self.retirebotan=True
+        self.eattack=False
        
         if self.timer>=120:
             self.stagescreen=True
