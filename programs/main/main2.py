@@ -74,9 +74,7 @@ class App:
         # self.ddy=False
         self.integral_dx = False
         self.C = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]  # 10は無限大扱い
-        # self.integral_dy=False
         self.lim_x0 = False
-        # self.lim_y0=False
 
         self.timer = 0
         self.timer2 = 0
@@ -165,7 +163,6 @@ class App:
                 self.itembotan = False
                 self.sabilitybotan = True
             elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN)  and self.botanstart==False:
-                # self.x0 = True
                 self.y0 = True
                 self.botanstart=True
             elif self.y0 == True:
@@ -174,9 +171,6 @@ class App:
                     self.botanstart=False
                     self.x0=False
                     self.y0=False
-                # elif pyxel.btnp(pyxel.KEY_RIGHT):
-                #     self.x0 = False
-                #     self.x1 = True
                 elif pyxel.btnp(pyxel.KEY_DOWN):
                     self.y0 = False
                     self.y1 = True
@@ -190,9 +184,6 @@ class App:
                 elif pyxel.btnp(pyxel.KEY_UP):
                     self.y1=False
                     self.y0=True
-                # elif pyxel.btnp(pyxel.KEY_LEFT):
-                #     self.x0 = True
-                #     self.x1 = False
             elif self.y2 == True:
                 if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.item3flag=True
@@ -200,18 +191,6 @@ class App:
                 elif pyxel.btnp(pyxel.KEY_UP):
                     self.y1 = True
                     self.y2 = False
-                # elif pyxel.btnp(pyxel.KEY_LEFT):
-                #     self.x0 = True
-                #     self.x1 = False
-                # elif self.x1 == True and self.y1 == True:
-                #     if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
-                #         self.item4 -= 1
-                #     elif pyxel.btnp(pyxel.KEY_UP):
-                #         self.y0 = True
-                #         self.y1 = False
-                #     elif pyxel.btnp(pyxel.KEY_RIGHT):
-                #         self.x0 = False
-                #         self.x1 = True
 
         elif self.sabilitybotan == True:
             if pyxel.btnp(pyxel.KEY_UP):
@@ -588,7 +567,6 @@ class App:
                     self.mydamage+=abs(self.func2.subs(x,math.radians(self.rulet[self.num%16])))
                     self.num+=1
                 else:
-                    print("aa")
                     self.mydamage=self.myhp
                 
                 print(self.hp)
@@ -606,21 +584,6 @@ class App:
             self.stagecount+=1
         elif self.myhp<=self.mydamage:
             self.phase=Phase.GAME_OVER
-    # def nomalstage_2(self):
-    #     self.gamestgart=True
-    #     if self.hp<=self.damage:
-    #         self.phase=Phase.GAME_CLEAR  
-    #         self.stagecount+=1
-    #     elif self.myhp<=self.mydamage:
-    #         self.phase=Phase.GAME_OVER
-                    
-    # def nomalstage_3(self):
-    #     self.gamestgart=True
-    #     if self.hp<=self.damage:
-    #         self.phase=Phase.GAME_CLEAR
-    #         self.stagecount+=1
-    #     elif self.myhp<=self.mydamage:
-    #         self.phase=Phase.GAME_OVER
 
     def end(self):
         pyxel.quit()
@@ -871,15 +834,6 @@ class App:
             self.font.draw(1,41,f"HP+100 {self.item1}/5",8,7)
             self.font.draw(1,57,f"HP+200 {self.item2}/2",8,7)
             self.font.draw(1,73,f"HP+500 {self.item3}/1",8,7)
-            # pyxel.blt(1, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-            # pyxel.blt(17, 41, 2, 0, 36, 3, 16, pyxel.COLOR_BLACK)  #!を表示
-            # pyxel.blt(1, 72, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
-            # pyxel.blt(30, 40, 2, 112, 40, 4, 8, pyxel.COLOR_BLACK)  # dを表示
-            # pyxel.blt(24, 41, 2, 96, 32, 16, 16, pyxel.COLOR_BLACK)  # /dxを表示
-            # # ↑微分に変える
-            # pyxel.blt(20, 72, 2, 16, 16, 8, 16, pyxel.COLOR_BLACK)  # ∫
-            # pyxel.blt(26, 71, 2, 0, 16, 16, 16, pyxel.COLOR_BLACK)  # d
-            # pyxel.blt(31, 73, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
             self.font.draw(0, 0, "リタイア", 8, 7)
             self.font.draw(0, 10, "アイテム", 8, 7)
             self.font.draw(0, 18, "特殊能力", 8, 7)
@@ -917,17 +871,9 @@ class App:
         
     def stage3screenfunc(self):
         self.stage3ddx_count()
-        # pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-        # pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-        # pyxel.blt(89, 45, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)#2
-        # pyxel.blt(68, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
-        # pyxel.blt(65, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
-        # pyxel.blt(93, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
         self.font.draw(33, 120, "1/x^2が現れた！", 8, 7)
         
     def stage4screenfunc(self):
-        # pyxel.blt(75,40,0,0,108,116,12) #ln( x)
-        # pyxel.blt(85,47,0,10,122,12,5) #cot
         pyxel.blt(59,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
         pyxel.blt(79,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
         pyxel.blt(116,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
