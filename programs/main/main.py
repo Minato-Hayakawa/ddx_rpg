@@ -79,15 +79,33 @@ class KIGOUViwer:
 
     def show_XJOU(self,x,y):
         pyxel.blt(x, y, 2, 31, 44, 5, 5, pyxel.COLOR_BLACK)  # ^xを表示
-    
+
     def show_2JOU(self,x,y):
         pyxel.blt(x, y, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
 
     def show_e(self,x,y):
         pyxel.blt(x, y, 2, 32, 0, 16, 16, pyxel.COLOR_BLACK)  # e
-    
+
     def show_Integral(self,x,y):
         pyxel.blt(x, y, 2, 16, 16, 8, 16, pyxel.COLOR_BLACK)  # ∫
+
+class StartScreen:
+    def show(self):
+        pyxel.blt(
+                10, 15, 0, 96, 0, 140, 80, pyxel.COLOR_BLACK
+            )  # スタート画面を表示
+
+    def showSelector(self, upOrDown):
+        if upOrDown:
+            pyxel.blt(42, 111, 1, 16, 0, 65, 16, pyxel.COLOR_BLACK)
+        else:
+            pyxel.blt(42, 79, 1, 16, 0, 65, 16, pyxel.COLOR_BLACK)
+
+class StageSelection:
+    def show(self):
+        pyxel.blt(
+            35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK
+        )  # ステージ集を表示
 
 class App:
     def __init__(self):
@@ -145,6 +163,10 @@ class App:
         self.attackMenu = AttackMenu.左上 # 攻撃メニューの初期値
         self.phase = Phase.START
 
+        #　オブジェクトのインスタンスを作成
+        self.startScreem = StartScreen()
+        self.stageSelection = StageSelection()
+
         self.kigouViwer = KIGOUViwer()  # KIGOUViwerのインスタンスを作成
 
         pyxel.init(150, 150, title="The Integral War")
@@ -181,7 +203,7 @@ class App:
         elif self.phase == Phase.END:
             self.end()
 
-    def setAttackMenuStats(self, name: AttackMenu):        
+    def setAttackMenuStats(self, name: AttackMenu):
         self.attackMenu = name
         if(name == AttackMenu.左上):
             self.changeXpos(0)
@@ -492,41 +514,26 @@ class App:
 
     def draw(self):
         if self.phase == Phase.START:
-            pyxel.blt(
-                10, 15, 0, 96, 0, 140, 80, pyxel.COLOR_BLACK
-            )  # スタート画面を表示
-            pyxel.blt(42, 79, 1, 16, 0, 65, 16, pyxel.COLOR_BLACK)
+            self.startScreem.show()  # スタート画面を表示
+            pyxel.blt(42, 79, 1, 16, 0, 65, 16, pyxel.COLOR_BLACK)#Imageバンク1の赤い枠を表示
             self.font.draw(22, 43, "∫積分伝説〜勇者とdxの旅〜", 8, 13)
             self.font.draw(46, 83, "Enterでスタート", 8, 13)
-        elif self.phase == Phase.MENU:
+        elif self.phase == Phase.MENU:#MENUとSTARTの違いがわからなかったですが、STARTでEnterを押すとMENUに遷移し難易度選択が表示されます
             pyxel.cls(0)
-            pyxel.blt(
-                10, 15, 0, 96, 0, 140, 120, pyxel.COLOR_BLACK
-            )  # スタート画面を表示
+            self.startScreem.show() # スタート画面を表示
             self.font.draw(22, 43, "∫積分伝説〜勇者とdxの旅〜", 8, 13)
             self.font.draw(58, 83, "ノーマル", 8, 13)
             self.font.draw(59, 115, "イージー", 8, 13)
-            if self.updown == False:
-                pyxel.blt(42, 79, 1, 16, 0, 65, 16, pyxel.COLOR_BLACK)
-            elif self.updown == True:
-                pyxel.blt(42, 111, 1, 16, 0, 65, 16, pyxel.COLOR_BLACK)
+            self.startScreem.showSelector(self.updown)  # セレクターを表示
         elif self.phase == Phase.NORMAL_MODE:
             if self.stagescreen == True:
                 pyxel.cls(0)
                 for i in range(3):
-                    pyxel.blt(
-                        35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK
-                    )  # ステージを表示(矢印なし)
+                    self.stageSelection.show()  # ステージ集を表示
+
                     if 45 >= self.timer >= 30:  # 1秒後
-                        pyxel.blt(
-                            35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK
-                        )  # ステージを表示(矢印なし)
                         pyxel.blt(35, 85, 1, 0, 14, 16, 16, pyxel.COLOR_BLACK)  # 矢印
                     elif self.timer >= 45:  # 1秒後
-                        pyxel.cls(0)
-                        pyxel.blt(
-                            35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK
-                        )  # ステージを表示(矢印なし)
                         self.timer = 0
             else:
                 self.font.draw(100, 140, "Push return", 8, 7)
@@ -587,7 +594,7 @@ class App:
             self.kigouViwer.showHPFrame(90, 28)
             self.kigouViwer.showHPFrame(97, 28)
             self.kigouViwer.showHPCharacter(104, 28)#HPを表示
-            
+
             self.showKEISUU()
 
             if self.damage==0:
@@ -950,7 +957,7 @@ class App:
                         self.sabilitybotan=False
                         self.retirebotan=True
                         self.timer=0
-                
+
                 elif self.ddx==True and self.ddx_count==2:
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -1047,7 +1054,7 @@ class App:
                         self.sabilitybotan=False
                         self.retirebotan=True
                         self.timer=0
-                        
+
                 elif self.ddx==True and self.ddx_count==3:
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -1144,7 +1151,7 @@ class App:
                         self.sabilitybotan=False
                         self.retirebotan=True
                         self.timer=0
-                        
+
                 elif self.ddx==True and self.ddx_count==4:
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -1241,7 +1248,7 @@ class App:
                         self.sabilitybotan=False
                         self.retirebotan=True
                         self.timer=0
-                        
+
                 elif self.ddx==True and self.ddx_count==0:
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -1337,7 +1344,7 @@ class App:
                         self.sabilitybotan=False
                         self.retirebotan=True
                         self.timer=0
-                        
+
                 elif self.integral_dx==True and self.ddx_count==0:
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -1433,7 +1440,7 @@ class App:
                         self.sabilitybotan=False
                         self.retirebotan=True
                         self.timer=0
-                        
+
                 elif self.ddx==True and self.ddx_count==-1:
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -1531,7 +1538,7 @@ class App:
                         self.sabilitybotan=False
                         self.retirebotan=True
                         self.timer=0
-                        
+
                 elif self.ddx==True and self.ddx_count==-2:
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -1629,7 +1636,7 @@ class App:
                         self.sabilitybotan=False
                         self.retirebotan=True
                         self.timer=0
-                        
+
                 elif self.ddx==True and self.ddx_count==-3:
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -1917,7 +1924,7 @@ class App:
                         self.sabilitybotan=False
                         self.retirebotan=True
                         self.timer=0
-                        
+
                 elif self.integral_dx==True and self.ddx_count==-2:
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -2010,7 +2017,7 @@ class App:
                         self.sabilitybotan=False
                         self.retirebotan=True
                         self.timer=0
-                        
+
                 elif self.integral_dx==True and self.ddx_count==-3:
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -2103,7 +2110,7 @@ class App:
                         self.sabilitybotan=False
                         self.retirebotan=True
                         self.timer=0
-                        
+
                 elif self.integral_dx==True and self.ddx_count==-4:
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -2196,7 +2203,7 @@ class App:
                         self.sabilitybotan=False
                         self.retirebotan=True
                         self.timer=0
-                        
+
                 elif self.integral_dx==True and self.ddx_count==1:
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -2288,7 +2295,7 @@ class App:
                         self.sabilitybotan=False
                         self.retirebotan=True
                         self.timer=0
-                        
+
                 elif self.integral_dx==True and self.ddx_count==2:
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -2380,7 +2387,7 @@ class App:
                         self.sabilitybotan=False
                         self.retirebotan=True
                         self.timer=0
-                        
+
                 elif self.integral_dx==True and self.ddx_count==3:
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -2472,7 +2479,7 @@ class App:
                         self.sabilitybotan=False
                         self.retirebotan=True
                         self.timer=0
-                        
+
                 elif self.integral_dx==True and self.ddx_count==4:
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -2564,17 +2571,17 @@ class App:
                         self.sabilitybotan=False
                         self.retirebotan=True
                         self.timer=0
-                        
+
         elif self.phase==Phase.GAME_OVER:
             pyxel.cls(0)
             pyxel.blt(50,50,0,0,48,30,8,pyxel.COLOR_BLACK) #gameoverを表示
             pyxel.blt(74,50,0,0,56,24,8,pyxel.COLOR_BLACK)
-            
+
         elif self.phase==Phase.GAME_CLEAR:
             pyxel.cls(0)
             pyxel.blt(50,50,0,0,48,24,8,pyxel.COLOR_BLACK) #gameclearを表示
             pyxel.blt(74,50,0,0,64,64,8,pyxel.COLOR_BLACK)
-            
+
         elif self.phase==Phase.NORMAL_STAGE_2:
             if self.stagescreen==True:
                 pyxel.cls(0)
@@ -2589,7 +2596,7 @@ class App:
                         self.timer = 0
             elif self.stagescreen==False and self.gamestgart==False:
                 self.font.draw(100, 140, "Push return", 8, 7)
-            
+
             elif self.stagescreen==False and self.gamestgart == True:
                 pyxel.cls(0)
                 pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -3030,7 +3037,7 @@ class App:
                             self.sabilitybotan=False
                             self.retirebotan=True
                             self.timer=0
-                    
+
                     elif self.ddx==True and self.ddx_count==2:
                         pyxel.cls(0)
                         pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -3127,7 +3134,7 @@ class App:
                             self.sabilitybotan=False
                             self.retirebotan=True
                             self.timer=0
-                            
+
                     elif self.ddx==True and self.ddx_count==3:
                         pyxel.cls(0)
                         pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -3224,7 +3231,7 @@ class App:
                             self.sabilitybotan=False
                             self.retirebotan=True
                             self.timer=0
-                            
+
                     elif self.ddx==True and self.ddx_count==4:
                         pyxel.cls(0)
                         pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -3321,7 +3328,7 @@ class App:
                             self.sabilitybotan=False
                             self.retirebotan=True
                             self.timer=0
-                            
+
                     elif self.ddx==True and self.ddx_count==0:
                         pyxel.cls(0)
                         pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -3418,7 +3425,7 @@ class App:
                             self.sabilitybotan=False
                             self.retirebotan=True
                             self.timer=0
-                            
+
                     elif self.integral_dx==True and self.ddx_count==0:
                         pyxel.cls(0)
                         pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -3515,7 +3522,7 @@ class App:
                             self.sabilitybotan=False
                             self.retirebotan=True
                             self.timer=0
-                            
+
                     elif self.ddx==True and self.ddx_count==-1:
                         pyxel.cls(0)
                         pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -3612,7 +3619,7 @@ class App:
                             self.sabilitybotan=False
                             self.retirebotan=True
                             self.timer=0
-                            
+
                     elif self.ddx==True and self.ddx_count==-2:
                         pyxel.cls(0)
                         pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -3709,7 +3716,7 @@ class App:
                             self.sabilitybotan=False
                             self.retirebotan=True
                             self.timer=0
-                            
+
                     elif self.ddx==True and self.ddx_count==-3:
                         pyxel.cls(0)
                         pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -3994,7 +4001,7 @@ class App:
                             self.sabilitybotan=False
                             self.retirebotan=True
                             self.timer=0
-                            
+
                     elif self.integral_dx==True and self.ddx_count==-2:
                         pyxel.cls(0)
                         pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -4086,7 +4093,7 @@ class App:
                             self.sabilitybotan=False
                             self.retirebotan=True
                             self.timer=0
-                            
+
                     elif self.integral_dx==True and self.ddx_count==-3:
                         pyxel.cls(0)
                         pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -4178,7 +4185,7 @@ class App:
                             self.sabilitybotan=False
                             self.retirebotan=True
                             self.timer=0
-                            
+
                     elif self.integral_dx==True and self.ddx_count==-4:
                         pyxel.cls(0)
                         pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -4270,7 +4277,7 @@ class App:
                             self.sabilitybotan=False
                             self.retirebotan=True
                             self.timer=0
-                            
+
                     elif self.integral_dx==True and self.ddx_count==1:
                         pyxel.cls(0)
                         pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -4362,7 +4369,7 @@ class App:
                             self.sabilitybotan=False
                             self.retirebotan=True
                             self.timer=0
-                            
+
                     elif self.integral_dx==True and self.ddx_count==2:
                         pyxel.cls(0)
                         pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -4454,7 +4461,7 @@ class App:
                             self.sabilitybotan=False
                             self.retirebotan=True
                             self.timer=0
-                            
+
                     elif self.integral_dx==True and self.ddx_count==3:
                         pyxel.cls(0)
                         pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -4546,7 +4553,7 @@ class App:
                             self.sabilitybotan=False
                             self.retirebotan=True
                             self.timer=0
-                            
+
                     elif self.integral_dx==True and self.ddx_count==4:
                         pyxel.cls(0)
                         pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -4638,7 +4645,7 @@ class App:
                             self.sabilitybotan=False
                             self.retirebotan=True
                             self.timer=0
-                
+
 
 
                 # self.font.draw()#文字を表示
@@ -4688,7 +4695,7 @@ class App:
                     self.hp += self.C[random.randint(0,9)]  # 積分定数Cの値だけhpが増加
                 else:
                     self.hp = 0
-            
+
             elif self.func1attack==True:
 
                 self.damage=self.myfunc1.subs(x,random.randint(1,6))
@@ -4716,7 +4723,7 @@ class App:
         #     self.gamestgart=False
         '''
 
-            
+
     def nomalstage_2(self):
         if self.timer2 >= 145:
             self.stagescreen = False
@@ -4730,7 +4737,7 @@ class App:
 
     def end(self):
         pyxel.quit()
-        
+
     def gameover(self):
         if self.timer>=120:
             self.phase=Phase.END
@@ -4745,7 +4752,7 @@ class App:
             self.phase=Phase.NORMAL_STAGE_2
             self.stagescreen=True
             self.timer=0
-            
-        
+
+
 
 App()
