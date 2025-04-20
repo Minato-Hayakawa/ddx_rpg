@@ -56,6 +56,9 @@ class AttackMenu(Enum):
     右下 = auto(),
 
 class KIGOUViwer:
+    def __init__(self, app):
+        self.app = app
+
     def showHPFrame(self, x, y):
         pyxel.blt(x,y,2,161,0,8,8,pyxel.COLOR_BLACK)#=
 
@@ -89,6 +92,66 @@ class KIGOUViwer:
     def show_Integral(self,x,y):
         pyxel.blt(x, y, 2, 16, 16, 8, 16, pyxel.COLOR_BLACK)  # ∫
 
+    def show_gameOver(self,x,y):
+        pyxel.blt(x,y,0,0,48,30,8,pyxel.COLOR_BLACK) #gameoverを表示
+        pyxel.blt(x + 24,y,0,0,56,25,8,pyxel.COLOR_BLACK)
+
+    def show_gameClear(self,x,y):
+        pyxel.blt(x,y,0,0,48,24,8,pyxel.COLOR_BLACK) #gameclearを表示
+        pyxel.blt(x + 24,y,0,0,64,64,8,pyxel.COLOR_BLACK)
+
+    def myDamage(self, damage):
+        self.mydamage = damage
+        if self.mydamage==0:
+                self.app.showGreen(76,100)
+                self.app.showGreen(84,100)
+                self.app.showGreen(92,100)
+                self.app.showGreen(96,100)
+        elif self.mydamage<=self.app.myhp/5:
+                self.app.showGreen(76,100)
+                self.app.showGreen(84,100)
+                self.app.showGreen(92,100)
+        elif self.app.myhp/5<=self.mydamage<=self.app.myhp*2/5:
+                self.app.showGreen(76,100)
+                self.app.showGreen(84,100)
+                self.app.showGreen(88,100)
+        elif self.app.myhp*2/5<=self.mydamage<=self.app.myhp*3/5:
+                self.app.showGreen(84,100)
+                self.app.showGreen(76,100)
+        elif self.app.myhp*3/5<=self.mydamage<=self.app.myhp*4/5:
+                self.app.showGreen(76,100)
+                self.app.showGreen(80,100)
+        elif self.app.myhp*4/5<=self.mydamage<self.app.myhp:
+                pyxel.blt(75,100,2,144,8,8,8,pyxel.COLOR_BLACK)
+        elif self.app.myhp<=self.mydamage:
+                pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
+
+    def damage(self, damage):
+            self._damage = damage
+            if self._damage==0:
+                self.app.showGreen(76,28)
+                self.app.showGreen(84,28)
+                self.app.showGreen(92,28)
+                self.app.showGreen(96,28)
+            elif self._damage<=self.app.hp/5:
+                self.app.showGreen(76,28)
+                self.app.showGreen(84,28)
+                self.app.showGreen(92,28)
+            elif self.app.hp/5<=self._damage<=self.app.hp*2/5:
+                self.app.showGreen(76,28)
+                self.app.showGreen(84,28)
+                self.app.showGreen(88,28)
+            elif self.app.hp*2/5<=self._damage<=self.app.hp*3/5:
+                self.app.showGreen(76,28)
+                self.app.showGreen(84,28)
+            elif self.app.hp*3/5<=self._damage<=self.app.hp*4/5:
+                self.app.showGreen(76,28)
+                self.app.showGreen(80,28)
+            elif self.app.hp*4/5<=self._damage<self.app.hp:
+                pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
+            elif self.app.hp<=self._damage:
+                pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
+
 class StartScreen:
     def show(self):
         pyxel.blt(
@@ -107,6 +170,10 @@ class StageSelection:
             35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK
         )  # ステージ集を表示
 
+class x_Obj:
+    def show(self,x, y):
+        pyxel.blt(x, y, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
+
 class App:
     def __init__(self):
 
@@ -116,13 +183,15 @@ class App:
         self.sabilitybotan = False
         self.attackbotan = False
         self.stagescreen = False
-        self.gamestgart = False
+        self.gamestgart = False # PhaseがNormalStage1とNormalStage2のときにTrueになるフラグ
         self.botanstart = False
-        self.func1attack = False
+        self.func1attack = False # 調査中
         self.func2attack = False
         self.gameover_flag = False
         self.ddx = False
         self.ddx_count=0
+        self.decided_battleMode = False #attackbotan内で決定ボタンを押したかどうかを判定するフラグです。
+
         # self.ddy=False
         self.integral_dx = False
         self.C = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]  # 10は無限大扱い
@@ -158,7 +227,7 @@ class App:
         self.func2=sym.tan(x)
         self.attackpower1 = self.func1
         self.damage=0
-        self.mydamage=0
+        self.mydamage=0 # 敵が自分にダメージを与える量。battlemodeで設定される
 
         self.attackMenu = AttackMenu.左上 # 攻撃メニューの初期値
         self.phase = Phase.START
@@ -167,7 +236,10 @@ class App:
         self.startScreem = StartScreen()
         self.stageSelection = StageSelection()
 
-        self.kigouViwer = KIGOUViwer()  # KIGOUViwerのインスタンスを作成
+        #記号のオブジェクトのインスタンスを作成
+        self.x_Obj = x_Obj()
+
+        self.kigouViwer = KIGOUViwer(self)  # KIGOUViwerのインスタンスを作成
 
         pyxel.init(150, 150, title="The Integral War")
         pyxel.load("my_resource.pyxres")
@@ -374,7 +446,7 @@ class App:
                     self.setAttackMenuStats(AttackMenu.右上)
                 elif InputHandler.isDown():#下を押すと下に移動します。移動するといってもy1というフラグが立つだけです
                     self.setAttackMenuStats(AttackMenu.左下)
-                elif InputHandler.isDecide():#決定を押すと攻撃が発動します。攻撃が発動するといってもfunc1attackというフラグが立つだけです。botanstartという謎のフラグが立ちます。また、attackmodeという謎のフラグも立ちます
+                elif InputHandler.isDecide():#決定を押すと攻撃が発動します。攻撃が発動するといってもfunc1attackというフラグが立つだけです。botanstartという謎のフラグが立ちます。
                     self.func1attack=True
                     self.botanstart=False
                     self.battlemode()
@@ -384,6 +456,7 @@ class App:
                 elif InputHandler.isDown():
                     self.setAttackMenuStats(AttackMenu.右下)
                 elif InputHandler.isDecide():
+                    print("ddx")
                     self.ddx = True
                     self.ddx_count+=1
                     self.battlemode()
@@ -393,6 +466,7 @@ class App:
                 elif InputHandler.isRight():
                     self.setAttackMenuStats(AttackMenu.右下)
                 elif InputHandler.isDecide():
+                    print("func2attack")
                     self.func2attack=True
                     self.battlemode()
             elif self.attackMenu == AttackMenu.右下:#攻撃メニューの右下にカーソルがあるとき
@@ -436,7 +510,7 @@ class App:
                 self.timer2=0
 
     def nomalstage1(self):
-        self.gamestgart = True
+        self.gamestgart = True # 値が変更されている
         if self.hp<=0:
             self.phase=Phase.GAME_CLEAR
         elif self.myhp<=0:
@@ -537,12 +611,12 @@ class App:
                         self.timer = 0
             else:
                 self.font.draw(100, 140, "Push return", 8, 7)
-        elif self.phase == Phase.NORMAL_STAGE_1 and self.gamestgart == True:
+        elif self.phase == Phase.NORMAL_STAGE_1:# and self.gamestgart == True:
             pyxel.cls(0)
             pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
-            self.kigouViwer.showX(1, 41)  # xを表示
+            self.x_Obj.show(1, 41)  # xを表示
             self.kigouViwer.show_exclamationMark(17, 41)  # !を表示
-            self.kigouViwer.showX(1, 72)  # xを表示
+            self.x_Obj.show(1, 72)  # xを表示
             self.kigouViwer.show_d(30, 40)  # dを表示
             self.kigouViwer.show_dx(24, 41)  # /dxを表示
             # ↑微分に変える
@@ -564,29 +638,8 @@ class App:
             self.kigouViwer.showHPFrame(83, 100)
             self.kigouViwer.showHPFrame(90, 100)
             self.kigouViwer.showHPFrame(97, 100)
-            if self.mydamage==0:
-                self.showGreen(76,100)
-                self.showGreen(84,100)
-                self.showGreen(92,100)
-                self.showGreen(96,100)
-            elif self.mydamage<=self.myhp/5:
-                self.showGreen(76,100)
-                self.showGreen(84,100)
-                self.showGreen(92,100)
-            elif self.myhp/5<=self.mydamage<=self.myhp*2/5:
-                self.showGreen(76,100)
-                self.showGreen(84,100)
-                self.showGreen(88,100)
-            elif self.myhp*2/5<=self.mydamage<=self.myhp*3/5:
-                self.showGreen(84,100)
-                self.showGreen(76,100)
-            elif self.myhp*3/5<=self.mydamage<=self.myhp*4/5:
-                self.showGreen(76,100)
-                self.showGreen(80,100)
-            elif self.myhp*4/5<=self.mydamage<self.myhp:
-                pyxel.blt(75,100,2,144,8,8,8,pyxel.COLOR_BLACK)
-            elif self.myhp<=self.mydamage:
-                pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
+
+            self.kigouViwer.myDamage(self.mydamage)#自分のHPを表示
 
             #敵のHP
             self.kigouViwer.showHPLid(75, 28)
@@ -597,29 +650,7 @@ class App:
 
             self.showKEISUU()
 
-            if self.damage==0:
-                self.showGreen(76,28)
-                self.showGreen(84,28)
-                self.showGreen(92,28)
-                self.showGreen(96,28)
-            elif self.damage<=self.hp/5:
-                self.showGreen(76,28)
-                self.showGreen(84,28)
-                self.showGreen(92,28)
-            elif self.hp/5<=self.damage<=self.hp*2/5:
-                self.showGreen(76,28)
-                self.showGreen(84,28)
-                self.showGreen(88,28)
-            elif self.hp*2/5<=self.damage<=self.hp*3/5:
-                self.showGreen(76,28)
-                self.showGreen(84,28)
-            elif self.hp*3/5<=self.damage<=self.hp*4/5:
-                self.showGreen(76,28)
-                self.showGreen(80,28)
-            elif self.hp*4/5<=self.damage<self.hp:
-                pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
-            elif self.hp<=self.damage:
-                pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
+            self.kigouViwer.damage(self.damage)#敵のHPを表示
 
             if self.retirebotan == True:#カーソルがリタイアにあるときにリタイアの周りを赤く表示する
                 pyxel.blt(0, 0, 2, 0, 60, 38, 9, pyxel.COLOR_BLACK)
@@ -638,7 +669,22 @@ class App:
                         self.showAttackMenuRedCursor(1, 72)
                     elif self.attackMenu == AttackMenu.右下:
                         self.showAttackMenuRedCursor(24, 72)
-                elif self.func1attack==True:
+
+            if self.decided_battleMode:
+                self.timer+=1
+                if self.timer>=60:
+                    self.func1attack=False
+                    self.func2attack=False
+                    self.ddx=False
+                    self.integral_dx=False
+                    self.attackbotan=False
+                    self.itembotan=False
+                    self.sabilitybotan=False
+                    self.retirebotan=True
+                    self.timer=0
+                    self.decided_battleMode = False
+                """elif self.func1attack==True:
+
 
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -750,7 +796,6 @@ class App:
                         self.retirebotan=True
                         self.timer=0
 
-
                 elif self.func2attack==True:
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -861,6 +906,7 @@ class App:
                         self.sabilitybotan=False
                         self.retirebotan=True
                         self.timer=0
+
                 elif self.ddx==True and self.ddx_count==1:
                     pyxel.cls(0)
                     pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -2570,17 +2616,19 @@ class App:
                         self.itembotan=False
                         self.sabilitybotan=False
                         self.retirebotan=True
-                        self.timer=0
+                        self.timer=0"""
 
         elif self.phase==Phase.GAME_OVER:
             pyxel.cls(0)
-            pyxel.blt(50,50,0,0,48,30,8,pyxel.COLOR_BLACK) #gameoverを表示
-            pyxel.blt(74,50,0,0,56,24,8,pyxel.COLOR_BLACK)
+            #pyxel.blt(50,50,0,0,48,30,8,pyxel.COLOR_BLACK) #gameoverを表示
+            #pyxel.blt(74,50,0,0,56,24,8,pyxel.COLOR_BLACK)
+            self.kigouViwer.show_gameOver(50,50)
 
         elif self.phase==Phase.GAME_CLEAR:
             pyxel.cls(0)
-            pyxel.blt(50,50,0,0,48,24,8,pyxel.COLOR_BLACK) #gameclearを表示
-            pyxel.blt(74,50,0,0,64,64,8,pyxel.COLOR_BLACK)
+            #pyxel.blt(50,50,0,0,48,24,8,pyxel.COLOR_BLACK) #gameclearを表示
+            #pyxel.blt(74,50,0,0,64,64,8,pyxel.COLOR_BLACK)
+            self.kigouViwer.show_gameClear(50,50)
 
         elif self.phase==Phase.NORMAL_STAGE_2:
             if self.stagescreen==True:
@@ -4683,6 +4731,7 @@ class App:
 
     def battlemode(self):
         if self.hp >= 0 and self.myhp >= 0:#　お互いに生きているなら
+            self.decided_battleMode = True
             if self.ddx == True:
                 self.func1 = sym.Derivative(self.func1).doit()
                 self.hp = self.hp * 2
@@ -4709,27 +4758,19 @@ class App:
             # 敵の攻撃
 
             if self.phase==Phase.NORMAL_STAGE_1:
-                self.mydamage=self.func1.subs(x,random.randint(1,6))
-                self.myhp -= self.mydamage
+                self.mydamage=self.func1.subs(x,random.randint(1,6)) # おそらくダメージを決定している
+                self.myhp -= self.mydamage # hpをダメージだけ引く
             elif self.phase==Phase.NORMAL_STAGE_2:
-                self.mydamage=abs(self.func2.subs(x,math.radians(self.rulet[self.num%16])))
+                self.mydamage=abs(self.func2.subs(x,math.radians(self.rulet[self.num%16]))) # ↑と同じ
                 self.num+=1
-                self.myhp-=self.mydamage
-        '''
-    # elif self.myhp <= 0:
-        #     self.phase = Phase.GAME_OVER
-        # elif self.hp <= 0 or (self.hp <= 0 and self.myhp <= 0):
-        #     self.phase = Phase.GAMECLEAR
-        #     self.gamestgart=False
-        '''
-
+                self.myhp-=self.mydamage# ↑と同じ
 
     def nomalstage_2(self):
         if self.timer2 >= 145:
             self.stagescreen = False
             if InputHandler.isDecide():
                 self.stagescreen=False
-                self.gamestgart=True
+                self.gamestgart=True # 値が変更されている
                 if self.hp<=0:
                     self.phase=Phase.GAME_CLEAR
                 elif self.myhp<=0:
