@@ -2634,6 +2634,15 @@ class App:
             if self.stagescreen==True:
                 pyxel.cls(0)
                 for i in range(3):
+                    self.stageSelection.show()  # ステージ集を表示
+
+                    if 45 >= self.timer >= 30:  # 1秒後
+                        pyxel.blt(51, 85, 1, 0, 14, 16, 16, pyxel.COLOR_BLACK)  # 矢印
+                    elif self.timer >= 45:  # 1秒後
+                        self.timer = 0
+
+                """pyxel.cls(0)
+                for i in range(3):
                     pyxel.blt(35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK)  # ステージを表示(矢印なし)
                     if 45 >= self.timer >= 30:  # 1秒後
                         pyxel.blt(35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK)  # ステージを表示(矢印なし)
@@ -2641,12 +2650,12 @@ class App:
                     elif self.timer >= 45:  # 1秒後
                         pyxel.cls(0)
                         pyxel.blt(35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK)  # ステージを表示(矢印なし)
-                        self.timer = 0
+                        self.timer = 0"""
             elif self.stagescreen==False and self.gamestgart==False:
                 self.font.draw(100, 140, "Push return", 8, 7)
 
             elif self.stagescreen==False and self.gamestgart == True:
-                pyxel.cls(0)
+                """pyxel.cls(0)
                 pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
                 pyxel.blt(1, 41, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)  # xを表示
                 pyxel.blt(17, 41, 2, 0, 36, 3, 16, pyxel.COLOR_BLACK)  #!を表示
@@ -2746,7 +2755,54 @@ class App:
                 elif self.hp*4/5<=self.damage<self.hp:
                     pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
                 elif self.hp<=self.damage:
-                    pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
+                    pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)"""
+
+                pyxel.cls(0)
+                pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
+                self.x_Obj.show(1, 41)  # xを表示
+                self.kigouViwer.show_exclamationMark(17, 41)  # !を表示
+                self.x_Obj.show(1, 72)  # xを表示
+                self.kigouViwer.show_d(30, 40)  # dを表示
+                self.kigouViwer.show_dx(24, 41)  # /dxを表示
+                # ↑微分に変える
+                self.kigouViwer.show_Integral(20, 72)  # ∫を表示
+                self.kigouViwer.show_d(26, 71)  # dを表示
+                self.kigouViwer.showX(31, 73)  # xを表示
+
+                #敵を表示
+                pyxel.blt(75,40,2,112,0,32,16, pyxel.COLOR_BLACK) #tan
+                pyxel.blt(107,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
+                pyxel.blt(113,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
+                pyxel.blt(129,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
+
+                self.font.draw(0, 0, "リタイア", 8, 7)
+                self.font.draw(0, 10, "アイテム", 8, 7)
+                self.font.draw(0, 18, "特殊能力", 8, 7)
+                self.font.draw(0, 28, "こうげき", 8, 7)
+                self.font.draw(73, 5, "あいて", 8, 7)
+
+                #敵のログを表示
+                self.font.draw(33, 120, "tan(x)が現れた！", 8, 7)
+
+                #自分のHP
+                self.kigouViwer.showHPLid(75, 100)
+                self.kigouViwer.showHPFrame(83, 100)
+                self.kigouViwer.showHPFrame(90, 100)
+                self.kigouViwer.showHPFrame(97, 100)
+
+                self.kigouViwer.myDamage(self.mydamage)#自分のHPを表示
+
+                #敵のHP
+                self.kigouViwer.showHPLid(75, 28)
+                self.kigouViwer.showHPFrame(83, 28)
+                self.kigouViwer.showHPFrame(90, 28)
+                self.kigouViwer.showHPFrame(97, 28)
+                self.kigouViwer.showHPCharacter(104, 28)#HPを表示
+
+                self.showKEISUU()
+
+                self.kigouViwer.damage(self.damage)#敵のHPを表示
+
                 if self.retirebotan == True:
                     pyxel.blt(0, 0, 2, 0, 60, 38, 9, pyxel.COLOR_BLACK)
                 elif self.itembotan == True:
@@ -2754,7 +2810,7 @@ class App:
                 elif self.sabilitybotan == True:
                     pyxel.blt(0, 16, 2, 0, 75, 38, 12, pyxel.COLOR_BLACK)
                 elif self.attackbotan == True:
-                    if self.func1attack==False and self.func2attack==False and self.ddx==False and self.integral_dx==False:
+                    """if self.func1attack==False and self.func2attack==False and self.ddx==False and self.integral_dx==False:
                         pyxel.blt(0, 27, 2, 0, 93, 38, 11, pyxel.COLOR_BLACK)
                         if self.x0 == True and self.y0 == True:
                             pyxel.blt(1, 41, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
@@ -2763,8 +2819,33 @@ class App:
                         elif self.x0 == True and self.y1 == True:
                             pyxel.blt(1, 72, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
                         elif self.x1 == True and self.y1 == True:
-                            pyxel.blt(24, 72, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
-                    elif self.func1attack==True:
+                            pyxel.blt(24, 72, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)"""
+
+                    if self.func1attack==False and self.func2attack==False and self.ddx==False and self.integral_dx==False:
+                        pyxel.blt(0, 27, 2, 0, 93, 38, 11, pyxel.COLOR_BLACK)
+                        if self.attackMenu == AttackMenu.左上:
+                            self.showAttackMenuRedCursor(1, 41)
+                        elif self.attackMenu == AttackMenu.右上:
+                            self.showAttackMenuRedCursor(24, 41)
+                        elif self.attackMenu == AttackMenu.左下:
+                            self.showAttackMenuRedCursor(1, 72)
+                        elif self.attackMenu == AttackMenu.右下:
+                            self.showAttackMenuRedCursor(24, 72)
+                if self.decided_battleMode:
+                    self.timer+=1
+                    if self.timer>=60:
+                        self.func1attack=False
+                        self.func2attack=False
+                        self.ddx=False
+                        self.integral_dx=False
+                        self.attackbotan=False
+                        self.itembotan=False
+                        self.sabilitybotan=False
+                        self.retirebotan=True
+                        self.timer=0
+                        self.decided_battleMode = False
+
+                    """elif self.func1attack==True:
 
                         pyxel.cls(0)
                         pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
@@ -4692,7 +4773,7 @@ class App:
                             self.itembotan=False
                             self.sabilitybotan=False
                             self.retirebotan=True
-                            self.timer=0
+                            self.timer=0"""
 
 
 
