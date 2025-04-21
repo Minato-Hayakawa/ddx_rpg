@@ -56,10 +56,11 @@ class App:
     def __init__(self):
 
         self.updown = False
-        self.itembotan = False
-        self.retirebotan = True
-        self.sabilitybotan = False
-        self.attackbotan = False
+        # self.itembotan = False
+        # self.retirebotan = True
+        # self.sabilitybotan = False
+        # self.attackbotan = False
+        self.botancount=0
         self.stagescreen = False
         self.gamestgart = False
         self.itemstart=False
@@ -147,20 +148,17 @@ class App:
 
     def botan(self):
         
-        if self.retirebotan == True:
+        if self.botancount==0:
             if pyxel.btnp(pyxel.KEY_DOWN):
-                self.itembotan = True
-                self.retirebotan = False
+                self.botancount+=1
             elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                 self.end()
 
-        elif self.itembotan == True:
+        elif self.botancount==1:
             if pyxel.btnp(pyxel.KEY_UP) and self.botanstart==False:
-                self.itembotan = False
-                self.retirebotan = True
+                self.botancount-=1
             elif pyxel.btnp(pyxel.KEY_DOWN) and self.botanstart==False:
-                self.itembotan = False
-                self.sabilitybotan = True
+                self.botancount+=1
             elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN)  and self.botanstart==False:
                 self.y0 = True
                 self.botanstart=True
@@ -191,13 +189,11 @@ class App:
                     self.y1 = True
                     self.y2 = False
 
-        elif self.sabilitybotan == True:
+        elif self.botancount==2:
             if pyxel.btnp(pyxel.KEY_UP):
-                self.sabilitybotan = False
-                self.itembotan = True
+                self.botancount-=1
             elif pyxel.btnp(pyxel.KEY_DOWN):
-                self.sabilitybotan = False
-                self.attackbotan = True
+                self.botancount+=1
             elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                 self.x0 = True
                 self.y0 = True
@@ -262,10 +258,9 @@ class App:
                         self.x0 = True
                         self.x1 = False
 
-        elif self.attackbotan == True:
+        elif self.botancount==3:
             if pyxel.btnp(pyxel.KEY_UP) and self.botanstart==False:
-                self.attackbotan = False
-                self.sabilitybotan = True
+                self.botancount-=1
             elif (pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN)) and self.botanstart==False:
                 self.x0 = True
                 self.y0 = True
@@ -431,13 +426,13 @@ class App:
             self.myhpfunc()
             self.stage1ddx_count()
             self.hpfunc()
-            if self.retirebotan == True:
+            if self.botancount==0:
                 self.retirebotanfunc()
-            elif self.itembotan == True:
+            elif self.botancount==1:
                 self.itembotanfunc()
-            elif self.sabilitybotan == True:
+            elif self.botancount==2:
                 self.sabilitybotanfunc()
-            elif self.attackbotan == True:
+            elif self.botancount==3:
                 self.attackbotanfunc()
             if self.eattack==True:
                 pyxel.blt(33,120,1,22,146,80,16)
@@ -460,13 +455,13 @@ class App:
                 self.stage2screenfunc()
                 self.myhpfunc()
                 self.hpfunc()
-                if self.retirebotan == True:
+                if self.botancount==0:
                     self.retirebotanfunc()
-                elif self.itembotan == True:
+                elif self.botancount==1:
                     self.itembotanfunc()
-                elif self.sabilitybotan == True:
+                elif self.botancount==2:
                     self.sabilitybotanfunc()
-                elif self.attackbotan == True:
+                elif self.botancount==3:
                    self.attackbotanfunc()
                 if self.eattack==True:
                     pyxel.blt(33,120,1,22,146,80,16)
@@ -479,13 +474,13 @@ class App:
                 self.stage3ddx_count()
                 self.myhpfunc()
                 self.hpfunc()
-                if self.retirebotan == True:
+                if self.botancount==0:
                     self.retirebotanfunc()
-                elif self.itembotan == True:
+                elif self.botancount==1:
                     self.itembotanfunc()
-                elif self.sabilitybotan == True:
+                elif self.botancount==2:
                     self.sabilitybotanfunc()
-                elif self.attackbotan == True:
+                elif self.botancount==3:
                    self.attackbotanfunc()
                 if self.eattack==True:
                     pyxel.blt(33,120,1,22,146,80,16)
@@ -497,13 +492,13 @@ class App:
                 self.stage4screenfunc()
                 self.myhpfunc()
                 self.hpfunc()
-                if self.retirebotan == True:
+                if self.botancount==0:
                     self.retirebotanfunc()
-                elif self.itembotan == True:
+                elif self.botancount==1:
                     self.itembotanfunc()
-                elif self.sabilitybotan == True:
+                elif self.botancount==2:
                     self.sabilitybotanfunc()
-                elif self.attackbotan == True:
+                elif self.botancount==3:
                    self.attackbotanfunc()
                 if self.eattack==True:
                     pyxel.blt(33,120,1,22,146,80,16)
@@ -605,10 +600,11 @@ class App:
         self.ddx=False
         self.integral_dx=False
         self.ddx_count=0
-        self.attackbotan=False
-        self.sabilitybotan=False
-        self.itembotan=False
-        self.retirebotan=True
+        self.botancount==0
+        # self.attackbotan=False
+        # self.sabilitybotan=False
+        # self.itembotan=False
+        # self.retirebotan=True
         self.eattack=False
        
         if self.timer>=120:
@@ -830,7 +826,7 @@ class App:
             pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
             
     def nomalscreenfunc(self):
-        if self.itembotan==True:
+        if self.botancount==1:
             pyxel.cls(0)
             pyxel.blt(0, 0, 1, 0, 24, 150, 150, pyxel.COLOR_BLACK)  # 対戦画面を表示
             self.font.draw(1,41,f"HP+100 {self.item1}/5",8,7)
@@ -890,20 +886,22 @@ class App:
             self.func2attack=False
             self.ddx=False
             self.integral_dx=False
-            self.attackbotan=False
-            self.itembotan=False
-            self.sabilitybotan=False
-            self.retirebotan=False
+            # self.attackbotan=False
+            # self.itembotan=False
+            # self.sabilitybotan=False
+            # self.retirebotan=False
+            self.botancount=4
             self.eattack=True
             self.timer=0
             
     def wait2(self):
         self.timer2+=1
         if self.timer2>=60:
-            self.attackbotan=False
-            self.itembotan=False
-            self.sabilitybotan=False
-            self.retirebotan=True
+            # self.attackbotan=False
+            # self.itembotan=False
+            # self.sabilitybotan=False
+            # self.retirebotan=True
+            self.botancount=0
             self.eattack=False
             self.timer2=0
             
