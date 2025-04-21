@@ -56,10 +56,6 @@ class App:
     def __init__(self):
 
         self.updown = False
-        # self.itembotan = False
-        # self.retirebotan = True
-        # self.sabilitybotan = False
-        # self.attackbotan = False
         self.botancount=0
         self.stagescreen = False
         self.gamestgart = False
@@ -543,11 +539,7 @@ class App:
                 elif self.phase==Phase.NORMAL_STAGE_3:
                     if self.ddx_count!=-2:
                         self.func3=sym.integrate(self.func3,x)
-
-                if self.C[random.randrange(10)] != 10:
-                    self.hp += self.C[random.randint(0,9)]  # 積分定数Cの値だけhpが増加
-                else:
-                    self.hp = 0
+                self.hp += self.C[random.randint(0,9)]  # 積分定数Cの値だけhpが増加
             elif self.func1attack==True:
                 self.damage+=self.myfunc1.subs(x,random.randint(1,6))
                
@@ -601,10 +593,6 @@ class App:
         self.integral_dx=False
         self.ddx_count=0
         self.botancount==0
-        # self.attackbotan=False
-        # self.sabilitybotan=False
-        # self.itembotan=False
-        # self.retirebotan=True
         self.eattack=False
        
         if self.timer>=120:
@@ -886,10 +874,6 @@ class App:
             self.func2attack=False
             self.ddx=False
             self.integral_dx=False
-            # self.attackbotan=False
-            # self.itembotan=False
-            # self.sabilitybotan=False
-            # self.retirebotan=False
             self.botancount=4
             self.eattack=True
             self.timer=0
@@ -897,10 +881,6 @@ class App:
     def wait2(self):
         self.timer2+=1
         if self.timer2>=60:
-            # self.attackbotan=False
-            # self.itembotan=False
-            # self.sabilitybotan=False
-            # self.retirebotan=True
             self.botancount=0
             self.eattack=False
             self.timer2=0
