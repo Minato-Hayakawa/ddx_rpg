@@ -70,7 +70,7 @@ class App:
         self.ddx_count=0
         self.integral_dx = False
         self.C = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        self.lim_x0 = False
+        # self.lim_x0 = False
 
         self.timer = 0
         self.timer2 = 0
@@ -78,12 +78,13 @@ class App:
         self.font = puf.Writer("misaki_gothic.ttf")  # フォントを指定
 
         # ゲームの操作用座標
-        self.x0 = False
-        self.x1 = False
-        self.x2 = False
-        self.y0 = False
-        self.y1 = False
-        self.y2 = False
+        # self.x0 = False
+        # self.x1 = False
+        # self.x2 = False
+        # self.y0 = False
+        # self.y1 = False
+        # self.y2 = False
+        
 
         # アイテム
         self.item1 = 5
@@ -107,6 +108,10 @@ class App:
         self.stagecount=1
 
         self.phase = Phase.START
+        
+        self.wait = wait()
+        self.point = Point()
+        # self.wait._timer
 
         pyxel.init(150, 150, title="The Integral War")
         pyxel.load("my_resource.pyxres")
@@ -156,177 +161,208 @@ class App:
             elif pyxel.btnp(pyxel.KEY_DOWN) and self.botanstart==False:
                 self.botancount+=1
             elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN)  and self.botanstart==False:
-                self.y0 = True
+                # self.y0 = True
+                self.point.y=0
                 self.botanstart=True
-            elif self.y0 == True:
+            elif self.point.y==0:
                 if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.item1flag=True
                     self.botanstart=False
-                    self.x0=False
-                    self.y0=False
+                    # self.x0=False
+                    # self.y0=False
+                    self.point.y=5
                 elif pyxel.btnp(pyxel.KEY_DOWN):
-                    self.y0 = False
-                    self.y1 = True
-            elif self.y1 == True:
+                    # self.y0 = False
+                    # self.y1 = True
+                    self.point.y+=1
+            elif self.point.y==1:
                 if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.item2flag=True
                     self.botanstart=False
                 elif pyxel.btnp(pyxel.KEY_DOWN):
-                    self.y1 = False
-                    self.y2 = True
+                    # self.y1 = False
+                    # self.y2 = True
+                    self.point.y+=1
                 elif pyxel.btnp(pyxel.KEY_UP):
-                    self.y1=False
-                    self.y0=True
-            elif self.y2 == True:
+                    # self.y1=False
+                    # self.y0=True
+                    self.point.y-=1
+            elif self.point.y==2:
                 if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.item3flag=True
                     self.botanstart=False
                 elif pyxel.btnp(pyxel.KEY_UP):
-                    self.y1 = True
-                    self.y2 = False
+                    # self.y1 = True
+                    # self.y2 = False
+                    self.point.y-=1
 
         elif self.botancount==2:
             if pyxel.btnp(pyxel.KEY_UP):
                 self.botancount-=1
             elif pyxel.btnp(pyxel.KEY_DOWN):
                 self.botancount+=1
-            elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
-                self.x0 = True
-                self.y0 = True
-                if self.x0 == True and self.y0 == True:
-                    if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
-                        self.nabla = True
-                    elif pyxel.btnp(pyxel.KEY_RIGHT):
-                        self.x0 = False
-                        self.x1 = True
-                    elif pyxel.btnp(pyxel.KEY_DOWN):
-                        self.y0 = False
-                        self.y1 = True
-                elif self.x1 == True and self.y0 == 0:
-                    if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
-                        self.delta = True
-                    elif pyxel.btnp(pyxel.KEY_LEFT):
-                        self.x1 = False
-                        self.x0 = True
-                    elif pyxel.btnp(pyxel.KEY_DOWN):
-                        self.y0 = False
-                        self.y1 = True
-                elif self.x0 == True and self.y1 == True:
-                    if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
-                        self.round_x = True
-                    elif pyxel.btnp(pyxel.KEY_UP):
-                        self.y1 = False
-                        self.y0 = True
-                    elif pyxel.btnp(pyxel.KEY_RIGHT):
-                        self.x0 = False
-                        self.x1 = True
-                    elif pyxel.btnp(pyxel.KEY_DOWN):
-                        self.y1 = False
-                        self.y2 = True
-                elif self.x1 == True and self.y1 == True:
-                    if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
-                        self.round_y = True
-                    elif pyxel.btnp(pyxel.KEY_UP):
-                        self.y1 = False
-                        self.y0 = True
-                    elif pyxel.btnp(pyxel.KEY_LEFT):
-                        self.x1 = False
-                        self.x0 = True
-                    elif pyxel.btnp(pyxel.KEY_DOWN):
-                        self.y1 = False
-                        self.y2 = True
-                elif self.x0 == True and self.y2 == True:
-                    if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
-                        self.lim_00 = True
-                    elif pyxel.btnp(pyxel.KEY_UP):
-                        self.y2 = False
-                        self.y1 = True
-                    elif pyxel.btnp(pyxel.KEY_RIGHT):
-                        self.x0 = False
-                        self.x1 = True
-                elif self.x1 == True and self.y2 == True:
-                    if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
-                        self.lim_mm = True
-                    elif pyxel.btnp(pyxel.KEY_UP):
-                        self.y2 = False
-                        self.y1 = True
-                    elif pyxel.btnp(pyxel.KEY_LEFT):
-                        self.x0 = True
-                        self.x1 = False
+            # elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
+            #     # self.x0 = True
+            #     # self.y0 = True
+            #     self.point.x=0
+            #     self.point.y=0
+            #     if self.point.x==0 and self.point.y==0:
+            #         if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
+            #             self.nabla = True
+            #         elif pyxel.btnp(pyxel.KEY_RIGHT):
+            #             self.point.x+=1
+            #         elif pyxel.btnp(pyxel.KEY_DOWN):
+            #             # self.y0 = False
+            #             # self.y1 = True
+            #             self.point.y+=1
+            #     elif self.point.x==1 and self.point.y==0:
+            #         if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
+            #             self.delta = True
+            #         elif pyxel.btnp(pyxel.KEY_LEFT):
+            #             # self.x1 = False
+            #             # self.x0 = True
+            #             self.point.x-=1
+            #         elif pyxel.btnp(pyxel.KEY_DOWN):
+            #             # self.y0 = False
+            #             # self.y1 = True
+            #             self.point.y+=1
+            #     elif self.point.x==0 and self.point.y==1:
+            #         if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
+            #             self.round_x = True
+            #         elif pyxel.btnp(pyxel.KEY_UP):
+            #             # self.y1 = False
+            #             # self.y0 = True
+            #             self.point.y-=1
+            #         elif pyxel.btnp(pyxel.KEY_RIGHT):
+            #             # self.x0 = False
+            #             # self.x1 = True
+            #             self.point.x+=1
+            #         elif pyxel.btnp(pyxel.KEY_DOWN):
+            #             # self.y1 = False
+            #             # self.y2 = True
+            #             self.point.y+=1
+            #     elif self.point.x==1 and self.point.y==1:
+            #         if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
+            #             self.round_y = True
+            #         elif pyxel.btnp(pyxel.KEY_UP):
+            #             self.y1 = False
+            #             self.y0 = True
+            #         elif pyxel.btnp(pyxel.KEY_LEFT):
+            #             self.x1 = False
+            #             self.x0 = True
+            #         elif pyxel.btnp(pyxel.KEY_DOWN):
+            #             self.y1 = False
+            #             self.y2 = True
+            #     elif self.x0 == True and self.y2 == True:
+            #         if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
+            #             self.lim_00 = True
+            #         elif pyxel.btnp(pyxel.KEY_UP):
+            #             self.y2 = False
+            #             self.y1 = True
+            #         elif pyxel.btnp(pyxel.KEY_RIGHT):
+            #             self.x0 = False
+            #             self.x1 = True
+            #     elif self.x1 == True and self.y2 == True:
+            #         if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
+            #             self.lim_mm = True
+            #         elif pyxel.btnp(pyxel.KEY_UP):
+            #             self.y2 = False
+            #             self.y1 = True
+            #         elif pyxel.btnp(pyxel.KEY_LEFT):
+            #             self.x0 = True
+            #             self.x1 = False
 
         elif self.botancount==3:
             if pyxel.btnp(pyxel.KEY_UP) and self.botanstart==False:
                 self.botancount-=1
             elif (pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN)) and self.botanstart==False:
-                self.x0 = True
-                self.y0 = True
+                # self.x0 = True
+                # self.y0 = True
                 self.botanstart=True
 
-            elif self.x0 == True and self.y0 == True:
+            elif self.point.x==0 and self.point.y==0:
                 if pyxel.btnp(pyxel.KEY_RIGHT):
-                    self.x0 = False
-                    self.x1 = True
+                    # self.x0 = False
+                    # self.x1 = True
+                    self.point.x+=1
                 elif pyxel.btnp(pyxel.KEY_DOWN):
-                    self.y0 = False
-                    self.y1 = True
+                    # self.y0 = False
+                    # self.y1 = True
+                    self.point.y+=1
                 elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.func1attack=True
                     self.botanstart=False
-                    self.x0=False
-                    self.y0=False
+                    # self.x0=False
+                    # self.y0=False
+                    self.point.x=5
+                    self.point.y=5
                     self.attackmode=True
 
-            elif self.x1 == True and self.y0 == True:
+            elif self.point.x==1 and self.point.y==0:
                 if pyxel.btnp(pyxel.KEY_LEFT):
-                    self.x0 = True
-                    self.x1 = False
+                    # self.x0 = True
+                    # self.x1 = False
+                    self.point.x-=1
                 elif pyxel.btnp(pyxel.KEY_DOWN):
-                    self.y0 = False
-                    self.y1 = True
+                    # self.y0 = False
+                    # self.y1 = True
+                    self.point.y+=1
                 elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.ddx = True
                     self.botanstart=False
-                    self.x1=False
-                    self.y0=False
+                    # self.x1=False
+                    # self.y0=False
+                    self.point.x=5
+                    self.point.y=5
                     if self.ddx_count!=4 and self.phase==Phase.NORMAL_STAGE_1:
                         self.ddx_count+=1
                     elif self.ddx_count!=2 and self.phase==Phase.NORMAL_STAGE_3:
                         self.ddx_count+=1
                     self.attackmode=True
-            elif self.x0 == True and self.y1 == True:
+            elif self.point.x==0 and self.point.y==0:
                 if pyxel.btnp(pyxel.KEY_UP):
-                    self.y0 = True
-                    self.y1 = False
+                    # self.y0 = True
+                    # self.y1 = False
+                    self.point.y-=1
                 elif pyxel.btnp(pyxel.KEY_RIGHT):
-                    self.x1 = True
-                    self.x0 = False
+                    # self.x1 = True
+                    # self.x0 = False
+                    self.point.x+=1
                 elif pyxel.btnp(pyxel.KEY_DOWN):
-                    self.y0 = False
-                    self.y1 = False
-                    self.y2 = True
+                    # self.y0 = False
+                    # self.y1 = False
+                    # self.y2 = True
+                    self.point.y+=1
                 elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.func2attack=True
                     self.botanstart=False
                     self.attackmode=True
-                    self.x0=False
-                    self.y1=False
+                    # self.x0=False
+                    # self.y1=False
+                    self.point.x=5
+                    self.point.y=5
 
-            elif self.x1 == True and self.y1 == True:
+            elif self.point.x==1 and self.point.y==1:
                 if pyxel.btnp(pyxel.KEY_LEFT):
-                    self.x0 = True
-                    self.x1 = False
+                    # self.x0 = True
+                    # self.x1 = False
+                    self.point.x-=1
                 elif pyxel.btnp(pyxel.KEY_UP):
-                    self.y0 = True
-                    self.y1 = False
+                    # self.y0 = True
+                    # self.y1 = False
+                    self.point.y-=1
                 elif pyxel.btnp(pyxel.KEY_DOWN):
-                    self.y0 = False
-                    self.y1 = False
-                    self.y2 = True
+                    # self.y0 = False
+                    # self.y1 = False
+                    # self.y2 = True
+                    self.point.y+=1
                 elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.integral_dx = True
                     self.botanstart=False
-                    self.x1=False
-                    self.y1=False
+                    # self.x1=False
+                    # self.y1=False
+                    self.point.x=5
+                    self.point.y=5
                     if self.ddx_count!=-4 and self.phase==Phase.NORMAL_STAGE_1:
                         self.ddx_count-=1
                     elif self.ddx_count!=-2 and self.phase==Phase.NORMAL_STAGE_3:
@@ -511,7 +547,8 @@ class App:
             self.item1 -= 1
             self.myhp += 100
             self.item1flag=False
-            self.y0=False
+            # self.y0=False
+            self.point.y=5
         elif self.item2!=0 and self.item2flag==True:  # 自分のHPを200回復
             self.item2 -= 1
             self.myhp += 200
@@ -656,13 +693,13 @@ class App:
     def attackbotanfunc(self):
         if self.func1attack==False and self.func2attack==False and self.ddx==False and self.integral_dx==False:
             pyxel.blt(0, 27, 2, 0, 93, 38, 11, pyxel.COLOR_BLACK)
-            if self.x0 == True and self.y0 == True:
+            if self.point.x==0 and self.point.y==0:
                 pyxel.blt(1, 41, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
-            elif self.x1 == True and self.y0 == True:
+            elif self.point.x==1 and self.point.y==0:
                 pyxel.blt(24, 41, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
-            elif self.x0 == True and self.y1 == True:
+            elif self.point.x==0 and self.point.y==1:
                 pyxel.blt(1, 72, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
-            elif self.x1 == True and self.y1 == True:
+            elif self.point.x==1 and self.point.y==1:
                 pyxel.blt(24, 72, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
         elif self.func1attack==True:
             self.stagefunc1attack()
@@ -676,11 +713,11 @@ class App:
     def itembotanfunc(self):
         if self.item1flag==False and self.item2flag==False and self.item3flag==False:
             pyxel.blt(0, 8, 2, 0, 67, 38, 11, pyxel.COLOR_BLACK)
-            if self.y0==True:
+            if self.point.y==0:
                 pyxel.blt(1,41,1,0,184,48,8,pyxel.COLOR_BLACK)
-            elif self.y1==True:
+            elif self.point.y==1:
                 pyxel.blt(1,57,1,0,184,48,8,pyxel.COLOR_BLACK)
-            elif self.y2==True:
+            elif self.point.y==2:
                 pyxel.blt(1,73,1,0,184,48,8,pyxel.COLOR_BLACK)
                 
         
@@ -875,8 +912,19 @@ class App:
         pyxel.blt(127,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
         pyxel.blt(84,38,2,120,32,31,16,pyxel.COLOR_BLACK) #cot
         self.font.draw(33,120,"ln(cot(x))が現れた!",8,7)
+      
+class Point:
+    def __init__(self):
+        self.x = 0
+        self.y = 0     
+         
+class wait:
+    
+    def __init__(self):
+        self._timer = 0
+        self.func1attack = False
+        #.....
         
-class wait(App):
     def wait1(self):
         self.timer+=1
         if self.timer>=60:
