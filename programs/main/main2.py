@@ -69,7 +69,7 @@ class App:
         self.ddx = False
         self.ddx_count=0
         self.integral_dx = False
-        self.C = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]  # 10は無限大扱い
+        self.C = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         self.lim_x0 = False
 
         self.timer = 0
@@ -338,6 +338,7 @@ class App:
             self.phase = Phase.MENU
 
     def menu(self):
+        
         if InputHandler.isUp():
             self.updown = False
         elif InputHandler.isDown():
@@ -433,7 +434,8 @@ class App:
             if self.eattack==True:
                 pyxel.blt(33,120,1,22,146,80,16)
                 self.font.draw(33, 120, "e^2xが攻撃!", 8, 7)
-                self.wait2()
+                # self.wait2()
+                self.waitob.wait2()
                         
         elif self.phase==Phase.GAME_OVER:
             pyxel.cls(0)
@@ -462,7 +464,8 @@ class App:
                 if self.eattack==True:
                     pyxel.blt(33,120,1,22,146,80,16)
                     self.font.draw(33, 120, "tan(x)が攻撃!", 8, 7)
-                    self.wait2()
+                    # self.wait2()
+                    self.waitob.wait2()
                             
         elif self.phase==Phase.NORMAL_STAGE_3 and self.gamestgart == True:
                 self.nomalscreenfunc()
@@ -481,7 +484,8 @@ class App:
                 if self.eattack==True:
                     pyxel.blt(33,120,1,22,146,80,16)
                     self.font.draw(33, 120, "1/x^2が攻撃!", 8, 7)
-                    self.wait2()
+                    # self.wait2()
+                    self.waitob.wait2()
                     
         elif self.phase==Phase.NORMAL_STAGE_4 and self.gamestgart == True:
                 self.nomalscreenfunc()
@@ -499,7 +503,8 @@ class App:
                 if self.eattack==True:
                     pyxel.blt(33,120,1,22,146,80,16)
                     self.font.draw(33, 120, "ln(cot(x))が攻撃!", 8, 7)
-                    self.wait2()
+                    # self.wait2()
+                    self.waitob.wait2()
 
     def itemfunc(self):
         if self.item1!=0 and self.item1flag==True:  # 自分のHPを100回復
@@ -605,12 +610,14 @@ class App:
     def stagefunc1attack(self):
         pyxel.blt(33,120,1,22,146,80,16)
         self.font.draw(33, 120, "x!で攻撃！", 8, 7)
-        self.wait()
+        # self.wait()
+        self.waitob.wait2()
             
     def stagefunc2attack(self):
         pyxel.blt(33,120,1,22,146,80,16)
         self.font.draw(33, 120, "xで攻撃！", 8, 7)
-        self.wait()
+        # self.wait()
+        self.waitob.wait2()
             
     def ddxfunc(self):
         pyxel.blt(33,120,1,22,146,80,16)
@@ -626,7 +633,8 @@ class App:
                 self.font.draw(33,120,"d/dxで攻撃!",8,7)
             else:
                 self.font.draw(33,120,"※これ以上微分できません!",8,7)
-        self.wait()
+        # self.wait()
+        self.waitob.wait1()
         
     def integral_dxfunc(self):
         pyxel.blt(33,120,1,22,146,80,16)
@@ -642,7 +650,8 @@ class App:
                 self.font.draw(33,120,"∫dxで攻撃!",8,7)
             else:
                 self.font.draw(33,120,"※これ以上積分できません!",8,7)
-        self.wait()
+        # self.wait()
+        self.waitob.wait2()
         
     def attackbotanfunc(self):
         if self.func1attack==False and self.func2attack==False and self.ddx==False and self.integral_dx==False:
@@ -867,7 +876,8 @@ class App:
         pyxel.blt(84,38,2,120,32,31,16,pyxel.COLOR_BLACK) #cot
         self.font.draw(33,120,"ln(cot(x))が現れた!",8,7)
         
-    def wait(self):
+class wait(App):
+    def wait1(self):
         self.timer+=1
         if self.timer>=60:
             self.func1attack=False
