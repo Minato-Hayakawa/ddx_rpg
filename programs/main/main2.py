@@ -918,7 +918,7 @@ class Point:
         self.x = 0
         self.y = 0     
          
-class wait:
+class wait: #要修正
     
     def __init__(self):
         self._timer = 0
