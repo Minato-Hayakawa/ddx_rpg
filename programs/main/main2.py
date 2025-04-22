@@ -84,7 +84,7 @@ class App:
         # self.y0 = False
         # self.y1 = False
         # self.y2 = False
-        
+
 
         # アイテム
         self.item1 = 5
@@ -108,8 +108,8 @@ class App:
         self.stagecount=1
 
         self.phase = Phase.START
-        
-        self.wait = wait()
+
+        self.waitob = wait()
         self.point = Point()
         # self.wait._timer
 
@@ -129,26 +129,28 @@ class App:
         elif self.phase == Phase.EASY_MODE:
             self.easiymode()
         elif self.phase == Phase.NORMAL_STAGE_1 or self.phase==Phase.NORMAL_STAGE_2 or self.phase==Phase.NORMAL_STAGE_3 or self.phase==Phase.NORMAL_STAGE_4 or self.phase==Phase.NORMAL_STAGE_5:
+
+            # ↑ステージが増えるたびに書き直さないと行けないのはだるいから、バトルステージにいるかどうかのフラグを作成しよ〜
+
             self.nomalstage()
             if self.gamestgart == True:
                 self.botan()
                 self.itemfunc()
                 if self.attackmode==True:
                     self.battlemode()
-                    
+
         elif self.phase==Phase.GAME_OVER:
             self.gameover()
             self.timer+=1
-            
+
         elif self.phase == Phase.GAME_CLEAR:
             self.gameclear()
             self.timer+=1
-            
+
         elif self.phase == Phase.END:
             self.end()
 
     def botan(self):
-        
         if self.botancount==0:
             if pyxel.btnp(pyxel.KEY_DOWN):
                 self.botancount+=1
@@ -374,7 +376,6 @@ class App:
             self.phase = Phase.MENU
 
     def menu(self):
-        
         if InputHandler.isUp():
             self.updown = False
         elif InputHandler.isDown():
@@ -393,7 +394,7 @@ class App:
         self.stagescreen = True
 
     def nomalmode(self):
-        if self.timer2 >= 145:
+        if self.timer2 >= 145: #タイマーが超えただけだと、タイマーの意味が直感的にわからない！この場合はロード演出が終了したかどうかのフラグを立てたほうがわかりやすいよ〜〜
             self.stagescreen = False
             if InputHandler.isDecide():
                 if self.stagecount==1:
@@ -434,6 +435,7 @@ class App:
                     pyxel.blt(
                         35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK
                     )  # ステージを表示(矢印なし)
+
                     if 45 >= self.timer >= 30:  # 1秒後
                         if self.stagecount==1:
                             pyxel.blt(35, 85, 1, 0, 14, 16, 16, pyxel.COLOR_BLACK)  # 矢印
@@ -472,18 +474,18 @@ class App:
                 self.font.draw(33, 120, "e^2xが攻撃!", 8, 7)
                 # self.wait2()
                 self.waitob.wait2()
-                        
+
         elif self.phase==Phase.GAME_OVER:
             pyxel.cls(0)
             pyxel.blt(50,50,0,0,48,30,8,pyxel.COLOR_BLACK) #gameoverを表示
             pyxel.blt(74,50,0,0,56,24,8,pyxel.COLOR_BLACK)
-            
+
         elif self.phase==Phase.GAME_CLEAR:
             pyxel.cls(0)
             pyxel.blt(50,50,0,0,48,24,8,pyxel.COLOR_BLACK) #gameclearを表示
             pyxel.blt(74,50,0,0,64,64,8,pyxel.COLOR_BLACK)
 
-            
+
         elif self.phase==Phase.NORMAL_STAGE_2 and self.gamestgart == True:
                 self.nomalscreenfunc()
                 self.stage2screenfunc()
@@ -502,7 +504,7 @@ class App:
                     self.font.draw(33, 120, "tan(x)が攻撃!", 8, 7)
                     # self.wait2()
                     self.waitob.wait2()
-                            
+
         elif self.phase==Phase.NORMAL_STAGE_3 and self.gamestgart == True:
                 self.nomalscreenfunc()
                 self.stage3screenfunc()
@@ -522,7 +524,7 @@ class App:
                     self.font.draw(33, 120, "1/x^2が攻撃!", 8, 7)
                     # self.wait2()
                     self.waitob.wait2()
-                    
+
         elif self.phase==Phase.NORMAL_STAGE_4 and self.gamestgart == True:
                 self.nomalscreenfunc()
                 self.stage4screenfunc()
@@ -584,7 +586,7 @@ class App:
                 self.hp += self.C[random.randint(0,9)]  # 積分定数Cの値だけhpが増加
             elif self.func1attack==True:
                 self.damage+=self.myfunc1.subs(x,random.randint(1,6))
-               
+
 
             elif self.func2attack==True:
                 self.damage+=self.myfunc2.subs(x,random.randint(1,6))
@@ -593,20 +595,19 @@ class App:
                 self.mydamage+=self.func1.subs(x,random.uniform(1,6))
                 print(self.damage)
             elif self.phase==Phase.NORMAL_STAGE_2:
-                if self.num!=5 or self.num!=13: 
+                if self.num!=5 or self.num!=13:
                     self.mydamage+=abs(self.func2.subs(x,math.radians(self.rulet[self.num%16])))
                     self.num+=1
                 else:
                     self.mydamage=self.myhp
-                
+
                 print(self.hp)
                 print(self.damage)
             elif self.phase==Phase.NORMAL_STAGE_3:
-                self.mydamage=abs(self.func3.subs(x,random.uniform(0.1,3))) 
+                self.mydamage=abs(self.func3.subs(x,random.uniform(0.1,3)))
                 print(self.ddx_count)
         self.attackmode=False
-            
-            
+
     def nomalstage(self):
         self.gamestgart = True
         if self.hp<=self.damage or pyxel.btn(pyxel.KEY_1):
@@ -617,7 +618,7 @@ class App:
 
     def end(self):
         pyxel.quit()
-        
+
     def gameover(self):
         if self.timer>=120:
             self.phase=Phase.END
@@ -636,26 +637,25 @@ class App:
         self.ddx_count=0
         self.botancount==0
         self.eattack=False
-       
+
         if self.timer>=120:
             self.stagescreen=True
             self.timer=0
             self.timer2=0
             self.phase=Phase.NORMAL_MODE
-                
-                
+
     def stagefunc1attack(self):
         pyxel.blt(33,120,1,22,146,80,16)
         self.font.draw(33, 120, "x!で攻撃！", 8, 7)
         # self.wait()
         self.waitob.wait2()
-            
+
     def stagefunc2attack(self):
         pyxel.blt(33,120,1,22,146,80,16)
         self.font.draw(33, 120, "xで攻撃！", 8, 7)
         # self.wait()
         self.waitob.wait2()
-            
+
     def ddxfunc(self):
         pyxel.blt(33,120,1,22,146,80,16)
         if self.phase==Phase.NORMAL_STAGE_1:
@@ -672,7 +672,7 @@ class App:
                 self.font.draw(33,120,"※これ以上微分できません!",8,7)
         # self.wait()
         self.waitob.wait1()
-        
+
     def integral_dxfunc(self):
         pyxel.blt(33,120,1,22,146,80,16)
         if self.phase==Phase.NORMAL_STAGE_1:
@@ -689,7 +689,7 @@ class App:
                 self.font.draw(33,120,"※これ以上積分できません!",8,7)
         # self.wait()
         self.waitob.wait2()
-        
+
     def attackbotanfunc(self):
         if self.func1attack==False and self.func2attack==False and self.ddx==False and self.integral_dx==False:
             pyxel.blt(0, 27, 2, 0, 93, 38, 11, pyxel.COLOR_BLACK)
@@ -709,7 +709,7 @@ class App:
             self.ddxfunc()
         elif self.integral_dx==True:
             self.integral_dxfunc()
-            
+
     def itembotanfunc(self):
         if self.item1flag==False and self.item2flag==False and self.item3flag==False:
             pyxel.blt(0, 8, 2, 0, 67, 38, 11, pyxel.COLOR_BLACK)
@@ -719,14 +719,14 @@ class App:
                 pyxel.blt(1,57,1,0,184,48,8,pyxel.COLOR_BLACK)
             elif self.point.y==2:
                 pyxel.blt(1,73,1,0,184,48,8,pyxel.COLOR_BLACK)
-                
-        
+
+
     def retirebotanfunc(self):
         pyxel.blt(0, 0, 2, 0, 60, 38, 9, pyxel.COLOR_BLACK)
-        
+
     def sabilitybotanfunc(self):
         pyxel.blt(0, 16, 2, 0, 75, 38, 12, pyxel.COLOR_BLACK)
-        
+
     def hpfunc(self):
         pyxel.blt(104,28,2,184,8,16,8,pyxel.COLOR_BLACK)#HPを表示
         pyxel.blt(75,28,2,144,0,8,8,pyxel.COLOR_BLACK)#[
@@ -757,7 +757,7 @@ class App:
             pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
         elif self.hp<=self.damage:
             pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
-            
+
     def myhpfunc(self):
         pyxel.blt(104,100,2,184,8,16,8,pyxel.COLOR_BLACK)#HPを表示
         pyxel.blt(75,100,2,144,0,8,8,pyxel.COLOR_BLACK)#[
@@ -788,7 +788,7 @@ class App:
             pyxel.blt(75,100,2,144,8,8,8,pyxel.COLOR_BLACK)
         elif self.myhp<=self.mydamage:
             pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
-            
+
     def stage1ddx_count(self):
         if self.ddx_count==1:
             pyxel.blt(59, 40, 2, 40, 56, 16, 16, pyxel.COLOR_BLACK)#2
@@ -819,7 +819,7 @@ class App:
             pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
             pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
             pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
-            
+
         elif self.ddx_count==0:
             pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
             pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
@@ -858,7 +858,7 @@ class App:
             pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
             pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
             pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
-            
+
     def nomalscreenfunc(self):
         if self.botancount==1:
             pyxel.cls(0)
@@ -888,7 +888,7 @@ class App:
             self.font.draw(0, 18, "特殊能力", 8, 7)
             self.font.draw(0, 28, "こうげき", 8, 7)
             self.font.draw(73, 5, "あいて", 8, 7)
-        
+
     def stage1screenfunc(self):
         pyxel.blt(75, 40, 2, 32, 0, 16, 16, pyxel.COLOR_BLACK)  # e
         pyxel.blt(88, 37, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
@@ -900,11 +900,11 @@ class App:
         pyxel.blt(113,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
         pyxel.blt(129,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
         self.font.draw(33, 120, "tan(x)が現れた！", 8, 7)
-        
+
     def stage3screenfunc(self):
         self.stage3ddx_count()
         self.font.draw(33, 120, "1/x^2が現れた！", 8, 7)
-        
+
     def stage4screenfunc(self):
         pyxel.blt(59,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
         pyxel.blt(79,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
@@ -912,19 +912,19 @@ class App:
         pyxel.blt(127,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
         pyxel.blt(84,38,2,120,32,31,16,pyxel.COLOR_BLACK) #cot
         self.font.draw(33,120,"ln(cot(x))が現れた!",8,7)
-      
+
 class Point:
     def __init__(self):
         self.x = 0
-        self.y = 0     
-         
+        self.y = 0
+
 class wait: #要修正
-    
+
     def __init__(self):
         self._timer = 0
         self.func1attack = False
         #.....
-        
+
     def wait1(self):
         self.timer+=1
         if self.timer>=60:
@@ -935,14 +935,12 @@ class wait: #要修正
             self.botancount=4
             self.eattack=True
             self.timer=0
-            
+
     def wait2(self):
         self.timer2+=1
         if self.timer2>=60:
             self.botancount=0
             self.eattack=False
             self.timer2=0
-            
-        
 
 App()
