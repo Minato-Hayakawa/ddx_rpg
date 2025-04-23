@@ -57,8 +57,8 @@ class App:
 
         self.updown = False
         self.botancount=0
-        self.stagescreen = False
-        self.gamestgart = False
+        self.returnflag = False
+        self.battlestart = False
         self.itemstart=False
         self.botanstart=False
         self.func1attack=False
@@ -66,6 +66,7 @@ class App:
         self.attackmode=False
         self.gameover_flag=False
         self.eattack=False
+        self.battleflag=False
         self.ddx = False
         self.ddx_count=0
         self.integral_dx = False
@@ -125,15 +126,15 @@ class App:
         elif self.phase == Phase.NORMAL_MODE:
             self.timer += 1
             self.timer2 += 1
-            self.nomalmode()
+            self.roading()
         elif self.phase == Phase.EASY_MODE:
             self.easiymode()
-        elif self.phase == Phase.NORMAL_STAGE_1 or self.phase==Phase.NORMAL_STAGE_2 or self.phase==Phase.NORMAL_STAGE_3 or self.phase==Phase.NORMAL_STAGE_4 or self.phase==Phase.NORMAL_STAGE_5:
+        elif self.battleflag==True:
 
             # ↑ステージが増えるたびに書き直さないと行けないのはだるいから、バトルステージにいるかどうかのフラグを作成しよ〜
 
             self.nomalstage()
-            if self.gamestgart == True:
+            if self.battleflag == True:
                 self.botan()
                 self.itemfunc()
                 if self.attackmode==True:
@@ -391,12 +392,13 @@ class App:
             self.phase = Phase.NORMAL_MODE
             print("normal")
 
-        self.stagescreen = True
+        self.returnflag = True
 
-    def nomalmode(self):
+    def roading(self):
         if self.timer2 >= 145: #タイマーが超えただけだと、タイマーの意味が直感的にわからない！この場合はロード演出が終了したかどうかのフラグを立てたほうがわかりやすいよ〜〜
-            self.stagescreen = False
+            self.returnflag = False
             if InputHandler.isDecide():
+                self.battleflag=True
                 if self.stagecount==1:
                     self.phase = Phase.NORMAL_STAGE_1
                 elif self.stagecount==2:
@@ -429,7 +431,7 @@ class App:
             elif self.updown == True:
                 pyxel.blt(42, 111, 1, 16, 0, 65, 16, pyxel.COLOR_BLACK)
         elif self.phase == Phase.NORMAL_MODE:
-            if self.stagescreen == True:
+            if self.returnflag == True:
                 pyxel.cls(0)
                 for i in range(3):
                     pyxel.blt(
@@ -455,7 +457,7 @@ class App:
                         self.timer = 0
             else:
                 self.font.draw(100, 140, "Push return", 8, 7)
-        elif self.phase == Phase.NORMAL_STAGE_1 and self.gamestgart == True:
+        elif self.phase == Phase.NORMAL_STAGE_1 and self.battleflag == True:
             self.nomalscreenfunc()
             self.stage1screenfunc()
             self.myhpfunc()
@@ -486,7 +488,7 @@ class App:
             pyxel.blt(74,50,0,0,64,64,8,pyxel.COLOR_BLACK)
 
 
-        elif self.phase==Phase.NORMAL_STAGE_2 and self.gamestgart == True:
+        elif self.phase==Phase.NORMAL_STAGE_2 and self.battleflag== True:
                 self.nomalscreenfunc()
                 self.stage2screenfunc()
                 self.myhpfunc()
@@ -505,7 +507,7 @@ class App:
                     # self.wait2()
                     self.waitob.wait2()
 
-        elif self.phase==Phase.NORMAL_STAGE_3 and self.gamestgart == True:
+        elif self.phase==Phase.NORMAL_STAGE_3 and self.battleflag == True:
                 self.nomalscreenfunc()
                 self.stage3screenfunc()
                 self.stage3ddx_count()
@@ -525,7 +527,7 @@ class App:
                     # self.wait2()
                     self.waitob.wait2()
 
-        elif self.phase==Phase.NORMAL_STAGE_4 and self.gamestgart == True:
+        elif self.phase==Phase.NORMAL_STAGE_4 and self.battleflag == True:
                 self.nomalscreenfunc()
                 self.stage4screenfunc()
                 self.myhpfunc()
@@ -609,7 +611,7 @@ class App:
         self.attackmode=False
 
     def nomalstage(self):
-        self.gamestgart = True
+        self.battleflag= True
         if self.hp<=self.damage or pyxel.btn(pyxel.KEY_1):
             self.phase=Phase.GAME_CLEAR
             self.stagecount+=1
@@ -629,7 +631,6 @@ class App:
         self.myhp=1000
         self.mydamage=0
         self.timer2=0
-        self.gamestgart=False
         self.func1attack=False
         self.func2attack=False
         self.ddx=False
@@ -637,6 +638,7 @@ class App:
         self.ddx_count=0
         self.botancount==0
         self.eattack=False
+        self.battleflag=False
 
         if self.timer>=120:
             self.stagescreen=True
