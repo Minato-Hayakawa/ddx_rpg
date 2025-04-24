@@ -476,7 +476,7 @@ class App:
             self.ui.Draw()
         elif self.stateHandler.is_state(State.NORMAL_MODE):
             self.ui.Draw()
-        elif self.stateHandler.is_state(State.NORMAL_STAGE_1) and self.gamestgart == True:
+        elif self.stateHandler.is_state(State.NORMAL_STAGE_1):
             self.nomalscreenfunc()
             self.stage1screenfunc()
             self.myhpfunc()
@@ -507,7 +507,7 @@ class App:
             pyxel.blt(74,50,0,0,64,64,8,pyxel.COLOR_BLACK)
 
 
-        elif self.stateHandler.is_state(State.NORMAL_STAGE_2) and self.gamestgart == True:
+        elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
                 self.nomalscreenfunc()
                 self.stage2screenfunc()
                 self.myhpfunc()
@@ -526,7 +526,7 @@ class App:
                     # self.wait2()
                     self.waitob.wait2()
 
-        elif self.stateHandler.is_state(State.NORMAL_STAGE_3) and self.gamestgart == True:
+        elif self.stateHandler.is_state(State.NORMAL_STAGE_3):
                 self.nomalscreenfunc()
                 self.stage3screenfunc()
                 self.stage3ddx_count()
@@ -546,7 +546,7 @@ class App:
                     # self.wait2()
                     self.waitob.wait2()
 
-        elif self.stateHandler.is_state(State.NORMAL_STAGE_4) and self.gamestgart == True:
+        elif self.stateHandler.is_state(State.NORMAL_STAGE_4):
                 self.nomalscreenfunc()
                 self.stage4screenfunc()
                 self.myhpfunc()
@@ -651,7 +651,6 @@ class App:
         self.myhp=1000
         self.mydamage=0
         self.timer.timer2=0
-        self.gamestgart=False
         self.func1attack=False
         self.func2attack=False
         self.ddx=False
