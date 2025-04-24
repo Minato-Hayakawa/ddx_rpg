@@ -200,8 +200,7 @@ class App:
     def __init__(self):
         self.updown = False
         self.botancount=0
-        self.stagescreen = False
-        self.gamestgart = False
+        self.returnflag = False
         self.itemstart=False
         self.botanstart=False
         self.func1attack=False
@@ -209,6 +208,7 @@ class App:
         self.attackmode=False
         self.gameover_flag=False
         self.eattack=False
+        self.battleflag=False
         self.ddx = False
         self.ddx_count=0
         self.integral_dx = False
@@ -216,15 +216,6 @@ class App:
         # self.lim_x0 = False
 
         self.font = puf.Writer("misaki_gothic.ttf")  # フォントを指定
-
-        # ゲームの操作用座標
-        # self.x0 = False
-        # self.x1 = False
-        # self.x2 = False
-        # self.y0 = False
-        # self.y1 = False
-        # self.y2 = False
-
 
         # アイテム
         self.item1 = 5
@@ -242,7 +233,6 @@ class App:
         self.func1 = math.e**2 * x  # ステージ1の敵
         self.func2=sym.tan(x)
         self.func3=1/x**2
-        self.attackpower1 = self.func1
         self.damage=0
         self.mydamage=0
 
@@ -297,39 +287,28 @@ class App:
             elif pyxel.btnp(pyxel.KEY_DOWN) and self.botanstart==False:
                 self.botancount+=1
             elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN)  and self.botanstart==False:
-                # self.y0 = True
                 self.point.y=0
                 self.botanstart=True
             elif self.point.y==0:
                 if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.item1flag=True
                     self.botanstart=False
-                    # self.x0=False
-                    # self.y0=False
                     self.point.y=5
                 elif pyxel.btnp(pyxel.KEY_DOWN):
-                    # self.y0 = False
-                    # self.y1 = True
                     self.point.y+=1
             elif self.point.y==1:
                 if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.item2flag=True
                     self.botanstart=False
                 elif pyxel.btnp(pyxel.KEY_DOWN):
-                    # self.y1 = False
-                    # self.y2 = True
                     self.point.y+=1
                 elif pyxel.btnp(pyxel.KEY_UP):
-                    # self.y1=False
-                    # self.y0=True
                     self.point.y-=1
             elif self.point.y==2:
                 if pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.item3flag=True
                     self.botanstart=False
                 elif pyxel.btnp(pyxel.KEY_UP):
-                    # self.y1 = True
-                    # self.y2 = False
                     self.point.y-=1
 
         elif self.botancount==2:
@@ -414,42 +393,28 @@ class App:
             if pyxel.btnp(pyxel.KEY_UP) and self.botanstart==False:
                 self.botancount-=1
             elif (pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN)) and self.botanstart==False:
-                # self.x0 = True
-                # self.y0 = True
                 self.botanstart=True
 
             elif self.point.x==0 and self.point.y==0:
                 if pyxel.btnp(pyxel.KEY_RIGHT):
-                    # self.x0 = False
-                    # self.x1 = True
                     self.point.x+=1
                 elif pyxel.btnp(pyxel.KEY_DOWN):
-                    # self.y0 = False
-                    # self.y1 = True
                     self.point.y+=1
                 elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.func1attack=True
                     self.botanstart=False
-                    # self.x0=False
-                    # self.y0=False
                     self.point.x=5
                     self.point.y=5
                     self.attackmode=True
 
             elif self.point.x==1 and self.point.y==0:
                 if pyxel.btnp(pyxel.KEY_LEFT):
-                    # self.x0 = True
-                    # self.x1 = False
                     self.point.x-=1
                 elif pyxel.btnp(pyxel.KEY_DOWN):
-                    # self.y0 = False
-                    # self.y1 = True
                     self.point.y+=1
                 elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.ddx = True
                     self.botanstart=False
-                    # self.x1=False
-                    # self.y0=False
                     self.point.x=5
                     self.point.y=5
                     if self.ddx_count!=4 and self.stateHandler.is_state(State.NORMAL_STAGE_1):
@@ -459,46 +424,28 @@ class App:
                     self.attackmode=True
             elif self.point.x==0 and self.point.y==0:
                 if pyxel.btnp(pyxel.KEY_UP):
-                    # self.y0 = True
-                    # self.y1 = False
                     self.point.y-=1
                 elif pyxel.btnp(pyxel.KEY_RIGHT):
-                    # self.x1 = True
-                    # self.x0 = False
                     self.point.x+=1
                 elif pyxel.btnp(pyxel.KEY_DOWN):
-                    # self.y0 = False
-                    # self.y1 = False
-                    # self.y2 = True
                     self.point.y+=1
                 elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.func2attack=True
                     self.botanstart=False
                     self.attackmode=True
-                    # self.x0=False
-                    # self.y1=False
                     self.point.x=5
                     self.point.y=5
 
             elif self.point.x==1 and self.point.y==1:
                 if pyxel.btnp(pyxel.KEY_LEFT):
-                    # self.x0 = True
-                    # self.x1 = False
                     self.point.x-=1
                 elif pyxel.btnp(pyxel.KEY_UP):
-                    # self.y0 = True
-                    # self.y1 = False
                     self.point.y-=1
                 elif pyxel.btnp(pyxel.KEY_DOWN):
-                    # self.y0 = False
-                    # self.y1 = False
-                    # self.y2 = True
                     self.point.y+=1
                 elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
                     self.integral_dx = True
                     self.botanstart=False
-                    # self.x1=False
-                    # self.y1=False
                     self.point.x=5
                     self.point.y=5
                     if self.ddx_count!=-4 and self.stateHandler.is_state(State.NORMAL_STAGE_1):
@@ -682,7 +629,7 @@ class App:
         self.attackmode=False
 
     def nomalstage(self):
-        self.gamestgart = True
+        self.battleflag= True
         if self.hp<=self.damage or pyxel.btn(pyxel.KEY_1):
             self.stateHandler.set_state(State.GAME_CLEAR)
             self.stageHandler.stageCount += 1
@@ -712,6 +659,7 @@ class App:
         self.ddx_count=0
         self.botancount==0
         self.eattack=False
+        self.battleflag=False
 
         if self.timer.timer >= 120:
             self.stagescreen=True
