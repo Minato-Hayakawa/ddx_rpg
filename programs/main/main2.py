@@ -7,7 +7,7 @@ from enum import Enum
 
 x= sym.symbols('x')
 
-class Phase(Enum):
+class State(Enum):
     START = "start"
     MENU = "menu"
     NORMAL_MODE = "nomalmode"
@@ -20,6 +20,150 @@ class Phase(Enum):
     GAME_OVER="gameover"
     GAME_CLEAR = "gameclear"
     END = "end"
+
+class StateHandler():
+    def __init__(self):
+        self._state = State.START
+
+    def set_state(self, state):
+        self._state = state
+
+    def get_state(self):
+        return self._state
+
+    def is_state(self, state):
+        if self._state == state:
+            return True
+        return False
+
+class Timer():
+    def __init__(self):
+        self.timer = 0
+        self.timer2 = 0
+
+class StageHandler():
+    def __init__(self):
+        self.stageCount = 1
+        self.isBattleStage = False
+
+class UI():
+    class Menu():
+        def __init__(self, stateHandler, font, stageScreen):
+            self.menu_items = ["ノーマル", "イージー"]
+            self.selected_index = 0
+            self._stateHandler = stateHandler
+            self.font = font
+            self.stagescreen = stageScreen
+
+        def logic(self):
+            if InputHandler.isUp():
+                self.selected_index = 0
+            elif InputHandler.isDown():
+                self.selected_index = 1
+
+            self.menu_items = [self.selected_index]
+
+            if not InputHandler.isDecide():
+                return
+
+            if self.selected_index is 1:
+                self._stateHandler.set_state(State.EASY_MODE)
+                print("easy")
+            else:
+                self._stateHandler.set_state(State.NORMAL_MODE)
+                print("normal")
+
+            self.stagescreen.stageScreen = True
+
+        def draw(self):
+            pyxel.cls(0)
+            pyxel.blt(
+                10, 15, 0, 96, 0, 140, 120, pyxel.COLOR_BLACK
+            )  # スタート画面を表示
+            self.font.draw(22, 43, "∫積分伝説〜勇者とdxの旅〜", 8, 13)
+            self.font.draw(58, 83, "ノーマル", 8, 13)
+            self.font.draw(59, 115, "イージー", 8, 13)
+
+            if self.selected_index == 0:
+                pyxel.blt(42, 79, 1, 16, 0, 65, 16, pyxel.COLOR_BLACK)
+            elif self.selected_index == 1:
+                pyxel.blt(42, 111, 1, 16, 0, 65, 16, pyxel.COLOR_BLACK)
+
+    class StageScreen():
+        def __init__(self, stateHandler, timer, font, stageHandler):
+            self.stageScreen = False
+            self.stateHandler = stateHandler
+            self.timer = timer
+            self.font = font
+            self.stageHandler = stageHandler
+
+        def draw(self):
+            pyxel.cls(0)
+            if self.stageScreen == True:
+                for i in range(3):
+                    pyxel.blt(
+                        35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK
+                    )  # ステージを表示(矢印なし)
+
+                    if 45 >= self.timer.timer >= 30:  # 1秒後
+                        if self.stageHandler.stageCount==1:
+                            pyxel.blt(35, 85, 1, 0, 14, 16, 16, pyxel.COLOR_BLACK)  # 矢印
+                        elif self.stageHandler.stageCount==2:
+                            pyxel.blt(51,85,1,0,14,16,16,pyxel.COLOR_BLACK)
+                        elif self.stageHandler.stageCount==3:
+                            pyxel.blt(67,85,1,0,14,16,16,pyxel.COLOR_BLACK)
+                        elif self.stageHandler.stageCount==4:
+                            pyxel.blt(83,85,1,0,14,16,16,pyxel.COLOR_BLACK)
+                        elif self.stageHandler.stageCount==5:
+                            pyxel.blt(99,85,1,0,14,16,16,pyxel.COLOR_BLACK)
+                    elif self.timer.timer >= 45:  # 1秒後
+                        pyxel.cls(0)
+                        pyxel.blt(
+                            35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK
+                        )  # ステージを表示(矢印なし)
+                        self.timer.timer = 0
+            else:
+                self.font.draw(100, 140, "Push return", 8, 7)
+
+        def logic(self):
+            self.timer.timer += 1
+            self.timer.timer2 += 1
+
+            if self.timer.timer2 >= 145: #タイマーが超えたか
+                self.stageScreen = False
+                if InputHandler.isDecide():
+                    if self.stageHandler.stageCount is 1:
+                        self.stateHandler.set_state(State.NORMAL_STAGE_1)
+                    elif self.stageHandler.stageCount is 2:
+                        self.stateHandler.set_state(State.NORMAL_STAGE_2)
+                    elif self.stageHandler.stageCount is 3:
+                        self.stateHandler.set_state(State.NORMAL_STAGE_3)
+                    elif self.stageHandler.stageCount is 4:
+                        self.stateHandler.set_state(State.NORMAL_STAGE_4)
+                    self.timer.timer = 0
+                    self.timer.timer2 = 0
+                    self.stageHandler.isBattleStage = True
+
+    def __init__(self, stateHandler, stageHandler, timer, font):
+        self.stateHandler = stateHandler
+        self.stageHandler = stageHandler
+        self.timer = timer
+        self.font = font
+
+        self.stageScreen = UI.StageScreen(self.stateHandler, timer, font, stageHandler)
+        self.menu = UI.Menu(self.stateHandler, self.font, self.stageScreen)
+
+    def Update(self):
+        if self.stateHandler.is_state(State.MENU):
+            self.menu.logic()
+        elif self.stateHandler.is_state(State.NORMAL_MODE):
+            self.stageScreen.logic()
+
+    def Draw(self):
+        if self.stateHandler.is_state(State.MENU):
+            self.menu.draw()
+        elif self.stateHandler.is_state(State.NORMAL_MODE):
+            self.stageScreen.draw()
 
 class InputHandler():
     def isDecide():
@@ -54,7 +198,6 @@ class InputHandler():
 
 class App:
     def __init__(self):
-
         self.updown = False
         self.botancount=0
         self.stagescreen = False
@@ -71,9 +214,6 @@ class App:
         self.integral_dx = False
         self.C = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         # self.lim_x0 = False
-
-        self.timer = 0
-        self.timer2 = 0
 
         self.font = puf.Writer("misaki_gothic.ttf")  # フォントを指定
 
@@ -105,49 +245,43 @@ class App:
         self.attackpower1 = self.func1
         self.damage=0
         self.mydamage=0
-        self.stagecount=1
 
-        self.phase = Phase.START
-
-        self.waitob = wait()
         self.point = Point()
-        # self.wait._timer
+
+        self.timer = Timer()
+        self.waitob = Wait(self.timer)
+        self.stageHandler = StageHandler()
+        self.stateHandler = StateHandler()
+        self.ui = UI(self.stateHandler, self.stageHandler, self.timer, self.font)
 
         pyxel.init(150, 150, title="The Integral War")
         pyxel.load("my_resource.pyxres")
         pyxel.run(self.update, self.draw)
 
     def update(self):
-        if self.phase == Phase.START:
+        print(self.stateHandler.get_state())
+        if self.stateHandler.is_state(State.START):
             self.start()
-        elif self.phase == Phase.MENU:
+        elif self.stateHandler.is_state(State.MENU):
             self.menu()
-        elif self.phase == Phase.NORMAL_MODE:
-            self.timer += 1
-            self.timer2 += 1
+        elif self.stateHandler.is_state(State.NORMAL_MODE):
             self.nomalmode()
-        elif self.phase == Phase.EASY_MODE:
+        elif self.stateHandler.is_state(State.EASY_MODE):
+            #TODO:未実装
             self.easiymode()
-        elif self.phase == Phase.NORMAL_STAGE_1 or self.phase==Phase.NORMAL_STAGE_2 or self.phase==Phase.NORMAL_STAGE_3 or self.phase==Phase.NORMAL_STAGE_4 or self.phase==Phase.NORMAL_STAGE_5:
-
-            # ↑ステージが増えるたびに書き直さないと行けないのはだるいから、バトルステージにいるかどうかのフラグを作成しよ〜
-
+        elif self.stageHandler.isBattleStage:
             self.nomalstage()
-            if self.gamestgart == True:
-                self.botan()
-                self.itemfunc()
-                if self.attackmode==True:
-                    self.battlemode()
-
-        elif self.phase==Phase.GAME_OVER:
+            self.botan()
+            self.itemfunc()
+            if self.attackmode==True:
+                self.battlemode()
+        elif self.stateHandler.is_state(State.GAME_OVER):
             self.gameover()
-            self.timer+=1
-
-        elif self.phase == Phase.GAME_CLEAR:
+            self.timer.timer += 1
+        elif self.stateHandler.is_state(State.GAME_CLEAR):
             self.gameclear()
-            self.timer+=1
-
-        elif self.phase == Phase.END:
+            self.timer.timer += 1
+        elif self.stateHandler.is_state(State.END):
             self.end()
 
     def botan(self):
@@ -203,6 +337,7 @@ class App:
                 self.botancount-=1
             elif pyxel.btnp(pyxel.KEY_DOWN):
                 self.botancount+=1
+            """
             # elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
             #     # self.x0 = True
             #     # self.y0 = True
@@ -273,6 +408,7 @@ class App:
             #         elif pyxel.btnp(pyxel.KEY_LEFT):
             #             self.x0 = True
             #             self.x1 = False
+            """
 
         elif self.botancount==3:
             if pyxel.btnp(pyxel.KEY_UP) and self.botanstart==False:
@@ -316,9 +452,9 @@ class App:
                     # self.y0=False
                     self.point.x=5
                     self.point.y=5
-                    if self.ddx_count!=4 and self.phase==Phase.NORMAL_STAGE_1:
+                    if self.ddx_count!=4 and self.stateHandler.is_state(State.NORMAL_STAGE_1):
                         self.ddx_count+=1
-                    elif self.ddx_count!=2 and self.phase==Phase.NORMAL_STAGE_3:
+                    elif self.ddx_count!=2 and self.stateHandler.is_state(State.NORMAL_STAGE_3):
                         self.ddx_count+=1
                     self.attackmode=True
             elif self.point.x==0 and self.point.y==0:
@@ -365,97 +501,35 @@ class App:
                     # self.y1=False
                     self.point.x=5
                     self.point.y=5
-                    if self.ddx_count!=-4 and self.phase==Phase.NORMAL_STAGE_1:
+                    if self.ddx_count!=-4 and self.stateHandler.is_state(State.NORMAL_STAGE_1):
                         self.ddx_count-=1
-                    elif self.ddx_count!=-2 and self.phase==Phase.NORMAL_STAGE_3:
+                    elif self.ddx_count!=-2 and self.stateHandler.is_state(State.NORMAL_STAGE_3):
                         self.ddx_count-=1
                     self.attackmode=True
 
     def start(self):
         if InputHandler.isDecide():
-            self.phase = Phase.MENU
+            self.stateHandler.set_state(State.MENU)
 
     def menu(self):
-        if InputHandler.isUp():
-            self.updown = False
-        elif InputHandler.isDown():
-            self.updown = True
-
-        if not InputHandler.isDecide():
-            return
-
-        if self.updown is True:
-            self.phase = Phase.EASY_MODE
-            print("easy")
-        else:
-            self.phase = Phase.NORMAL_MODE
-            print("normal")
-
-        self.stagescreen = True
+        self.ui.Update()
 
     def nomalmode(self):
-        if self.timer2 >= 145: #タイマーが超えただけだと、タイマーの意味が直感的にわからない！この場合はロード演出が終了したかどうかのフラグを立てたほうがわかりやすいよ〜〜
-            self.stagescreen = False
-            if InputHandler.isDecide():
-                if self.stagecount==1:
-                    self.phase = Phase.NORMAL_STAGE_1
-                elif self.stagecount==2:
-                    self.phase=Phase.NORMAL_STAGE_2
-                elif self.stagecount==3:
-                    self.phase=Phase.NORMAL_STAGE_3
-                elif self.stagecount==4:
-                    self.phase=Phase.NORMAL_STAGE_4
-                self.timer = 0
-                self.timer2=0
+        self.ui.Update()
 
     def draw(self):
-        if self.phase == Phase.START:
+        if self.stateHandler.is_state(State.START):
             pyxel.blt(
                 10, 15, 0, 96, 0, 140, 80, pyxel.COLOR_BLACK
             )  # スタート画面を表示
             pyxel.blt(42, 79, 1, 16, 0, 65, 16, pyxel.COLOR_BLACK)
             self.font.draw(22, 43, "∫積分伝説〜勇者とdxの旅〜", 8, 13)
             self.font.draw(46, 83, "Enterでスタート", 8, 13)
-        elif self.phase == Phase.MENU:
-            pyxel.cls(0)
-            pyxel.blt(
-                10, 15, 0, 96, 0, 140, 120, pyxel.COLOR_BLACK
-            )  # スタート画面を表示
-            self.font.draw(22, 43, "∫積分伝説〜勇者とdxの旅〜", 8, 13)
-            self.font.draw(58, 83, "ノーマル", 8, 13)
-            self.font.draw(59, 115, "イージー", 8, 13)
-            if self.updown == False:
-                pyxel.blt(42, 79, 1, 16, 0, 65, 16, pyxel.COLOR_BLACK)
-            elif self.updown == True:
-                pyxel.blt(42, 111, 1, 16, 0, 65, 16, pyxel.COLOR_BLACK)
-        elif self.phase == Phase.NORMAL_MODE:
-            if self.stagescreen == True:
-                pyxel.cls(0)
-                for i in range(3):
-                    pyxel.blt(
-                        35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK
-                    )  # ステージを表示(矢印なし)
-
-                    if 45 >= self.timer >= 30:  # 1秒後
-                        if self.stagecount==1:
-                            pyxel.blt(35, 85, 1, 0, 14, 16, 16, pyxel.COLOR_BLACK)  # 矢印
-                        elif self.stagecount==2:
-                            pyxel.blt(51,85,1,0,14,16,16,pyxel.COLOR_BLACK)
-                        elif self.stagecount==3:
-                            pyxel.blt(67,85,1,0,14,16,16,pyxel.COLOR_BLACK)
-                        elif self.stagecount==4:
-                            pyxel.blt(83,85,1,0,14,16,16,pyxel.COLOR_BLACK)
-                        elif self.stagecount==5:
-                            pyxel.blt(99,85,1,0,14,16,16,pyxel.COLOR_BLACK)
-                    elif self.timer >= 45:  # 1秒後
-                        pyxel.cls(0)
-                        pyxel.blt(
-                            35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK
-                        )  # ステージを表示(矢印なし)
-                        self.timer = 0
-            else:
-                self.font.draw(100, 140, "Push return", 8, 7)
-        elif self.phase == Phase.NORMAL_STAGE_1 and self.gamestgart == True:
+        elif self.stateHandler.is_state(State.MENU):
+            self.ui.Draw()
+        elif self.stateHandler.is_state(State.NORMAL_MODE):
+            self.ui.Draw()
+        elif self.stateHandler.is_state(State.NORMAL_STAGE_1) and self.gamestgart == True:
             self.nomalscreenfunc()
             self.stage1screenfunc()
             self.myhpfunc()
@@ -475,18 +549,18 @@ class App:
                 # self.wait2()
                 self.waitob.wait2()
 
-        elif self.phase==Phase.GAME_OVER:
+        elif self.stateHandler.is_state(State.GAME_OVER):
             pyxel.cls(0)
             pyxel.blt(50,50,0,0,48,30,8,pyxel.COLOR_BLACK) #gameoverを表示
             pyxel.blt(74,50,0,0,56,24,8,pyxel.COLOR_BLACK)
 
-        elif self.phase==Phase.GAME_CLEAR:
+        elif self.stateHandler.is_state(State.GAME_CLEAR):
             pyxel.cls(0)
             pyxel.blt(50,50,0,0,48,24,8,pyxel.COLOR_BLACK) #gameclearを表示
             pyxel.blt(74,50,0,0,64,64,8,pyxel.COLOR_BLACK)
 
 
-        elif self.phase==Phase.NORMAL_STAGE_2 and self.gamestgart == True:
+        elif self.stateHandler.is_state(State.NORMAL_STAGE_2) and self.gamestgart == True:
                 self.nomalscreenfunc()
                 self.stage2screenfunc()
                 self.myhpfunc()
@@ -505,7 +579,7 @@ class App:
                     # self.wait2()
                     self.waitob.wait2()
 
-        elif self.phase==Phase.NORMAL_STAGE_3 and self.gamestgart == True:
+        elif self.stateHandler.is_state(State.NORMAL_STAGE_3) and self.gamestgart == True:
                 self.nomalscreenfunc()
                 self.stage3screenfunc()
                 self.stage3ddx_count()
@@ -525,7 +599,7 @@ class App:
                     # self.wait2()
                     self.waitob.wait2()
 
-        elif self.phase==Phase.NORMAL_STAGE_4 and self.gamestgart == True:
+        elif self.stateHandler.is_state(State.NORMAL_STAGE_4) and self.gamestgart == True:
                 self.nomalscreenfunc()
                 self.stage4screenfunc()
                 self.myhpfunc()
@@ -565,22 +639,21 @@ class App:
     def battlemode(self):
         if self.hp >= 0 and self.myhp >= 0:
             if self.ddx == True:
-                if self.phase==Phase.NORMAL_STAGE_1:
+                if self.stateHandler.is_state(State.NORMAL_STAGE_1):
                     if self.ddx_count!=4:
                         self.func1 = sym.Derivative(self.func1).doit()
-                elif self.phase==Phase.NORMAL_STAGE_2:
+                elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
                     self.func2 = sym.Derivative(self.func2).doit()
-                elif self.phase==Phase.NORMAL_STAGE_3:
+                elif self.stateHandler.is_state(State.NORMAL_STAGE_3):
                     if self.ddx_count!=2:
                         self.func3= sym.Derivative(self.func3).doit()
-
             elif self.integral_dx == True:
-                if self.phase==Phase.NORMAL_STAGE_1:
+                if self.stateHandler.is_state(State.NORMAL_STAGE_1):
                     if self.ddx_count!=4:
                         self.func1 = sym.integrate(self.func1,x)
-                elif self.phase==Phase.NORMAL_STAGE_2:
+                elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
                     self.func2=sym.integrate(self.func2,x)
-                elif self.phase==Phase.NORMAL_STAGE_3:
+                elif self.stateHandler.is_state(State.NORMAL_STAGE_3):
                     if self.ddx_count!=-2:
                         self.func3=sym.integrate(self.func3,x)
                 self.hp += self.C[random.randint(0,9)]  # 積分定数Cの値だけhpが増加
@@ -591,10 +664,10 @@ class App:
             elif self.func2attack==True:
                 self.damage+=self.myfunc2.subs(x,random.randint(1,6))
             # 敵の攻撃
-            if self.phase==Phase.NORMAL_STAGE_1:
+            if self.stateHandler.is_state(State.NORMAL_STAGE_1):
                 self.mydamage+=self.func1.subs(x,random.uniform(1,6))
                 print(self.damage)
-            elif self.phase==Phase.NORMAL_STAGE_2:
+            elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
                 if self.num!=5 or self.num!=13:
                     self.mydamage+=abs(self.func2.subs(x,math.radians(self.rulet[self.num%16])))
                     self.num+=1
@@ -603,7 +676,7 @@ class App:
 
                 print(self.hp)
                 print(self.damage)
-            elif self.phase==Phase.NORMAL_STAGE_3:
+            elif self.stateHandler.is_state(State.NORMAL_STAGE_3):
                 self.mydamage=abs(self.func3.subs(x,random.uniform(0.1,3)))
                 print(self.ddx_count)
         self.attackmode=False
@@ -611,24 +684,26 @@ class App:
     def nomalstage(self):
         self.gamestgart = True
         if self.hp<=self.damage or pyxel.btn(pyxel.KEY_1):
-            self.phase=Phase.GAME_CLEAR
-            self.stagecount+=1
+            self.stateHandler.set_state(State.GAME_CLEAR)
+            self.stageHandler.stageCount += 1
         elif self.myhp<=self.mydamage:
-            self.phase=Phase.GAME_OVER
+            self.stateHandler.set_state(State.GAME_OVER)
 
     def end(self):
         pyxel.quit()
 
     def gameover(self):
-        if self.timer>=120:
-            self.phase=Phase.END
-            self.timer=0
+        self.stageHandler.isBattleStage = False
+        if self.timer.timer >= 120:
+            self.stateHandler.set_state(State.END)
+            self.timer.timer = 0
     def gameclear(self):
+        self.stageHandler.isBattleStage = False
         self.hp=1000
         self.damage=0
         self.myhp=1000
         self.mydamage=0
-        self.timer2=0
+        self.timer.timer2=0
         self.gamestgart=False
         self.func1attack=False
         self.func2attack=False
@@ -638,11 +713,11 @@ class App:
         self.botancount==0
         self.eattack=False
 
-        if self.timer>=120:
+        if self.timer.timer >= 120:
             self.stagescreen=True
-            self.timer=0
-            self.timer2=0
-            self.phase=Phase.NORMAL_MODE
+            self.timer.timer = 0
+            self.timer.timer2 = 0
+            self.stateHandler.set_state(State.NORMAL_MODE)
 
     def stagefunc1attack(self):
         pyxel.blt(33,120,1,22,146,80,16)
@@ -658,14 +733,14 @@ class App:
 
     def ddxfunc(self):
         pyxel.blt(33,120,1,22,146,80,16)
-        if self.phase==Phase.NORMAL_STAGE_1:
+        if self.stateHandler.is_state(State.NORMAL_STAGE_1):
             if self.ddx_count!=4:
                 self.font.draw(33, 120, "d/dxで攻撃！", 8, 7)
             else:
                 self.font.draw(33, 120, "※これ以上微分できません!", 8, 7)
-        elif self.phase==Phase.NORMAL_STAGE_2:
+        elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
             self.font.draw(33,120,"d/dxで攻撃!",8,7)
-        elif self.phase==Phase.NORMAL_STAGE_3:
+        elif self.stateHandler.is_state(State.NORMAL_STAGE_3):
             if self.ddx_count!=2:
                 self.font.draw(33,120,"d/dxで攻撃!",8,7)
             else:
@@ -675,14 +750,14 @@ class App:
 
     def integral_dxfunc(self):
         pyxel.blt(33,120,1,22,146,80,16)
-        if self.phase==Phase.NORMAL_STAGE_1:
+        if self.stateHandler.is_state(State.NORMAL_STAGE_1):
             if self.ddx_count!=-4:
                 self.font.draw(33, 120, "∫dxで攻撃！", 8, 7)
             else:
                 self.font.draw(33,120,"※これ以上積分できません!",8,7)
-        elif self.phase==Phase.NORMAL_STAGE_2:
+        elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
             self.font.draw(33,120,"∫dxで攻撃!",8,7)
-        elif self.phase==Phase.NORMAL_STAGE_3:
+        elif self.stateHandler.is_state(State.NORMAL_STAGE_3):
             if self.ddx_count!=-2:
                 self.font.draw(33,120,"∫dxで攻撃!",8,7)
             else:
@@ -918,29 +993,28 @@ class Point:
         self.x = 0
         self.y = 0
 
-class wait: #要修正
-
-    def __init__(self):
-        self._timer = 0
+class Wait: #要修正
+    def __init__(self, timer):
+        self.timer = timer
         self.func1attack = False
         #.....
 
     def wait1(self):
-        self.timer+=1
-        if self.timer>=60:
+        self.timer.timer+=1
+        if self.timer.timer>=60:
             self.func1attack=False
             self.func2attack=False
             self.ddx=False
             self.integral_dx=False
             self.botancount=4
             self.eattack=True
-            self.timer=0
+            self.timer.timer=0
 
     def wait2(self):
-        self.timer2+=1
-        if self.timer2>=60:
+        self.timer.timer2+=1
+        if self.timer.timer2>=60:
             self.botancount=0
             self.eattack=False
-            self.timer2=0
+            self.timer.timer2=0
 
 App()
