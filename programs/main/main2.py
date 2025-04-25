@@ -207,24 +207,7 @@ class DrawBasedOnState():
             if InputHandler.isDecide():
                 self.stateHandler.set_state(State.MENU)
         elif self.stateHandler.is_state(State.MENU):
-            if InputHandler.isUp():
-                self.selected_index = 0
-            elif InputHandler.isDown():
-                self.selected_index = 1
-
-            self.menu_items = [self.selected_index]
-
-            if not InputHandler.isDecide():
-                return
-
-            if self.selected_index is 1:
-                self._stateHandler.set_state(State.EASY_MODE)
-                print("easy")
-            else:
-                self._stateHandler.set_state(State.NORMAL_MODE)
-                print("normal")
-
-            self.stagescreen.stageScreen = True
+            pass
         elif self.stateHandler.is_state(State.NORMAL_MODE):
             self.timer.timer += 1
             self.timer.timer2 += 1
@@ -244,9 +227,35 @@ class DrawBasedOnState():
                     self.timer.timer2 = 0
                     self.stageHandler.isBattleStage = True
 
+# DrawBasedOnStateクラスのMENUステートの描画を行う責務を持つクラスです。
 class DrawByMENUState():
-    def __init__(self, stateHandler):
-        self.stateHandler = stateHandler
+    def __init__(self, stateHandler, stageScreen):
+        self._stateHandler = stateHandler
+        self.stagescreen = stageScreen
+
+        self.selected_index = 0
+        self.menu_items = ["ノーマル", "イージー"]
+
+    # このメソッドを実行すると責務を完了します。
+    def Draw(self):
+        if InputHandler.isUp():
+            self.selected_index = 0
+        elif InputHandler.isDown():
+            self.selected_index = 1
+
+        self.menu_items = [self.selected_index]
+
+        if not InputHandler.isDecide():
+            return
+
+        if self.selected_index is 1:
+            self._stateHandler.set_state(State.EASY_MODE)
+            print("easy")
+        else:
+            self._stateHandler.set_state(State.NORMAL_MODE)
+            print("normal")
+
+        self.stagescreen.stageScreen = True
 
 class App:
     def __init__(self):
