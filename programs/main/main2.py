@@ -198,12 +198,51 @@ class InputHandler():
 
 # ステートに合わせた描画を行う責務を持つクラス
 class DrawBasedOnState():
-    def __init__(self):
-        pass
+    def __init__(self, stateHandler):
+        self.stateHandler = stateHandler
 
     #このメソッドを実行すればクラスの責務を完了します
     def Draw(self):
-        pass
+        if self.stateHandler.is_state(State.START):
+            if InputHandler.isDecide():
+                self.stateHandler.set_state(State.MENU)
+        elif self.stateHandler.is_state(State.MENU):
+            if InputHandler.isUp():
+                self.selected_index = 0
+            elif InputHandler.isDown():
+                self.selected_index = 1
+
+            self.menu_items = [self.selected_index]
+
+            if not InputHandler.isDecide():
+                return
+
+            if self.selected_index is 1:
+                self._stateHandler.set_state(State.EASY_MODE)
+                print("easy")
+            else:
+                self._stateHandler.set_state(State.NORMAL_MODE)
+                print("normal")
+
+            self.stagescreen.stageScreen = True
+        elif self.stateHandler.is_state(State.NORMAL_MODE):
+            self.timer.timer += 1
+            self.timer.timer2 += 1
+
+            if self.timer.timer2 >= 145: #タイマーが超えたか
+                self.stageScreen = False
+                if InputHandler.isDecide():
+                    if self.stageHandler.stageCount is 1:
+                        self.stateHandler.set_state(State.NORMAL_STAGE_1)
+                    elif self.stageHandler.stageCount is 2:
+                        self.stateHandler.set_state(State.NORMAL_STAGE_2)
+                    elif self.stageHandler.stageCount is 3:
+                        self.stateHandler.set_state(State.NORMAL_STAGE_3)
+                    elif self.stageHandler.stageCount is 4:
+                        self.stateHandler.set_state(State.NORMAL_STAGE_4)
+                    self.timer.timer = 0
+                    self.timer.timer2 = 0
+                    self.stageHandler.isBattleStage = True
 
 class App:
     def __init__(self):
