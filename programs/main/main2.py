@@ -196,6 +196,15 @@ class InputHandler():
         else:
             return False
 
+# ステートに合わせた描画を行う責務を持つクラス
+class DrawBasedOnState():
+    def __init__(self):
+        pass
+
+    #このメソッドを実行すればクラスの責務を完了します
+    def Draw(self):
+        pass
+
 class App:
     def __init__(self):
         self.updown = False
