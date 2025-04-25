@@ -244,6 +244,10 @@ class DrawBasedOnState():
                     self.timer.timer2 = 0
                     self.stageHandler.isBattleStage = True
 
+class DrawByMENUState():
+    def __init__(self, stateHandler):
+        self.stateHandler = stateHandler
+
 class App:
     def __init__(self):
         self.updown = False
