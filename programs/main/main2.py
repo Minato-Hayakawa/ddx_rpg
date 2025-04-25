@@ -198,64 +198,93 @@ class InputHandler():
 
 # ステートに合わせた描画を行う責務を持つクラス
 class DrawBasedOnState():
-    def __init__(self, stateHandler):
+    def __init__(self, stateHandler, stageScreen, stageHandler, timer,font):
         self.stateHandler = stateHandler
+
+        self.drawbySTARTState = DrawBySTARTState(font)
+        self.drawByMENUState = DrawByMENUState(font)
+        self.drawByNORMAL_MODEState = DrawByNORMAL_MODEState(stageHandler, timer, stateHandler, stageScreen)
 
     #このメソッドを実行すればクラスの責務を完了します
     def Draw(self):
-        if self.stateHandler.is_state(State.START):
-            if InputHandler.isDecide():
-                self.stateHandler.set_state(State.MENU)
-        elif self.stateHandler.is_state(State.MENU):
-            pass
-        elif self.stateHandler.is_state(State.NORMAL_MODE):
-            self.timer.timer += 1
-            self.timer.timer2 += 1
+        pyxel.cls(0)
 
-            if self.timer.timer2 >= 145: #タイマーが超えたか
-                self.stageScreen = False
-                if InputHandler.isDecide():
-                    if self.stageHandler.stageCount is 1:
-                        self.stateHandler.set_state(State.NORMAL_STAGE_1)
-                    elif self.stageHandler.stageCount is 2:
-                        self.stateHandler.set_state(State.NORMAL_STAGE_2)
-                    elif self.stageHandler.stageCount is 3:
-                        self.stateHandler.set_state(State.NORMAL_STAGE_3)
-                    elif self.stageHandler.stageCount is 4:
-                        self.stateHandler.set_state(State.NORMAL_STAGE_4)
-                    self.timer.timer = 0
-                    self.timer.timer2 = 0
-                    self.stageHandler.isBattleStage = True
+        if self.stateHandler.is_state(State.START):
+            self.drawbySTARTState.Draw()
+        elif self.stateHandler.is_state(State.MENU):
+            self.drawByMENUState.Draw()
+        elif self.stateHandler.is_state(State.NORMAL_MODE):
+            self.drawByNORMAL_MODEState.Draw()
+
+# DrawBasedOnStateクラスのSTARTステートの描画を行う責務を持つクラスです
+class DrawBySTARTState():
+    def __init__(self, font):
+        self.font = font
+
+    def Draw(self):
+        pyxel.blt(
+                10, 15, 0, 96, 0, 140, 80, pyxel.COLOR_BLACK
+            )  # スタート画面を表示
+        pyxel.blt(42, 79, 1, 16, 0, 65, 16, pyxel.COLOR_BLACK)
+        self.font.draw(22, 43, "∫積分伝説〜勇者とdxの旅〜", 8, 13)
+        self.font.draw(46, 83, "Enterでスタート", 8, 13)
+
+
+# FIX:下のクラスのselected_indexを取得または定義したいないので動きません。他のクラスにロジックのクラスを定義するのでそのクラスからselected_indexを受け取ることにします。
 
 # DrawBasedOnStateクラスのMENUステートの描画を行う責務を持つクラスです。
 class DrawByMENUState():
-    def __init__(self, stateHandler, stageScreen):
-        self._stateHandler = stateHandler
-        self.stagescreen = stageScreen
-
-        self.selected_index = 0
-        self.menu_items = ["ノーマル", "イージー"]
+    def __init__(self, font):
+        self.font = font
 
     # このメソッドを実行すると責務を完了します。
     def Draw(self):
-        if InputHandler.isUp():
-            self.selected_index = 0
-        elif InputHandler.isDown():
-            self.selected_index = 1
+        pyxel.blt(
+            10, 15, 0, 96, 0, 140, 120, pyxel.COLOR_BLACK
+        )  # スタート画面を表示
+        self.font.draw(22, 43, "∫積分伝説〜勇者とdxの旅〜", 8, 13)
+        self.font.draw(58, 83, "ノーマル", 8, 13)
+        self.font.draw(59, 115, "イージー", 8, 13)
 
-        self.menu_items = [self.selected_index]
+        if self.selected_index == 0:
+            pyxel.blt(42, 79, 1, 16, 0, 65, 16, pyxel.COLOR_BLACK)
+        elif self.selected_index == 1:
+            pyxel.blt(42, 111, 1, 16, 0, 65, 16, pyxel.COLOR_BLACK)
 
-        if not InputHandler.isDecide():
-            return
+# DrawBaseOnStateクラスでNORMAL_MODEステートの描画を行う責務を持つクラスです
+class DrawByNORMAL_MODEState():
+    def __init__(self, stageHandler, timer, stageScreen):
+        self.stageHandler = stageHandler
+        self.timer = timer
+        self.stageScreen = stageScreen
 
-        if self.selected_index is 1:
-            self._stateHandler.set_state(State.EASY_MODE)
-            print("easy")
+    #　これを実行すると責務が完了します
+    def Draw(self):
+        if self.stageScreen == True:
+            for i in range(3):
+                pyxel.blt(
+                    35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK
+                )  # ステージを表示(矢印なし)
+
+                if 45 >= self.timer.timer >= 30:  # 1秒後
+                    if self.stageHandler.stageCount==1:
+                        pyxel.blt(35, 85, 1, 0, 14, 16, 16, pyxel.COLOR_BLACK)  # 矢印
+                    elif self.stageHandler.stageCount==2:
+                        pyxel.blt(51,85,1,0,14,16,16,pyxel.COLOR_BLACK)
+                    elif self.stageHandler.stageCount==3:
+                        pyxel.blt(67,85,1,0,14,16,16,pyxel.COLOR_BLACK)
+                    elif self.stageHandler.stageCount==4:
+                        pyxel.blt(83,85,1,0,14,16,16,pyxel.COLOR_BLACK)
+                    elif self.stageHandler.stageCount==5:
+                        pyxel.blt(99,85,1,0,14,16,16,pyxel.COLOR_BLACK)
+                    elif self.timer.timer >= 45:  # 1秒後
+                        pyxel.cls(0)
+                        pyxel.blt(
+                            35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK
+                        )  # ステージを表示(矢印なし)
+                        self.timer.timer = 0
         else:
-            self._stateHandler.set_state(State.NORMAL_MODE)
-            print("normal")
-
-        self.stagescreen.stageScreen = True
+            self.font.draw(100, 140, "Push return", 8, 7)
 
 class App:
     def __init__(self):
@@ -566,7 +595,6 @@ class App:
             pyxel.cls(0)
             pyxel.blt(50,50,0,0,48,24,8,pyxel.COLOR_BLACK) #gameclearを表示
             pyxel.blt(74,50,0,0,64,64,8,pyxel.COLOR_BLACK)
-
 
         elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
                 self.nomalscreenfunc()
