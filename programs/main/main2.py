@@ -66,7 +66,7 @@ class UI():
             if not InputHandler.isDecide():
                 return
 
-            if self.selected_index is 1:
+            if self.selected_index == 1:
                 self._stateHandler.set_state(State.EASY_MODE)
                 print("easy")
             else:
@@ -285,6 +285,68 @@ class DrawByNORMAL_MODEState():
                         self.timer.timer = 0
         else:
             self.font.draw(100, 140, "Push return", 8, 7)
+            
+class efunc:
+    def __init__(self):
+        self.func1=math.e**2 * x
+        self.func2=sym.tan(x)
+        self.func3=1/x**2
+        self.stateHandler = StateHandler()
+    def attack(self,input1):
+        if input1==True:
+            if self.stateHandler.is_state(State.NORMAL_STAGE_1):
+                self.mydamage+=self.func1.subs(x,random.uniform(1,6))
+                print(self.damage)
+            elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
+                if self.num!=5 or self.num!=13:
+                    self.mydamage+=abs(self.func2.subs(x,math.radians(self.rulet[self.num%16])))
+                    self.num+=1
+                else:
+                    self.mydamage=self.myhp
+
+                print(self.hp)
+                print(self.damage)
+            elif self.stateHandler.is_state(State.NORMAL_STAGE_3):
+                self.mydamage=abs(self.func3.subs(x,random.uniform(0.1,3)))
+                print(self.ddx_count)
+        
+class myfunc:
+    def __init__(self):
+        self.func1attack=False
+        self.func2attack=False
+        self.ddxattack=False
+        self.ddx_count=0
+        self.int_dxatacck=False
+        self.eattack=False
+        self.myfunc1=sym.factorial(x) # x!
+        self.myfunc2=x
+        self.efunc=efunc()
+    def attack(self,input1,input2,input3,input4):
+        if input1==True:
+            self.damage+=self.myfunc1.subs(x,random.randint(1,6))
+        elif input2==True:
+            self.damage+=self.myfunc2.subs(x,random.randint(1,6))
+        elif input3== True:
+            if self.stateHandler.is_state(State.NORMAL_STAGE_1):
+                if self.ddx_count!=4:
+                    self.func1 = sym.Derivative(self.func1).doit()
+            elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
+                self.func2 = sym.Derivative(self.func2).doit()
+            elif self.stateHandler.is_state(State.NORMAL_STAGE_3):
+                if self.ddx_count!=2:
+                    self.func3= sym.Derivative(self.func3).doit()
+        elif input4 == True:
+            if self.stateHandler.is_state(State.NORMAL_STAGE_1):
+                if self.ddx_count!=4:
+                    self.func1 = sym.integrate(self.func1,x)
+            elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
+                self.func2=sym.integrate(self.func2,x)
+            elif self.stateHandler.is_state(State.NORMAL_STAGE_3):
+                if self.ddx_count!=-2:
+                    self.func3=sym.integrate(self.func3,x)
+            self.hp += self.C[random.randint(0,9)]  # 積分定数Cの値だけhpが増加
+        self.eattack=True
+            
 
 class App:
     def __init__(self):
@@ -293,15 +355,9 @@ class App:
         self.returnflag = False
         self.itemstart=False
         self.botanstart=False
-        self.func1attack=False
-        self.func2attack=False
         self.attackmode=False
         self.gameover_flag=False
-        self.eattack=False
         self.battleflag=False
-        self.ddx = False
-        self.ddx_count=0
-        self.integral_dx = False
         self.C = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         # self.lim_x0 = False
 
@@ -318,18 +374,14 @@ class App:
         self.rulet = [0,sym.pi/6,sym.pi/4,sym.pi/3,sym.pi/2,sym.pi*2/3,sym.pi*3/4,sym.pi*5/6,sym.pi,sym.pi*7/6,sym.pi*5/4,sym.pi*4/3,sym.pi*3/2,sym.pi*5/3,sym.pi*7/4,sym.pi*11/6]
         self.myhp = 1000  # 自分のhp
         self.hp = 1000  # 敵のhp
-        self.myfunc1=sym.factorial(x) # x!
-        self.myfunc2=x
-        self.func1 = math.e**2 * x  # ステージ1の敵
-        self.func2=sym.tan(x)
-        self.func3=1/x**2
         self.damage=0
         self.mydamage=0
 
         self.point = Point()
-
+        self.efunc=efunc()
+        self.myfunc=myfunc()
         self.timer = Timer()
-        self.waitob = Wait(self.timer)
+        self.waitob = Wait()
         self.stageHandler = StageHandler()
         self.stateHandler = StateHandler()
         self.ui = UI(self.stateHandler, self.stageHandler, self.timer, self.font)
@@ -483,7 +535,8 @@ class App:
             if pyxel.btnp(pyxel.KEY_UP) and self.botanstart==False:
                 self.botancount-=1
             elif (pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN)) and self.botanstart==False:
-                self.botanstart=True
+                self.point.x=0
+                self.point.y=0
 
             elif self.point.x==0 and self.point.y==0:
                 if pyxel.btnp(pyxel.KEY_RIGHT):
@@ -491,7 +544,7 @@ class App:
                 elif pyxel.btnp(pyxel.KEY_DOWN):
                     self.point.y+=1
                 elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
-                    self.func1attack=True
+                    self.myfunc.func1attack=True
                     self.botanstart=False
                     self.point.x=5
                     self.point.y=5
@@ -503,14 +556,14 @@ class App:
                 elif pyxel.btnp(pyxel.KEY_DOWN):
                     self.point.y+=1
                 elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
-                    self.ddx = True
+                    self.myfunc.ddxattack = True
                     self.botanstart=False
                     self.point.x=5
                     self.point.y=5
-                    if self.ddx_count!=4 and self.stateHandler.is_state(State.NORMAL_STAGE_1):
-                        self.ddx_count+=1
-                    elif self.ddx_count!=2 and self.stateHandler.is_state(State.NORMAL_STAGE_3):
-                        self.ddx_count+=1
+                    if self.myfunc.ddx_count!=4 and self.stateHandler.is_state(State.NORMAL_STAGE_1):
+                        self.myfunc.ddx_count+=1
+                    elif self.myfunc.ddx_count!=2 and self.stateHandler.is_state(State.NORMAL_STAGE_3):
+                        self.myfunc.ddx_count+=1
                     self.attackmode=True
             elif self.point.x==0 and self.point.y==0:
                 if pyxel.btnp(pyxel.KEY_UP):
@@ -520,7 +573,7 @@ class App:
                 elif pyxel.btnp(pyxel.KEY_DOWN):
                     self.point.y+=1
                 elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
-                    self.func2attack=True
+                    self.myfunc.func2attack=True
                     self.botanstart=False
                     self.attackmode=True
                     self.point.x=5
@@ -534,14 +587,14 @@ class App:
                 elif pyxel.btnp(pyxel.KEY_DOWN):
                     self.point.y+=1
                 elif pyxel.btnp(pyxel.KEY_KP_ENTER) or pyxel.btnp(pyxel.KEY_RETURN):
-                    self.integral_dx = True
+                    self.myfunc.int_dxatacck = True
                     self.botanstart=False
                     self.point.x=5
                     self.point.y=5
-                    if self.ddx_count!=-4 and self.stateHandler.is_state(State.NORMAL_STAGE_1):
-                        self.ddx_count-=1
-                    elif self.ddx_count!=-2 and self.stateHandler.is_state(State.NORMAL_STAGE_3):
-                        self.ddx_count-=1
+                    if self.myfunc.ddx_count!=-4 and self.stateHandler.is_state(State.NORMAL_STAGE_1):
+                        self.myfunc.ddx_count-=1
+                    elif self.myfunc.ddx_count!=-2 and self.stateHandler.is_state(State.NORMAL_STAGE_3):
+                        self.myfunc.ddx_count-=1
                     self.attackmode=True
 
     def start(self):
@@ -580,7 +633,7 @@ class App:
                 self.sabilitybotanfunc()
             elif self.botancount==3:
                 self.attackbotanfunc()
-            if self.eattack==True:
+            if self.myfunc.eattack==True:
                 pyxel.blt(33,120,1,22,146,80,16)
                 self.font.draw(33, 120, "e^2xが攻撃!", 8, 7)
                 # self.wait2()
@@ -609,7 +662,7 @@ class App:
                     self.sabilitybotanfunc()
                 elif self.botancount==3:
                    self.attackbotanfunc()
-                if self.eattack==True:
+                if self.myfunc.eattack==True:
                     pyxel.blt(33,120,1,22,146,80,16)
                     self.font.draw(33, 120, "tan(x)が攻撃!", 8, 7)
                     # self.wait2()
@@ -629,7 +682,7 @@ class App:
                     self.sabilitybotanfunc()
                 elif self.botancount==3:
                    self.attackbotanfunc()
-                if self.eattack==True:
+                if self.myfunc.eattack==True:
                     pyxel.blt(33,120,1,22,146,80,16)
                     self.font.draw(33, 120, "1/x^2が攻撃!", 8, 7)
                     # self.wait2()
@@ -648,7 +701,7 @@ class App:
                     self.sabilitybotanfunc()
                 elif self.botancount==3:
                    self.attackbotanfunc()
-                if self.eattack==True:
+                if self.myfunc.eattack==True:
                     pyxel.blt(33,120,1,22,146,80,16)
                     self.font.draw(33, 120, "ln(cot(x))が攻撃!", 8, 7)
                     # self.wait2()
@@ -674,48 +727,9 @@ class App:
 
     def battlemode(self):
         if self.hp >= 0 and self.myhp >= 0:
-            if self.ddx == True:
-                if self.stateHandler.is_state(State.NORMAL_STAGE_1):
-                    if self.ddx_count!=4:
-                        self.func1 = sym.Derivative(self.func1).doit()
-                elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
-                    self.func2 = sym.Derivative(self.func2).doit()
-                elif self.stateHandler.is_state(State.NORMAL_STAGE_3):
-                    if self.ddx_count!=2:
-                        self.func3= sym.Derivative(self.func3).doit()
-            elif self.integral_dx == True:
-                if self.stateHandler.is_state(State.NORMAL_STAGE_1):
-                    if self.ddx_count!=4:
-                        self.func1 = sym.integrate(self.func1,x)
-                elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
-                    self.func2=sym.integrate(self.func2,x)
-                elif self.stateHandler.is_state(State.NORMAL_STAGE_3):
-                    if self.ddx_count!=-2:
-                        self.func3=sym.integrate(self.func3,x)
-                self.hp += self.C[random.randint(0,9)]  # 積分定数Cの値だけhpが増加
-            elif self.func1attack==True:
-                self.damage+=self.myfunc1.subs(x,random.randint(1,6))
-
-
-            elif self.func2attack==True:
-                self.damage+=self.myfunc2.subs(x,random.randint(1,6))
-            # 敵の攻撃
-            if self.stateHandler.is_state(State.NORMAL_STAGE_1):
-                self.mydamage+=self.func1.subs(x,random.uniform(1,6))
-                print(self.damage)
-            elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
-                if self.num!=5 or self.num!=13:
-                    self.mydamage+=abs(self.func2.subs(x,math.radians(self.rulet[self.num%16])))
-                    self.num+=1
-                else:
-                    self.mydamage=self.myhp
-
-                print(self.hp)
-                print(self.damage)
-            elif self.stateHandler.is_state(State.NORMAL_STAGE_3):
-                self.mydamage=abs(self.func3.subs(x,random.uniform(0.1,3)))
-                print(self.ddx_count)
-        self.attackmode=False
+            self.myfunc.attack(self.myfunc.func1attack,self.myfunc.func2attack,self.myfunc.ddxattack,self.myfunc.int_dxatacck)
+            self.efunc.attack(self.myfunc.eattack)
+            print("a")
 
     def nomalstage(self):
         self.battleflag= True
@@ -740,13 +754,13 @@ class App:
         self.myhp=1000
         self.mydamage=0
         self.timer.timer2=0
-        self.func1attack=False
-        self.func2attack=False
-        self.ddx=False
-        self.integral_dx=False
-        self.ddx_count=0
+        self.myfunc.func1attack=False
+        self.myfunc.func2attack=False
+        self.myfunc.ddxattack=False
+        self.myfunc.int_dxatacck=False
+        self.myfunc.ddx_count=0
         self.botancount==0
-        self.eattack=False
+        self.myfunc.eattack=False
         self.battleflag=False
 
         if self.timer.timer >= 120:
@@ -770,14 +784,14 @@ class App:
     def ddxfunc(self):
         pyxel.blt(33,120,1,22,146,80,16)
         if self.stateHandler.is_state(State.NORMAL_STAGE_1):
-            if self.ddx_count!=4:
+            if self.myfunc.ddx_count!=4:
                 self.font.draw(33, 120, "d/dxで攻撃！", 8, 7)
             else:
                 self.font.draw(33, 120, "※これ以上微分できません!", 8, 7)
         elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
             self.font.draw(33,120,"d/dxで攻撃!",8,7)
         elif self.stateHandler.is_state(State.NORMAL_STAGE_3):
-            if self.ddx_count!=2:
+            if self.myfunc.ddx_count!=2:
                 self.font.draw(33,120,"d/dxで攻撃!",8,7)
             else:
                 self.font.draw(33,120,"※これ以上微分できません!",8,7)
@@ -787,14 +801,14 @@ class App:
     def integral_dxfunc(self):
         pyxel.blt(33,120,1,22,146,80,16)
         if self.stateHandler.is_state(State.NORMAL_STAGE_1):
-            if self.ddx_count!=-4:
+            if self.myfunc.ddx_count!=-4:
                 self.font.draw(33, 120, "∫dxで攻撃！", 8, 7)
             else:
                 self.font.draw(33,120,"※これ以上積分できません!",8,7)
         elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
             self.font.draw(33,120,"∫dxで攻撃!",8,7)
         elif self.stateHandler.is_state(State.NORMAL_STAGE_3):
-            if self.ddx_count!=-2:
+            if self.myfunc.ddx_count!=-2:
                 self.font.draw(33,120,"∫dxで攻撃!",8,7)
             else:
                 self.font.draw(33,120,"※これ以上積分できません!",8,7)
@@ -802,7 +816,7 @@ class App:
         self.waitob.wait2()
 
     def attackbotanfunc(self):
-        if self.func1attack==False and self.func2attack==False and self.ddx==False and self.integral_dx==False:
+        if self.myfunc.func1attack==False and self.myfunc.func2attack==False and self.myfunc.ddxattack==False and self.myfunc.int_dxatacck==False:
             pyxel.blt(0, 27, 2, 0, 93, 38, 11, pyxel.COLOR_BLACK)
             if self.point.x==0 and self.point.y==0:
                 pyxel.blt(1, 41, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
@@ -812,13 +826,13 @@ class App:
                 pyxel.blt(1, 72, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
             elif self.point.x==1 and self.point.y==1:
                 pyxel.blt(24, 72, 0, 16, 16, 16, 16, pyxel.COLOR_BLACK)
-        elif self.func1attack==True:
+        elif self.myfunc.func1attack==True:
             self.stagefunc1attack()
-        elif self.func2attack==True:
+        elif self.myfunc.func2attack==True:
             self.stagefunc2attack()
-        elif self.ddx==True:
+        elif self.myfunc.ddxattack==True:
             self.ddxfunc()
-        elif self.integral_dx==True:
+        elif self.myfunc.int_dxatacck==True:
             self.integral_dxfunc()
 
     def itembotanfunc(self):
@@ -901,70 +915,70 @@ class App:
             pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
 
     def stage1ddx_count(self):
-        if self.ddx_count==1:
+        if self.myfunc.ddx_count==1:
             pyxel.blt(59, 40, 2, 40, 56, 16, 16, pyxel.COLOR_BLACK)#2
-        elif self.ddx_count==2:
+        elif self.myfunc.ddx_count==2:
             pyxel.blt(59, 40, 2, 56, 56, 16, 16, pyxel.COLOR_BLACK)#4
-        elif self.ddx_count==3:
+        elif self.myfunc.ddx_count==3:
             pyxel.blt(59, 40, 2, 40, 72, 16, 16, pyxel.COLOR_BLACK)#8
-        elif self.ddx_count==4:
+        elif self.myfunc.ddx_count==4:
             pyxel.blt(59, 40, 2, 56, 72, 16, 16, pyxel.COLOR_BLACK)#16
-        elif self.ddx_count==-1:
+        elif self.myfunc.ddx_count==-1:
             pyxel.blt(64, 48, 0, 0, 16, 5, 8, pyxel.COLOR_BLACK)#2
             pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-        elif self.ddx_count==-2:
+        elif self.myfunc.ddx_count==-2:
             pyxel.blt(64, 48, 0, 5, 16, 5, 8, pyxel.COLOR_BLACK)#4
             pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-        elif self.ddx_count==-3:
+        elif self.myfunc.ddx_count==-3:
             pyxel.blt(64, 48, 0, 10, 16, 5, 8, pyxel.COLOR_BLACK)#8
             pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-        elif self.ddx_count==-4:
+        elif self.myfunc.ddx_count==-4:
             pyxel.blt(62, 48, 0, 0, 24, 8, 8, pyxel.COLOR_BLACK)#16
             pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
     def stage3ddx_count(self):
-        if self.ddx_count==-1:
+        if self.myfunc.ddx_count==-1:
             pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
             pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-        elif self.ddx_count==-2:
+        elif self.myfunc.ddx_count==-2:
             pyxel.blt(75,40,2,147,16,18,14,pyxel.COLOR_BLACK) #ln
             pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
             pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
             pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
 
-        elif self.ddx_count==0:
+        elif self.myfunc.ddx_count==0:
             pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
             pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
             pyxel.blt(89, 45, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)#2
             pyxel.blt(68, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
             pyxel.blt(65, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
             pyxel.blt(93, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
-        elif self.ddx_count==1:
+        elif self.myfunc.ddx_count==1:
             pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
             pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
             pyxel.blt(89, 45, 0, 5, 75, 3, 5, pyxel.COLOR_BLACK)#3
-        elif self.ddx_count==2:
+        elif self.myfunc.ddx_count==2:
             pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
             pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
             pyxel.blt(89, 45, 0, 6, 19, 4, 5, pyxel.COLOR_BLACK)#4
             pyxel.blt(68, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
             pyxel.blt(65, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
             pyxel.blt(93, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
-        elif self.ddx_count==3:
+        elif self.myfunc.ddx_count==3:
             pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
             pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
             pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
             pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
-        elif self.ddx_count==4:
+        elif self.myfunc.ddx_count==4:
             pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
             pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
             pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
             pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
-        elif self.ddx_count==-3:
+        elif self.myfunc.ddx_count==-3:
             pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
             pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
             pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
             pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
-        elif self.ddx_count==-4:
+        elif self.myfunc.ddx_count==-4:
             pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
             pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
             pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
@@ -1026,31 +1040,31 @@ class App:
 
 class Point:
     def __init__(self):
-        self.x = 0
-        self.y = 0
+        self.x=5
+        self.y=5
 
 class Wait: #要修正
-    def __init__(self, timer):
-        self.timer = timer
-        self.func1attack = False
-        #.....
+    def __init__(self):
+        self.myfunc=myfunc()
+        self.timer=Timer()
 
     def wait1(self):
         self.timer.timer+=1
         if self.timer.timer>=60:
-            self.func1attack=False
-            self.func2attack=False
-            self.ddx=False
-            self.integral_dx=False
-            self.botancount=4
-            self.eattack=True
+            self.myfunc.func1attack=False
+            self.myfunc.func2attack=False
+            self.myfunc.ddxattack=False
+            self.myfunc.int_dxatacck=False
+            self.myfunc.eattack=True
             self.timer.timer=0
 
     def wait2(self):
         self.timer.timer2+=1
         if self.timer.timer2>=60:
-            self.botancount=0
-            self.eattack=False
+            # self.botancount=0
+            # self.eattack=False
+            # self.timer.timer2=0
+            self.myfunc.eattack=False
             self.timer.timer2=0
 
 App()
