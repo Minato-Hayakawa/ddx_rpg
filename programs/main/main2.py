@@ -125,7 +125,7 @@ class UI():
             else:
                 pyxel.blt(
                         35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK
-                    )  # ステージを表示(矢印なし)
+                    )  # ステージを表示(矢印なし
                 self.font.draw(100, 140, "Push return", 8, 7)
 
         def logic(self):
@@ -324,6 +324,34 @@ class myfunc:
         self.myfunc1=sym.factorial(x) # x!
         self.myfunc2=x
         self.efunc=efunc()
+    def ddxdraw(self):
+        pyxel.blt(33,120,1,22,146,80,16)
+        if self.stateHandler.is_state(State.NORMAL_STAGE_1):
+            if self.myfunc.ddx_count!=4:
+                self.font.draw(33, 120, "d/dxで攻撃！", 8, 7)
+            else:
+                self.font.draw(33, 120, "※これ以上微分できません!", 8, 7)
+        elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
+            self.font.draw(33,120,"d/dxで攻撃!",8,7)
+        elif self.stateHandler.is_state(State.NORMAL_STAGE_3):
+            if self.myfunc.ddx_count!=2:
+                self.font.draw(33,120,"d/dxで攻撃!",8,7)
+            else:
+                self.font.draw(33,120,"※これ以上微分できません!",8,7)
+    def integral_dxfunc(self):
+        pyxel.blt(33,120,1,22,146,80,16)
+        if self.stateHandler.is_state(State.NORMAL_STAGE_1):
+            if self.myfunc.ddx_count!=-4:
+                self.font.draw(33, 120, "∫dxで攻撃！", 8, 7)
+            else:
+                self.font.draw(33,120,"※これ以上積分できません!",8,7)
+        elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
+            self.font.draw(33,120,"∫dxで攻撃!",8,7)
+        elif self.stateHandler.is_state(State.NORMAL_STAGE_3):
+            if self.myfunc.ddx_count!=-2:
+                self.font.draw(33,120,"∫dxで攻撃!",8,7)
+            else:
+                self.font.draw(33,120,"※これ以上積分できません!",8,7)
     def attack(self,input1,input2,input3,input4):
         if input1==True:
             self.damage+=self.myfunc1.subs(x,random.randint(1,6))
@@ -784,37 +812,11 @@ class App:
         # self.wait()
         self.waitob.wait2()
 
-    def ddxfunc(self):
-        pyxel.blt(33,120,1,22,146,80,16)
-        if self.stateHandler.is_state(State.NORMAL_STAGE_1):
-            if self.myfunc.ddx_count!=4:
-                self.font.draw(33, 120, "d/dxで攻撃！", 8, 7)
-            else:
-                self.font.draw(33, 120, "※これ以上微分できません!", 8, 7)
-        elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
-            self.font.draw(33,120,"d/dxで攻撃!",8,7)
-        elif self.stateHandler.is_state(State.NORMAL_STAGE_3):
-            if self.myfunc.ddx_count!=2:
-                self.font.draw(33,120,"d/dxで攻撃!",8,7)
-            else:
-                self.font.draw(33,120,"※これ以上微分できません!",8,7)
+    
         # self.wait()
         self.waitob.wait1()
 
-    def integral_dxfunc(self):
-        pyxel.blt(33,120,1,22,146,80,16)
-        if self.stateHandler.is_state(State.NORMAL_STAGE_1):
-            if self.myfunc.ddx_count!=-4:
-                self.font.draw(33, 120, "∫dxで攻撃！", 8, 7)
-            else:
-                self.font.draw(33,120,"※これ以上積分できません!",8,7)
-        elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
-            self.font.draw(33,120,"∫dxで攻撃!",8,7)
-        elif self.stateHandler.is_state(State.NORMAL_STAGE_3):
-            if self.myfunc.ddx_count!=-2:
-                self.font.draw(33,120,"∫dxで攻撃!",8,7)
-            else:
-                self.font.draw(33,120,"※これ以上積分できません!",8,7)
+
         # self.wait()
         self.waitob.wait2()
 
@@ -834,7 +836,8 @@ class App:
         elif self.myfunc.func2attack==True:
             self.stagefunc2attack()
         elif self.myfunc.ddxattack==True:
-            self.ddxfunc()
+            self.ddxdraw(self.myfunc.func1attack,self.myfunc.func2attack,self.myfunc.ddxattack,self.myfunc.int_dxatacck)
+            self.myfunc.attack()
         elif self.myfunc.int_dxatacck==True:
             self.integral_dxfunc()
 
