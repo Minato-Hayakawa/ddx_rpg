@@ -123,6 +123,9 @@ class UI():
                         )  # ステージを表示(矢印なし)
                         self.timer.timer = 0
             else:
+                pyxel.blt(
+                        35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK
+                    )  # ステージを表示(矢印なし)
                 self.font.draw(100, 140, "Push return", 8, 7)
 
         def logic(self):
