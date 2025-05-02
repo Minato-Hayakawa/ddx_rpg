@@ -338,7 +338,7 @@ class myfunc:
                 self.font.draw(33,120,"d/dxで攻撃!",8,7)
             else:
                 self.font.draw(33,120,"※これ以上微分できません!",8,7)
-    def integral_dxfunc(self):
+    def integral_dxdraw(self):
         pyxel.blt(33,120,1,22,146,80,16)
         if self.stateHandler.is_state(State.NORMAL_STAGE_1):
             if self.myfunc.ddx_count!=-4:
