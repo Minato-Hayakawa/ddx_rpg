@@ -919,76 +919,76 @@ class App:
             pyxel.blt(75,100,2,144,8,8,8,pyxel.COLOR_BLACK)
         elif self.myhp<=self.mydamage:
             pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
+    def ddxtransform(self):
+        if self.stateHandler.is_state(State.NORMAL_STAGE_1):
+            if self.myfunc.ddx_count==1:
+                pyxel.blt(59, 40, 2, 40, 56, 16, 16, pyxel.COLOR_BLACK)#2
+            elif self.myfunc.ddx_count==2:
+                pyxel.blt(59, 40, 2, 56, 56, 16, 16, pyxel.COLOR_BLACK)#4
+            elif self.myfunc.ddx_count==3:
+                pyxel.blt(59, 40, 2, 40, 72, 16, 16, pyxel.COLOR_BLACK)#8
+            elif self.myfunc.ddx_count==4:
+                pyxel.blt(59, 40, 2, 56, 72, 16, 16, pyxel.COLOR_BLACK)#16
+            elif self.myfunc.ddx_count==-1:
+                pyxel.blt(64, 48, 0, 0, 16, 5, 8, pyxel.COLOR_BLACK)#2
+                pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+            elif self.myfunc.ddx_count==-2:
+                pyxel.blt(64, 48, 0, 5, 16, 5, 8, pyxel.COLOR_BLACK)#4
+                pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+            elif self.myfunc.ddx_count==-3:
+                pyxel.blt(64, 48, 0, 10, 16, 5, 8, pyxel.COLOR_BLACK)#8
+                pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+            elif self.myfunc.ddx_count==-4:
+                pyxel.blt(62, 48, 0, 0, 24, 8, 8, pyxel.COLOR_BLACK)#16
+                pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+        if self.stateHandler.is_state(State.NORMAL_STAGE_3):
+            if self.myfunc.ddx_count==-1:
+                pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+            elif self.myfunc.ddx_count==-2:
+                pyxel.blt(75,40,2,147,16,18,14,pyxel.COLOR_BLACK) #ln
+                pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
+                pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
+                pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
 
-    def stage1ddx_count(self):
-        if self.myfunc.ddx_count==1:
-            pyxel.blt(59, 40, 2, 40, 56, 16, 16, pyxel.COLOR_BLACK)#2
-        elif self.myfunc.ddx_count==2:
-            pyxel.blt(59, 40, 2, 56, 56, 16, 16, pyxel.COLOR_BLACK)#4
-        elif self.myfunc.ddx_count==3:
-            pyxel.blt(59, 40, 2, 40, 72, 16, 16, pyxel.COLOR_BLACK)#8
-        elif self.myfunc.ddx_count==4:
-            pyxel.blt(59, 40, 2, 56, 72, 16, 16, pyxel.COLOR_BLACK)#16
-        elif self.myfunc.ddx_count==-1:
-            pyxel.blt(64, 48, 0, 0, 16, 5, 8, pyxel.COLOR_BLACK)#2
-            pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-        elif self.myfunc.ddx_count==-2:
-            pyxel.blt(64, 48, 0, 5, 16, 5, 8, pyxel.COLOR_BLACK)#4
-            pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-        elif self.myfunc.ddx_count==-3:
-            pyxel.blt(64, 48, 0, 10, 16, 5, 8, pyxel.COLOR_BLACK)#8
-            pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-        elif self.myfunc.ddx_count==-4:
-            pyxel.blt(62, 48, 0, 0, 24, 8, 8, pyxel.COLOR_BLACK)#16
-            pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-    def stage3ddx_count(self):
-        if self.myfunc.ddx_count==-1:
-            pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-            pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-        elif self.myfunc.ddx_count==-2:
-            pyxel.blt(75,40,2,147,16,18,14,pyxel.COLOR_BLACK) #ln
-            pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
-            pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
-            pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
-
-        elif self.myfunc.ddx_count==0:
-            pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-            pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-            pyxel.blt(89, 45, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)#2
-            pyxel.blt(68, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
-            pyxel.blt(65, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
-            pyxel.blt(93, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
-        elif self.myfunc.ddx_count==1:
-            pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-            pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-            pyxel.blt(89, 45, 0, 5, 75, 3, 5, pyxel.COLOR_BLACK)#3
-        elif self.myfunc.ddx_count==2:
-            pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-            pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
-            pyxel.blt(89, 45, 0, 6, 19, 4, 5, pyxel.COLOR_BLACK)#4
-            pyxel.blt(68, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
-            pyxel.blt(65, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
-            pyxel.blt(93, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
-        elif self.myfunc.ddx_count==3:
-            pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
-            pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
-            pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
-            pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
-        elif self.myfunc.ddx_count==4:
-            pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
-            pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
-            pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
-            pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
-        elif self.myfunc.ddx_count==-3:
-            pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
-            pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
-            pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
-            pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
-        elif self.myfunc.ddx_count==-4:
-            pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
-            pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
-            pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
-            pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
+            elif self.myfunc.ddx_count==0:
+                pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                pyxel.blt(89, 45, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)#2
+                pyxel.blt(68, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
+                pyxel.blt(65, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                pyxel.blt(93, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+            elif self.myfunc.ddx_count==1:
+                pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                pyxel.blt(89, 45, 0, 5, 75, 3, 5, pyxel.COLOR_BLACK)#3
+            elif self.myfunc.ddx_count==2:
+                pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
+                pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
+                pyxel.blt(89, 45, 0, 6, 19, 4, 5, pyxel.COLOR_BLACK)#4
+                pyxel.blt(68, 48, 0, 4, 87, 7, 2, pyxel.COLOR_BLACK)#-
+                pyxel.blt(65, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+                pyxel.blt(93, 40, 0, 23, 80, 2, 24, pyxel.COLOR_BLACK)#たてぼう
+            elif self.myfunc.ddx_count==3:
+                pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
+                pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
+                pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
+                pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
+            elif self.myfunc.ddx_count==4:
+                pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
+                pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
+                pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
+                pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
+            elif self.myfunc.ddx_count==-3:
+                pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
+                pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
+                pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
+                pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
+            elif self.myfunc.ddx_count==-4:
+                pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
+                pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
+                pyxel.blt(96,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
+                pyxel.blt(107,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
 
     def nomalscreenfunc(self):
         if self.botancount==1:
