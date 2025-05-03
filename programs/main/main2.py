@@ -378,7 +378,68 @@ class myfunc:
             self.hp += self.C[random.randint(0,9)]  # 積分定数Cの値だけhpが増加
         self.eattack=True
             
+class hp:
+    def hpfunc(self):
+        pyxel.blt(104,28,2,184,8,16,8,pyxel.COLOR_BLACK)#HPを表示
+        pyxel.blt(75,28,2,144,0,8,8,pyxel.COLOR_BLACK)#[
+        pyxel.blt(83,28,2,161,0,8,8,pyxel.COLOR_BLACK)#=
+        pyxel.blt(90,28,2,161,0,8,8,pyxel.COLOR_BLACK)#=
+        pyxel.blt(97,28,2,161,0,8,8,pyxel.COLOR_BLACK)#=
+        self.font.draw(76,20,f"{self.hp-self.damage:.0f}/{self.hp}",8,7)
+        if self.damage==0:
+            pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
+            pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+            pyxel.blt(92,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+            pyxel.blt(96,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+        elif self.damage<=self.hp/5:
+            pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
+            pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+            pyxel.blt(92,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+        elif self.hp/5<=self.damage<=self.hp*2/5:
+            pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
+            pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+            pyxel.blt(88,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+        elif self.hp*2/5<=self.damage<=self.hp*3/5:
+            pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
+            pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+        elif self.hp*3/5<=self.damage<=self.hp*4/5:
+            pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
+            pyxel.blt(80,28,2,176,0,8,8,pyxel.COLOR_BLACK)
+        elif self.hp*4/5<=self.damage<self.hp:
+            pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
+        elif self.hp<=self.damage:
+            pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
 
+    def myhpfunc(self):
+        pyxel.blt(104,100,2,184,8,16,8,pyxel.COLOR_BLACK)#HPを表示
+        pyxel.blt(75,100,2,144,0,8,8,pyxel.COLOR_BLACK)#[
+        pyxel.blt(83,100,2,161,0,8,8,pyxel.COLOR_BLACK)#=
+        pyxel.blt(90,100,2,161,0,8,8,pyxel.COLOR_BLACK)#=
+        pyxel.blt(97,100,2,161,0,8,8,pyxel.COLOR_BLACK)#=
+        self.font.draw(76,92,f"{self.myhp-self.mydamage:.0f}/{self.myhp}",8,7)
+        if self.mydamage==0:
+            pyxel.blt(76,100,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
+            pyxel.blt(84,100,2,176,0,8,8,pyxel.COLOR_BLACK)
+            pyxel.blt(92,100,2,176,0,8,8,pyxel.COLOR_BLACK)
+            pyxel.blt(96,100,2,176,0,8,8,pyxel.COLOR_BLACK)
+        elif self.mydamage<=self.myhp/5:
+            pyxel.blt(76,100,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
+            pyxel.blt(84,100,2,176,0,8,8,pyxel.COLOR_BLACK)
+            pyxel.blt(92,100,2,176,0,8,8,pyxel.COLOR_BLACK)
+        elif self.myhp/5<=self.mydamage<=self.myhp*2/5:
+            pyxel.blt(76,100,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
+            pyxel.blt(84,100,2,176,0,8,8,pyxel.COLOR_BLACK)
+            pyxel.blt(88,100,2,176,0,8,8,pyxel.COLOR_BLACK)
+        elif self.myhp*2/5<=self.mydamage<=self.myhp*3/5:
+            pyxel.blt(76,100,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
+            pyxel.blt(84,100,2,176,0,8,8,pyxel.COLOR_BLACK)
+        elif self.myhp*3/5<=self.mydamage<=self.myhp*4/5:
+            pyxel.blt(76,100,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
+            pyxel.blt(80,100,2,176,0,8,8,pyxel.COLOR_BLACK)
+        elif self.myhp*4/5<=self.mydamage<self.myhp:
+            pyxel.blt(75,100,2,144,8,8,8,pyxel.COLOR_BLACK)
+        elif self.myhp<=self.mydamage:
+            pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
 class App:
     def __init__(self):
         self.updown = False
@@ -858,67 +919,7 @@ class App:
     def sabilitybotanfunc(self):
         pyxel.blt(0, 16, 2, 0, 75, 38, 12, pyxel.COLOR_BLACK)
 
-    def hpfunc(self):
-        pyxel.blt(104,28,2,184,8,16,8,pyxel.COLOR_BLACK)#HPを表示
-        pyxel.blt(75,28,2,144,0,8,8,pyxel.COLOR_BLACK)#[
-        pyxel.blt(83,28,2,161,0,8,8,pyxel.COLOR_BLACK)#=
-        pyxel.blt(90,28,2,161,0,8,8,pyxel.COLOR_BLACK)#=
-        pyxel.blt(97,28,2,161,0,8,8,pyxel.COLOR_BLACK)#=
-        self.font.draw(76,20,f"{self.hp-self.damage:.0f}/{self.hp}",8,7)
-        if self.damage==0:
-            pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
-            pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
-            pyxel.blt(92,28,2,176,0,8,8,pyxel.COLOR_BLACK)
-            pyxel.blt(96,28,2,176,0,8,8,pyxel.COLOR_BLACK)
-        elif self.damage<=self.hp/5:
-            pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
-            pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
-            pyxel.blt(92,28,2,176,0,8,8,pyxel.COLOR_BLACK)
-        elif self.hp/5<=self.damage<=self.hp*2/5:
-            pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
-            pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
-            pyxel.blt(88,28,2,176,0,8,8,pyxel.COLOR_BLACK)
-        elif self.hp*2/5<=self.damage<=self.hp*3/5:
-            pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
-            pyxel.blt(84,28,2,176,0,8,8,pyxel.COLOR_BLACK)
-        elif self.hp*3/5<=self.damage<=self.hp*4/5:
-            pyxel.blt(76,28,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
-            pyxel.blt(80,28,2,176,0,8,8,pyxel.COLOR_BLACK)
-        elif self.hp*4/5<=self.damage<self.hp:
-            pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
-        elif self.hp<=self.damage:
-            pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
 
-    def myhpfunc(self):
-        pyxel.blt(104,100,2,184,8,16,8,pyxel.COLOR_BLACK)#HPを表示
-        pyxel.blt(75,100,2,144,0,8,8,pyxel.COLOR_BLACK)#[
-        pyxel.blt(83,100,2,161,0,8,8,pyxel.COLOR_BLACK)#=
-        pyxel.blt(90,100,2,161,0,8,8,pyxel.COLOR_BLACK)#=
-        pyxel.blt(97,100,2,161,0,8,8,pyxel.COLOR_BLACK)#=
-        self.font.draw(76,92,f"{self.myhp-self.mydamage:.0f}/{self.myhp}",8,7)
-        if self.mydamage==0:
-            pyxel.blt(76,100,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
-            pyxel.blt(84,100,2,176,0,8,8,pyxel.COLOR_BLACK)
-            pyxel.blt(92,100,2,176,0,8,8,pyxel.COLOR_BLACK)
-            pyxel.blt(96,100,2,176,0,8,8,pyxel.COLOR_BLACK)
-        elif self.mydamage<=self.myhp/5:
-            pyxel.blt(76,100,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
-            pyxel.blt(84,100,2,176,0,8,8,pyxel.COLOR_BLACK)
-            pyxel.blt(92,100,2,176,0,8,8,pyxel.COLOR_BLACK)
-        elif self.myhp/5<=self.mydamage<=self.myhp*2/5:
-            pyxel.blt(76,100,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
-            pyxel.blt(84,100,2,176,0,8,8,pyxel.COLOR_BLACK)
-            pyxel.blt(88,100,2,176,0,8,8,pyxel.COLOR_BLACK)
-        elif self.myhp*2/5<=self.mydamage<=self.myhp*3/5:
-            pyxel.blt(76,100,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
-            pyxel.blt(84,100,2,176,0,8,8,pyxel.COLOR_BLACK)
-        elif self.myhp*3/5<=self.mydamage<=self.myhp*4/5:
-            pyxel.blt(76,100,2,176,0,8,8,pyxel.COLOR_BLACK)#緑を表示
-            pyxel.blt(80,100,2,176,0,8,8,pyxel.COLOR_BLACK)
-        elif self.myhp*4/5<=self.mydamage<self.myhp:
-            pyxel.blt(75,100,2,144,8,8,8,pyxel.COLOR_BLACK)
-        elif self.myhp<=self.mydamage:
-            pyxel.blt(75,28,2,144,8,8,8,pyxel.COLOR_BLACK)
     def ddxtransform(self):
         if self.stateHandler.is_state(State.NORMAL_STAGE_1):
             if self.myfunc.ddx_count==1:
