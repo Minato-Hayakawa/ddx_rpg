@@ -922,6 +922,9 @@ class App:
 
     def ddxtransform(self):
         if self.stateHandler.is_state(State.NORMAL_STAGE_1):
+            pyxel.blt(75, 40, 2, 32, 0, 16, 16, pyxel.COLOR_BLACK)  # e
+            pyxel.blt(88, 37, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
+            pyxel.blt(92, 37, 2, 31, 44, 5, 5, pyxel.COLOR_BLACK)  # ^xを表示
             if self.myfunc.ddx_count==1:
                 pyxel.blt(59, 40, 2, 40, 56, 16, 16, pyxel.COLOR_BLACK)#2
             elif self.myfunc.ddx_count==2:
@@ -1022,9 +1025,6 @@ class App:
             self.font.draw(73, 5, "あいて", 8, 7)
 
     def stage1screenfunc(self):
-        pyxel.blt(75, 40, 2, 32, 0, 16, 16, pyxel.COLOR_BLACK)  # e
-        pyxel.blt(88, 37, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
-        pyxel.blt(92, 37, 2, 31, 44, 5, 5, pyxel.COLOR_BLACK)  # ^xを表示
         self.font.draw(33, 120, "e^2xが現れた！", 8, 7)
     def stage2screenfunc(self):
         pyxel.blt(75,40,2,112,0,32,16, pyxel.COLOR_BLACK) #tan
@@ -1068,9 +1068,6 @@ class Wait: #要修正
     def wait2(self):
         self.timer.timer2+=1
         if self.timer.timer2>=60:
-            # self.botancount=0
-            # self.eattack=False
-            # self.timer.timer2=0
             self.myfunc.eattack=False
             self.timer.timer2=0
 
