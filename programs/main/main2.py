@@ -922,6 +922,7 @@ class App:
 
     def ddxtransform(self):
         if self.stateHandler.is_state(State.NORMAL_STAGE_1):
+            self.font.draw(33, 120, "e^2xが現れた！", 8, 7)
             pyxel.blt(75, 40, 2, 32, 0, 16, 16, pyxel.COLOR_BLACK)  # e
             pyxel.blt(88, 37, 0, 2, 19, 3, 5, pyxel.COLOR_BLACK)  # ^2を表示
             pyxel.blt(92, 37, 2, 31, 44, 5, 5, pyxel.COLOR_BLACK)  # ^xを表示
@@ -945,7 +946,14 @@ class App:
             elif self.myfunc.ddx_count==-4:
                 pyxel.blt(62, 48, 0, 0, 24, 8, 8, pyxel.COLOR_BLACK)#16
                 pyxel.blt(59, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
-        if self.stateHandler.is_state(State.NORMAL_STAGE_3):
+        elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
+            pyxel.blt(75,40,2,112,0,32,16, pyxel.COLOR_BLACK) #tan
+            pyxel.blt(107,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
+            pyxel.blt(113,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
+            pyxel.blt(129,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
+            self.font.draw(33, 120, "tan(x)が現れた！", 8, 7)
+        elif self.stateHandler.is_state(State.NORMAL_STAGE_3):
+            self.font.draw(33, 120, "1/x^2が現れた！", 8, 7)
             if self.myfunc.ddx_count==-1:
                 pyxel.blt(75, 40, 2, 64, 32, 16, 16, pyxel.COLOR_BLACK)#1/
                 pyxel.blt(75, 48, 2, 0, 0, 16, 16, pyxel.COLOR_BLACK)#x
@@ -1024,18 +1032,6 @@ class App:
             self.font.draw(0, 28, "こうげき", 8, 7)
             self.font.draw(73, 5, "あいて", 8, 7)
 
-    def stage1screenfunc(self):
-        self.font.draw(33, 120, "e^2xが現れた！", 8, 7)
-    def stage2screenfunc(self):
-        pyxel.blt(75,40,2,112,0,32,16, pyxel.COLOR_BLACK) #tan
-        pyxel.blt(107,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
-        pyxel.blt(113,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
-        pyxel.blt(129,40,2,106,16,6,16,pyxel.COLOR_BLACK) #)
-        self.font.draw(33, 120, "tan(x)が現れた！", 8, 7)
-
-    def stage3screenfunc(self):
-        self.stage3ddx_count()
-        self.font.draw(33, 120, "1/x^2が現れた！", 8, 7)
 
     def stage4screenfunc(self):
         pyxel.blt(59,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
