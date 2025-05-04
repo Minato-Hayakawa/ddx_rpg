@@ -289,20 +289,20 @@ class DrawByNORMAL_MODEState():
         else:
             self.font.draw(100, 140, "Push return", 8, 7)
             
-class efunc:
+class enemyfunc:
     def __init__(self):
-        self.func1=math.e**2 * x
-        self.func2=sym.tan(x)
-        self.func3=1/x**2
+        self.stage1enemy=math.e**2 * x
+        self.stage2enemy=sym.tan(x)
+        self.stage3enemy=1/x**2
         self.stateHandler = StateHandler()
     def attack(self,input1):
         if input1==True:
             if self.stateHandler.is_state(State.NORMAL_STAGE_1):
-                self.mydamage+=self.func1.subs(x,random.uniform(1,6))
+                self.mydamage+=self.stage1enemy.subs(x,random.uniform(1,6))
                 print(self.damage)
             elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
                 if self.num!=5 or self.num!=13:
-                    self.mydamage+=abs(self.func2.subs(x,math.radians(self.rulet[self.num%16])))
+                    self.mydamage+=abs(self.stage2enemy.subs(x,math.radians(self.rulet[self.num%16])))
                     self.num+=1
                 else:
                     self.mydamage=self.myhp
@@ -310,7 +310,7 @@ class efunc:
                 print(self.hp)
                 print(self.damage)
             elif self.stateHandler.is_state(State.NORMAL_STAGE_3):
-                self.mydamage=abs(self.func3.subs(x,random.uniform(0.1,3)))
+                self.mydamage=abs(self.stage3enemy.subs(x,random.uniform(0.1,3)))
                 print(self.ddx_count)
         
 class myfunc:
