@@ -821,7 +821,6 @@ class App:
         if self.hp >= 0 and self.myhp >= 0:
             self.myfunc.attack(self.myfunc.func1attack,self.myfunc.func2attack,self.myfunc.ddxattack,self.myfunc.int_dxatacck)
             self.efunc.attack(self.myfunc.eattack)
-            print("a")
 
     def nomalstage(self):
         self.battleflag= True
@@ -900,7 +899,7 @@ class App:
             self.ddxdraw(self.myfunc.func1attack,self.myfunc.func2attack,self.myfunc.ddxattack,self.myfunc.int_dxatacck)
             self.myfunc.attack()
         elif self.myfunc.int_dxatacck==True:
-            self.integral_dxfunc()
+            self.myfunc.attack()
 
     def itembotanfunc(self):
         if self.item1flag==False and self.item2flag==False and self.item3flag==False:
