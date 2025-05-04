@@ -1,0 +1,189 @@
+@startuml classes
+set namespaceSeparator none
+class "App" as main2.App {
+  C : list
+  attackmode : bool
+  battleflag : bool
+  botancount : int
+  botanstart : bool
+  damage : int
+  efunc
+  font : Writer
+  gameover_flag : bool
+  hp : int
+  item1 : int
+  item1flag : bool
+  item2 : int
+  item2flag : bool
+  item3 : int
+  item3flag : bool
+  itemstart : bool
+  mydamage : int
+  myfunc
+  myhp : int
+  num : int
+  point
+  returnflag : bool
+  rulet : list
+  stageHandler
+  stagescreen : bool
+  stateHandler
+  timer
+  ui
+  updown : bool
+  waitob
+  y1 : bool
+  y2 : bool
+  attackbotanfunc()
+  battlemode()
+  botan()
+  ddxtransform()
+  draw()
+  end()
+  gameclear()
+  gameover()
+  itembotanfunc()
+  itemfunc()
+  menu()
+  nomalmode()
+  nomalscreenfunc()
+  nomalstage()
+  retirebotanfunc()
+  sabilitybotanfunc()
+  stage4screenfunc()
+  stagefunc1attack()
+  stagefunc2attack()
+  start()
+  update()
+}
+class "DrawBasedOnState" as main2.DrawBasedOnState {
+  drawByMENUState
+  drawByNORMAL_MODEState
+  drawbySTARTState
+  stateHandler
+  Draw()
+}
+class "DrawByMENUState" as main2.DrawByMENUState {
+  font
+  Draw()
+}
+class "DrawByNORMAL_MODEState" as main2.DrawByNORMAL_MODEState {
+  stageHandler
+  stageScreen
+  timer
+  Draw()
+}
+class "DrawBySTARTState" as main2.DrawBySTARTState {
+  font
+  Draw()
+}
+class "InputHandler" as main2.InputHandler {
+  isDecide()
+  isDown()
+  isLeft()
+  isRight()
+  isUp()
+}
+class "Menu" as main2.UI.Menu {
+  font
+  menu_items : list
+  selected_index : int
+  stagescreen
+  draw()
+  logic()
+}
+class "Point" as main2.Point {
+  x : int
+  y : int
+}
+class "StageHandler" as main2.StageHandler {
+  isBattleStage : bool
+  stageCount : int
+}
+class "StageScreen" as main2.UI.StageScreen {
+  font
+  stageHandler
+  stageScreen : bool
+  stateHandler
+  timer
+  draw()
+  logic()
+}
+class "State" as main2.State {
+  name
+}
+class "StateHandler" as main2.StateHandler {
+  get_state()
+  is_state(state)
+  set_state(state)
+}
+class "Timer" as main2.Timer {
+  timer : int
+  timer2 : int
+}
+class "UI" as main2.UI {
+  font
+  menu
+  stageHandler
+  stageScreen
+  stateHandler
+  timer
+  Draw()
+  Update()
+}
+class "Wait" as main2.Wait {
+  myfunc
+  timer
+  wait1()
+  wait2()
+}
+class "efunc" as main2.efunc {
+  func1
+  func2 : tan
+  func3
+  mydamage
+  num
+  stateHandler
+  attack(input1)
+}
+class "hp" as main2.hp {
+  hpfunc()
+  myhpfunc()
+}
+class "myfunc" as main2.myfunc {
+  damage
+  ddx_count : int
+  ddxattack : bool
+  eattack : bool
+  efunc
+  func1 : Derivative, Integral
+  func1attack : bool
+  func2 : Derivative, Integral
+  func2attack : bool
+  func3 : Derivative, Integral
+  hp
+  int_dxatacck : bool
+  myfunc1 : factorial
+  myfunc2 : str, tuple
+  attack(input1, input2, input3, input4)
+  ddxdraw()
+  integral_dxdraw()
+}
+main2.DrawByMENUState --* main2.DrawBasedOnState : drawByMENUState
+main2.DrawByNORMAL_MODEState --* main2.DrawBasedOnState : drawByNORMAL_MODEState
+main2.DrawBySTARTState --* main2.DrawBasedOnState : drawbySTARTState
+main2.Point --* main2.App : point
+main2.StageHandler --* main2.App : stageHandler
+main2.StateHandler --* main2.App : stateHandler
+main2.StateHandler --* main2.efunc : stateHandler
+main2.Timer --* main2.App : timer
+main2.Timer --* main2.Wait : timer
+main2.UI --* main2.App : ui
+main2.UI.Menu --* main2.UI : menu
+main2.UI.StageScreen --* main2.UI : stageScreen
+main2.Wait --* main2.App : waitob
+main2.efunc --* main2.App : efunc
+main2.efunc --* main2.myfunc : efunc
+main2.myfunc --* main2.App : myfunc
+main2.myfunc --* main2.Wait : myfunc
+@enduml
