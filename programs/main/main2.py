@@ -470,7 +470,7 @@ class App:
         self.mydamage=0
 
         self.point = Point()
-        self.efunc=efunc()
+        self.efunc=enemyfunc()
         self.myfunc=myfunc()
         self.timer = Timer()
         self.waitob = Wait()
