@@ -137,12 +137,12 @@ class "Wait" as main2.Wait {
   wait1()
   wait2()
 }
-class "efunc" as main2.efunc {
-  func1
-  func2 : tan
-  func3
+class "enemyfunc" as main2.enemyfunc {
   mydamage
   num
+  stage1enemy
+  stage2enemy : tan
+  stage3enemy
   stateHandler
   attack(input1)
 }
@@ -175,15 +175,13 @@ main2.DrawBySTARTState --* main2.DrawBasedOnState : drawbySTARTState
 main2.Point --* main2.App : point
 main2.StageHandler --* main2.App : stageHandler
 main2.StateHandler --* main2.App : stateHandler
-main2.StateHandler --* main2.efunc : stateHandler
+main2.StateHandler --* main2.enemyfunc : stateHandler
 main2.Timer --* main2.App : timer
 main2.Timer --* main2.Wait : timer
 main2.UI --* main2.App : ui
 main2.UI.Menu --* main2.UI : menu
 main2.UI.StageScreen --* main2.UI : stageScreen
 main2.Wait --* main2.App : waitob
-main2.efunc --* main2.App : efunc
-main2.efunc --* main2.myfunc : efunc
 main2.myfunc --* main2.App : myfunc
 main2.myfunc --* main2.Wait : myfunc
 @enduml
