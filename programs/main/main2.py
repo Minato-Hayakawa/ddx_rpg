@@ -320,10 +320,10 @@ class myfunc:
         self.ddxattack=False
         self.ddx_count=0
         self.int_dxatacck=False
-        self.eattack=False
+        self.enemyattack=False
         self.myfunc1=sym.factorial(x) # x!
         self.myfunc2=x
-        self.efunc=efunc()
+        self.efunc=enemyfunc()
     def ddxdraw(self):
         pyxel.blt(33,120,1,22,146,80,16)
         if self.stateHandler.is_state(State.NORMAL_STAGE_1):
@@ -376,7 +376,7 @@ class myfunc:
                 if self.ddx_count!=-2:
                     self.func3=sym.integrate(self.func3,x)
             self.hp += self.C[random.randint(0,9)]  # 積分定数Cの値だけhpが増加
-        self.eattack=True
+        self.enemyattack=True
             
 class hp:
     def hpfunc(self):
@@ -725,7 +725,7 @@ class App:
                 self.sabilitybotanfunc()
             elif self.botancount==3:
                 self.attackbotanfunc()
-            if self.myfunc.eattack==True:
+            if self.myfunc.enemyattack==True:
                 pyxel.blt(33,120,1,22,146,80,16)
                 self.font.draw(33, 120, "e^2xが攻撃!", 8, 7)
                 # self.wait2()
@@ -754,7 +754,7 @@ class App:
                     self.sabilitybotanfunc()
                 elif self.botancount==3:
                    self.attackbotanfunc()
-                if self.myfunc.eattack==True:
+                if self.myfunc.enemyattack==True:
                     pyxel.blt(33,120,1,22,146,80,16)
                     self.font.draw(33, 120, "tan(x)が攻撃!", 8, 7)
                     # self.wait2()
@@ -774,7 +774,7 @@ class App:
                     self.sabilitybotanfunc()
                 elif self.botancount==3:
                    self.attackbotanfunc()
-                if self.myfunc.eattack==True:
+                if self.myfunc.enemyattack==True:
                     pyxel.blt(33,120,1,22,146,80,16)
                     self.font.draw(33, 120, "1/x^2が攻撃!", 8, 7)
                     # self.wait2()
@@ -793,7 +793,7 @@ class App:
                     self.sabilitybotanfunc()
                 elif self.botancount==3:
                    self.attackbotanfunc()
-                if self.myfunc.eattack==True:
+                if self.myfunc.enemyattack==True:
                     pyxel.blt(33,120,1,22,146,80,16)
                     self.font.draw(33, 120, "ln(cot(x))が攻撃!", 8, 7)
                     # self.wait2()
@@ -820,7 +820,7 @@ class App:
     def battlemode(self):
         if self.hp >= 0 and self.myhp >= 0:
             self.myfunc.attack(self.myfunc.func1attack,self.myfunc.func2attack,self.myfunc.ddxattack,self.myfunc.int_dxatacck)
-            self.efunc.attack(self.myfunc.eattack)
+            self.efunc.attack(self.myfunc.enemyattack)
 
     def nomalstage(self):
         self.battleflag= True
@@ -851,7 +851,7 @@ class App:
         self.myfunc.int_dxatacck=False
         self.myfunc.ddx_count=0
         self.botancount==0
-        self.myfunc.eattack=False
+        self.myfunc.enemyattack=False
         self.battleflag=False
 
         if self.timer.timer >= 120:
@@ -1057,13 +1057,13 @@ class Wait: #要修正
             self.myfunc.func2attack=False
             self.myfunc.ddxattack=False
             self.myfunc.int_dxatacck=False
-            self.myfunc.eattack=True
+            self.myfunc.enemyattack=True
             self.timer.timer=0
 
     def wait2(self):
         self.timer.timer2+=1
         if self.timer.timer2>=60:
-            self.myfunc.eattack=False
+            self.myfunc.enemyattack=False
             self.timer.timer2=0
 
 App()
