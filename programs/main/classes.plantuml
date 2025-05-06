@@ -7,7 +7,7 @@ class "App" as main2.App {
   botancount : int
   botanstart : bool
   damage : int
-  efunc
+  enemyfunc
   font : Writer
   gameover_flag : bool
   hp : int
@@ -153,8 +153,8 @@ class "myfunc" as main2.myfunc {
   damage
   ddx_count : int
   ddxattack : bool
-  efunc
   enemyattack : bool
+  enemyfunc
   func1 : Derivative, Integral
   func1attack : bool
   func2 : Derivative, Integral
@@ -181,8 +181,8 @@ main2.UI --* main2.App : ui
 main2.UI.Menu --* main2.UI : menu
 main2.UI.StageScreen --* main2.UI : stageScreen
 main2.Wait --* main2.App : waitob
-main2.enemyfunc --* main2.App : efunc
-main2.enemyfunc --* main2.myfunc : efunc
+main2.enemyfunc --* main2.App : enemyfunc
+main2.enemyfunc --* main2.myfunc : enemyfunc
 main2.myfunc --* main2.App : myfunc
 main2.myfunc --* main2.Wait : myfunc
 @enduml
