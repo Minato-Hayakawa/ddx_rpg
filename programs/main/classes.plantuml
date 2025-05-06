@@ -139,12 +139,11 @@ class "Wait" as main2.Wait {
 }
 class "enemyfunc" as main2.enemyfunc {
   mydamage
-  num
   stage1enemy
   stage2enemy : tan
   stage3enemy
   stateHandler
-  attack(input1)
+  attack(input1, turncount)
 }
 class "hp" as main2.hp {
   hpfunc()
