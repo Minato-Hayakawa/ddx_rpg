@@ -295,15 +295,15 @@ class enemyfunc:
         self.stage2enemy=sym.tan(x)
         self.stage3enemy=1/x**2
         self.stateHandler = StateHandler()
-    def attack(self,input1):
+    def attack(self,input1,turncount):
         if input1==True:
             if self.stateHandler.is_state(State.NORMAL_STAGE_1):
                 self.mydamage+=self.stage1enemy.subs(x,random.uniform(1,6))
                 print(self.damage)
             elif self.stateHandler.is_state(State.NORMAL_STAGE_2):
-                if self.num!=5 or self.num!=13:
+                if turncount!=5 or turncount!=13:
                     self.mydamage+=abs(self.stage2enemy.subs(x,math.radians(self.rulet[self.num%16])))
-                    self.num+=1
+                    turncount+=1
                 else:
                     self.mydamage=self.myhp
 
