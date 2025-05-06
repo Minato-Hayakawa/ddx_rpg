@@ -323,7 +323,7 @@ class myfunc:
         self.enemyattack=False
         self.myfunc1=sym.factorial(x) # x!
         self.myfunc2=x
-        self.efunc=enemyfunc()
+        self.enemyfunc=enemyfunc()
     def ddxdraw(self):
         pyxel.blt(33,120,1,22,146,80,16)
         if self.stateHandler.is_state(State.NORMAL_STAGE_1):
@@ -470,7 +470,7 @@ class App:
         self.mydamage=0
 
         self.point = Point()
-        self.efunc=enemyfunc()
+        self.enemyfunc=enemyfunc()
         self.myfunc=myfunc()
         self.timer = Timer()
         self.waitob = Wait()
@@ -820,7 +820,7 @@ class App:
     def battlemode(self):
         if self.hp >= 0 and self.myhp >= 0:
             self.myfunc.attack(self.myfunc.func1attack,self.myfunc.func2attack,self.myfunc.ddxattack,self.myfunc.int_dxatacck)
-            self.efunc.attack(self.myfunc.enemyattack)
+            self.enemyfunc.attack(self.myfunc.enemyattack)
 
     def nomalstage(self):
         self.battleflag= True
