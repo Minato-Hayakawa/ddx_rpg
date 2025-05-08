@@ -46,27 +46,34 @@ class StageHandler():
         self.stageCount = 1
         self.isBattleStage = False
 
+class MenuUI():
+    def __init__(self):
+        self._selected_index = 0
+
+    def Get_SelectedIndex(self):
+        return self._selected_index
+
+    def Set_SelectedIndex(self, index):
+        self._selected_index = index
+
 class UI():
     class Menu():
         def __init__(self, stateHandler, font, stageScreen):
-            self.menu_items = ["ノーマル", "イージー"]
-            self.selected_index = 0
+            self.menu_UI = MenuUI()
             self._stateHandler = stateHandler
             self.font = font
             self.stagescreen = stageScreen
 
         def logic(self):
             if InputHandler.isUp():
-                self.selected_index = 0
+                self.menu_UI.Set_SelectedIndex(0)
             elif InputHandler.isDown():
-                self.selected_index = 1
-
-            self.menu_items = [self.selected_index]
+                self.menu_UI.Set_SelectedIndex(1)
 
             if not InputHandler.isDecide():
                 return
 
-            if self.selected_index == 1:
+            if self.menu_UI.Get_SelectedIndex() == 1:
                 self._stateHandler.set_state(State.EASY_MODE)
                 print("easy")
             else:
@@ -84,9 +91,9 @@ class UI():
             self.font.draw(58, 83, "ノーマル", 8, 13)
             self.font.draw(59, 115, "イージー", 8, 13)
 
-            if self.selected_index == 0:
+            if self.menu_UI.Get_SelectedIndex() == 0:
                 pyxel.blt(42, 79, 1, 16, 0, 65, 16, pyxel.COLOR_BLACK)
-            elif self.selected_index == 1:
+            elif self.menu_UI.Get_SelectedIndex() == 1:
                 pyxel.blt(42, 111, 1, 16, 0, 65, 16, pyxel.COLOR_BLACK)
 
     class StageScreen():
@@ -288,7 +295,7 @@ class DrawByNORMAL_MODEState():
                         self.timer.timer = 0
         else:
             self.font.draw(100, 140, "Push return", 8, 7)
-            
+
 class enemyfunc:
     def __init__(self):
         self.stage1enemy=math.e**2 * x
@@ -312,7 +319,7 @@ class enemyfunc:
             elif self.stateHandler.is_state(State.NORMAL_STAGE_3):
                 self.mydamage=abs(self.stage3enemy.subs(x,random.uniform(0.1,3)))
                 print(self.ddx_count)
-        
+
 class myfunc:
     def __init__(self):
         self.func1attack=False
@@ -377,7 +384,7 @@ class myfunc:
                     self.func3=sym.integrate(self.func3,x)
             self.hp += self.C[random.randint(0,9)]  # 積分定数Cの値だけhpが増加
         self.enemyattack=True
-            
+
 class hp:
     def hpfunc(self):
         pyxel.blt(104,28,2,184,8,16,8,pyxel.COLOR_BLACK)#HPを表示
@@ -872,7 +879,7 @@ class App:
         # self.wait()
         self.waitob.wait2()
 
-    
+
         # self.wait()
         self.waitob.wait1()
 
