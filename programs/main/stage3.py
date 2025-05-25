@@ -1,3 +1,5 @@
+import pyxel
+
 pyxel.blt(75,40,2,145,16,18,16,pyxel.COLOR_BLACK) #ln
 pyxel.blt(95,40,2,80,16,6,16,pyxel.COLOR_BLACK) #(
 pyxel.blt(99,40,2,0,0,16,16,pyxel.COLOR_BLACK) #x
