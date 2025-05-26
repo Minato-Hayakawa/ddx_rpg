@@ -56,6 +56,19 @@ class MenuUI():
     def Set_SelectedIndex(self, index):
         self._selected_index = index
 
+class StageTransitionUI():
+    def __init__(self):
+        self._should_show = True
+
+    def Show(self):
+        self._should_show = True
+
+    def Hide(self):
+        self._should_show = False
+
+    def ShouldShow(self):
+        return self._should_show
+
 class UI():
     class Menu():
         def __init__(self, stateHandler, font, stageScreen):
@@ -96,17 +109,20 @@ class UI():
             elif self.menu_UI.Get_SelectedIndex() == 1:
                 pyxel.blt(42, 111, 1, 16, 0, 65, 16, pyxel.COLOR_BLACK)
 
-    class StageScreen():
-        def __init__(self, stateHandler, timer, font, stageHandler):
-            self.stageScreen = False
+    class StageTransitionController():
+        def __init__(self, stateHandler, timer, font, stageHandler, stageTransitionUI):
+            self.stageTransitionUI = stageTransitionUI
             self.stateHandler = stateHandler
             self.timer = timer
             self.font = font
             self.stageHandler = stageHandler
 
+        # 必要なことは、ステージを表示する。
+        # 矢印を点滅
+        # 時間になったらEnter...を表示。矢印は消す
         def draw(self):
             pyxel.cls(0)
-            if self.stageScreen == True:
+            if self.stageTransitionUI.ShouldShow():
                 for i in range(3):
                     pyxel.blt(
                         35, 67, 0, 0, 0, 80, 16, pyxel.COLOR_BLACK
@@ -114,15 +130,15 @@ class UI():
 
                     if 45 >= self.timer.timer >= 30:  # 1秒後
                         if self.stageHandler.stageCount==1:
-                            pyxel.blt(35, 85, 1, 0, 14, 16, 16, pyxel.COLOR_BLACK)  # 矢印
+                            self.show_Yajirushi(35, 85)
                         elif self.stageHandler.stageCount==2:
-                            pyxel.blt(51,85,1,0,14,16,16,pyxel.COLOR_BLACK)
+                            self.show_Yajirushi(51, 85)
                         elif self.stageHandler.stageCount==3:
-                            pyxel.blt(67,85,1,0,14,16,16,pyxel.COLOR_BLACK)
+                            self.show_Yajirushi(67, 85)
                         elif self.stageHandler.stageCount==4:
-                            pyxel.blt(83,85,1,0,14,16,16,pyxel.COLOR_BLACK)
+                            self.show_Yajirushi(83, 85)
                         elif self.stageHandler.stageCount==5:
-                            pyxel.blt(99,85,1,0,14,16,16,pyxel.COLOR_BLACK)
+                            self.show_Yajirushi(99, 85)
                     elif self.timer.timer >= 45:  # 1秒後
                         pyxel.cls(0)
                         pyxel.blt(
@@ -140,7 +156,7 @@ class UI():
             self.timer.timer2 += 1
 
             if self.timer.timer2 >= 145: #タイマーが超えたか
-                self.stageScreen = False
+                self.stageTransitionUI.Hide()
                 if InputHandler.isDecide():
                     if self.stageHandler.stageCount is 1:
                         self.stateHandler.set_state(State.NORMAL_STAGE_1)
@@ -154,26 +170,26 @@ class UI():
                     self.timer.timer2 = 0
                     self.stageHandler.isBattleStage = True
 
-    def __init__(self, stateHandler, stageHandler, timer, font):
+        def show_Yajirushi(self, x,y):
+            pyxel.blt(x, y, 1, 0, 14, 16, 16, pyxel.COLOR_BLACK)  # 矢印
+
+    def __init__(self, stateHandler, stageHandler, timer, font, stageTransitionUI):
         self.stateHandler = stateHandler
         self.stageHandler = stageHandler
-        self.timer = timer
-        self.font = font
-
-        self.stageScreen = UI.StageScreen(self.stateHandler, timer, font, stageHandler)
-        self.menu = UI.Menu(self.stateHandler, self.font, self.stageScreen)
+        self.stageTransitionController = UI.StageTransitionController(self.stateHandler, timer, font, stageHandler, stageTransitionUI)
+        self.menu = UI.Menu(self.stateHandler, font, self.stageTransitionController)
 
     def Update(self):
         if self.stateHandler.is_state(State.MENU):
             self.menu.logic()
         elif self.stateHandler.is_state(State.NORMAL_MODE):
-            self.stageScreen.logic()
+            self.stageTransitionController.logic()
 
     def Draw(self):
         if self.stateHandler.is_state(State.MENU):
             self.menu.draw()
         elif self.stateHandler.is_state(State.NORMAL_MODE):
-            self.stageScreen.draw()
+            self.stageTransitionController.draw()
 
 class InputHandler():
     def isDecide():
@@ -483,7 +499,8 @@ class App:
         self.waitob = Wait()
         self.stageHandler = StageHandler()
         self.stateHandler = StateHandler()
-        self.ui = UI(self.stateHandler, self.stageHandler, self.timer, self.font)
+        self.stageTransitionUI = StageTransitionUI()
+        self.ui = UI(self.stateHandler, self.stageHandler, self.timer, self.font, self.stageTransitionUI)
 
         pyxel.init(150, 150, title="The Integral War")
         pyxel.load("my_resource.pyxres")
@@ -720,6 +737,8 @@ class App:
             self.ui.Draw()
         elif self.stateHandler.is_state(State.NORMAL_STAGE_1):
             self.nomalscreenfunc()
+
+            # FIX!!!!!!!!!!!!!!!
             self.stage1screenfunc()
             self.myhpfunc()
             self.stage1ddx_count()
